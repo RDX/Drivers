@@ -6,7 +6,7 @@ This is a collection of community built drivers for the Control4 Home Automation
 
 Control4 is a leading provider of the operating system for the smart home, delivering intelligent control over consumer electronics products, appliances and networking systems through an easy-to-use and intuitive software interface. With the most intelligent, open and affordable control solution on the market, Control4 is now the platform of choice for major consumer electronics companies, residential homes, businesses and utilities.
 
-To learn more about [[http://control4.com/][Control4]].
+To learn more about [Control4](http://control4.com/).
 
 Quick Start
 -----------
