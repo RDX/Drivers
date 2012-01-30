@@ -229,46 +229,178 @@ mNetConnected = tostring(Properties['Connected To Network'])
 intraCommandDelayValue = Properties['Command Delay-Milliseconds']
 intraVolRampDelayValue = Properties['Volume Ramp Delay-Milliseconds']
 
+CurrentInputMode = "Navigation"
 CurrentPlayerID = 0
 
-CMDS = {
-	['NUMBER_0'] = '',
-	['NUMBER_1'] = '',
-	['NUMBER_2'] = '',
-	['NUMBER_3'] = '',
-	['NUMBER_4'] = '',
-	['NUMBER_5'] = '',
-	['NUMBER_6'] = '',
-	['NUMBER_7'] = '',
-	['NUMBER_8'] = '',
-	['NUMBER_9'] = '',
-	['NUMBER_10'] = '',
-	['MENU'] = 'Input.Home',
-	['UP'] = 'Input.Up',
-	['DOWN'] = 'Input.Down',
-	['LEFT'] = 'Input.Left',
-	['RIGHT'] = 'Input.Right',
-	['ENTER'] = 'Input.Select',
-	['CANCEL'] = '',
-	['RECALL'] = 'Input.Back',
-	['INFO'] = '',
-	['REPEAT'] = '',
-	['SHUFFLE'] = '',
-	['MODE'] = '',
-	['PLAY'] = '',
-	['STOP'] = '',
-	['PAUSE'] = '',
-	['SKIP_FWD'] = '',
-	['SKIP_REV'] = '',
-	['SCAN_FWD'] = '',
-	['SCAN_REV'] = '',
-	['START_CH_UP'] = '',
-	['START_CH_DOWN'] = '',
-	['PULSE_CH_UP'] = '',
-	['PULSE_CH_DOWN'] = '',
-	['PRESET_UP'] = '',
-	['PRESET_DOWN'] = '',
+
+XBMC_CMDS =
+{
+	['Application.Getproperties'] = '',
+	['Application.Quit'] = '',
+	['Application.SetMute'] = '',
+	['Application.SetVolume'] = '',
+	['AudioLibrary.Clean'] = '',
+	['AudioLibrary.Export'] = '',
+	['AudioLibrary.GetAlbumDetails'] = '',
+	['AudioLibrary.GetAlbums'] = '',
+	['AudioLibrary.GetArtistDetails'] = '',
+	['AudioLibrary.GetArtists'] = '',
+	['AudioLibrary.GetGenres'] = '',
+	['AudioLibrary.GetRecentlyAddedAlbums'] = '',
+	['AudioLibrary.GetRecentlyAddedSongs'] = '',
+	['AudioLibrary.GetSongDetails'] = '',
+	['AudioLibrary.GetSongs'] = '',
+	['AudioLibrary.Scan'] = '',
+	['Files.Download'] = '',
+	['Files.GetDirectory'] = '',
+	['Files.GetSources'] = '',
+	['Input.Back']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Back"},
+	['Input.Down']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Down"},
+	['Input.Home']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Home"},
+	['Input.Left']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Left"},
+	['Input.Right']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Right"},
+	['Input.Select']					= {["jsonrpc"] = "2.0", ["method"] = "Input.Select"},
+	['Input.Up']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Up"},
+	['JSONRPC.Introspect']				= {["jsonrpc"] = "2.0", ["method"] = "JSONRPC.Introspect", ["id"] = nil},
+	['JSONRPC.NotifyAll'] = '',
+	['JSONRPC.Permission'] = '',
+	['JSONRPC.Ping']					= {["jsonrpc"] = "2.0", ["method"] = "JSONRPC.Ping", ["id"] = nil},
+	['JSONRPC.Version'] = '',
+	['Player.GetActivePlayers'] = '',
+	['Player.GetItem'] = '',
+	['Player.GetProperties'] = '',
+	['Player.GoNext'] 					= {["jsonrpc"] = "2.0",["method"] = "Player.GoNext",["params"] ={["playerid"] = nil}},
+	['Player.GoPrevious']				= {["jsonrpc"] = "2.0",["method"] = "Player.GoPrevious",["params"] ={["playerid"] = nil}},
+	['Player.GoTo'] = '',
+	['Player.MoveDown']					= {["jsonrpc"] = "2.0",["method"] = "Player.MoveDown",["params"] ={["playerid"] = nil}},
+	['Player.MoveLeft']					= {["jsonrpc"] = "2.0",["method"] = "Player.MoveLeft",["params"] ={["playerid"] = nil}},
+	['Player.MoveRight']				= {["jsonrpc"] = "2.0",["method"] = "Player.MoveRight",["params"] ={["playerid"] = nil}},
+	['Player.MoveUp']					= {["jsonrpc"] = "2.0",["method"] = "Player.MoveUp",["params"] ={["playerid"] = nil}},
+	['Player.Open'] = '',
+	['Player.PlayPause']				= {["jsonrpc"] = "2.0",["method"] = "Player.PlayPause",["params"] ={["playerid"] = nil}},
+	['Player.Repeat'] = '',					
+	['Player.Rotate'] = '',
+	['Player.Seek'] = '',
+	['Player.SetAudioStream'] = '',
+	['Player.SetSpeed'] = '',
+	['Player.SetSubtitle'] = '',
+	['Player.Shuffle'] = '',
+	['Player.Stop']						= {["jsonrpc"] = "2.0",["method"] = "Player.Stop",["params"] ={["playerid"] = nil}},
+	['Player.UnShuffle'] = '',
+	['Player.Zoom'] = '',
+	['Player.ZoomIn'] = '',
+	['Player.ZoomOut'] = '',
+	['Playlist.Add'] = '',
+	['Playlist.Clear'] = '',
+	['Playlist.GetItems'] = '',
+	['Playlist.GetPlaylists'] = '',
+	['Playlist.GetProperties'] = '',
+	['Playlist.Insert'] = '',
+	['Playlist.Remove'] = '',
+	['Playlist.Swap'] = '',
+	['System.GetProperties'] = '',
+	['System.Hibernate'] = '',
+	['System.Reboot'] = '',
+	['System.Shutdown'] = '',
+	['System.Suspend'] = '',
+	['VideoLibrary.Clean'] = '',
+	['VideoLibrary.Export'] = '',
+	['VideoLibrary.GetEpisodeDetails'] = '',
+	['VideoLibrary.GetEpisodes'] = '',
+	['VideoLibrary.GetGenres'] = '',
+	['VideoLibrary.GetMovieDetails'] = '',
+	['VideoLibrary.GetMovieSetDetails'] = '',
+	['VideoLibrary.GetMovieSets'] = '',
+	['VideoLibrary.GetMovies'] = '',
+	['VideoLibrary.GetMusicVideoDetails'] = '',
+	['VideoLibrary.GetMusicVideos'] = '',
+	['VideoLibrary.GetRecentlyAddedEpisodes'] = '',
+	['VideoLibrary.GetRecentlyAddedMovies'] = '',
+	['VideoLibrary.GetRecentlyAddedMusicVideos'] = '',
+	['VideoLibrary.GetSeasons'] = '',
+	['VideoLibrary.GetTVShowDetails'] = '',
+	['VideoLibrary.GetTVShows'] = '',
+	['VideoLibrary.Scan'] = '',
+	['XBMC.GetInfoBooleans'] = '',
+	['XBMC.GetInfoLabels'] = '',
+
+	['Input.PageDown'] 			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)",
+	['Input.PageUp'] 			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)",
+	['Input.ContextMenu'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)",
+	['Input.Cancel']			= "GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257",
+	['Player.StepBack']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(StepBack)",
+	['Player.StepForward'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(StepForward)",
+	['Player.BigStepBack'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(BigStepBack)",
+	['Player.BigStepForward'] 	= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(BigStepForward)",
+	['Player.SmallStepBack'] 	= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(SmallStepBack)",
+	['Player.FastForward'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(FastForward)",
+	['Player.Rewind']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Rewind)",
+	['Player.Info']				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)",
+	['Player.Subtitle']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(NextSubtitle)",
+	['Player.OSD'] 				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)",
 }
+
+
+
+CMDS_NAVIGATION = {
+	['MENU']			= XBMC_CMDS['Input.ContextMenu'],
+	['PAGE_UP']			= XBMC_CMDS['Input.PageUp'],
+	['PAGE_DOWN']		= XBMC_CMDS['Input.PageDown'],
+	['UP'] 				= XBMC_CMDS['Input.Up'],
+	['DOWN'] 			= XBMC_CMDS['Input.Down'],
+	['LEFT'] 			= XBMC_CMDS['Input.Left'],
+	['RIGHT'] 			= XBMC_CMDS['Input.Right'],
+	['ENTER'] 			= XBMC_CMDS['Input.Select'],
+	['CANCEL'] 			= XBMC_CMDS['Input.Cancel'],
+	['RECALL'] 			= XBMC_CMDS['Input.Back'],
+}
+
+CMDS_PLAYER = {
+	['NUMBER_0'] 		= '',
+	['NUMBER_1'] 		= '',
+	['NUMBER_2'] 		= '',
+	['NUMBER_3'] 		= '',
+	['NUMBER_4'] 		= '',
+	['NUMBER_5'] 		= '',
+	['NUMBER_6'] 		= '',
+	['NUMBER_7'] 		= '',
+	['NUMBER_8'] 		= '',
+	['NUMBER_9'] 		= '',
+	['NUMBER_10'] 		= '',
+	['GUIDE']			= XBMC_CMDS['Player.Subtitle'],
+	['MENU']			= '',
+	['UP'] 				= XBMC_CMDS['Player.BigStepForward'],
+	['DOWN'] 			= XBMC_CMDS['Player.BigStepBack'],
+	['LEFT'] 			= XBMC_CMDS['Player.StepBack'],
+	['RIGHT'] 			= XBMC_CMDS['Player.StepForward'],
+	['ENTER'] 			= XBMC_CMDS['OSD'],
+	['CANCEL'] 			= XBMC_CMDS['Input.Cancel'],
+	['RECALL'] 			= '',
+	['INFO'] 			= XBMC_CMDS['Player.Info'],
+	['REPEAT'] 			= '',
+	['SHUFFLE'] 		= '',
+	['MODE'] 			= '',
+	['PLAY'] 			= XBMC_CMDS['Player.PlayPause'],
+	['STOP'] 			= XBMC_CMDS['Player.Stop'],
+	['PAUSE'] 			= XBMC_CMDS['Player.PlayPause'],
+	['SKIP_FWD'] 		= XBMC_CMDS['Player.GoNext'],
+	['SKIP_REV'] 		= XBMC_CMDS['Player.GoPrevious'],
+	['SCAN_FWD'] 		= XBMC_CMDS['Player.FastForward'],
+	['SCAN_REV'] 		= XBMC_CMDS['Player.Rewind'],
+	['START_CH_UP'] 	= '',
+	['START_CH_DOWN']	= '',
+	['PULSE_CH_UP'] 	= '',
+	['PULSE_CH_DOWN'] 	= '',
+	['PRESET_UP'] 		= '',
+	['PRESET_DOWN'] 	= '',
+}
+
+
+
+
+
+
+
 
 jsonID = 0
 function nextJsonID()
@@ -344,9 +476,9 @@ function OnTimerExpired(idTimer)
 
 		-- Send Poll Packet if we're ONLINE...
 		if (mNetConnected == true) then
- 			dbg("XBMC: Sending ping request")
-			local t = {["jsonrpc"] = "2.0", ["id"] = nextJsonID(), ["method"] = "JSONRPC.PING" }
-			emit(t)
+ 			dbg("XBMC: Sending ping request") 
+			XBMC_CMDS['JSONRPC.Ping']["id"]=nextJsonID()
+			emit(XBMC_CMDS['JSONRPC.Ping'])
 		end
 
 		return
@@ -406,7 +538,9 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
 
  	elseif (t.method == "Player.OnPlay") then
  		CurrentPlayerID = t.params['data']['player']['playerid']
+		CurrentInputMode = "Player"
  		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+		dbg("Current Input Mode is now Player")
 		return
 
 	elseif (t.method == "Player.OnSeek") then
@@ -417,7 +551,9 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
 
 	elseif (t.method == "Player.OnStop") then
 		CurrentPlayerID = 0
-		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+		CurrentInputMode = "Navigation"
+ 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+		dbg("Current Input Mode is now Navigation")
 		return
 
 	elseif (t.method == "System.OnLowBattery") then
@@ -438,7 +574,7 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
 	elseif (t.method == "VideoLibrary.OnRemove") then
 		return
 
-	elseif (t.method == "VideoLibrary.OnUpdate") then	
+	elseif (t.method == "VideoLibrary.OnUpdate") then
 		return
 	end
 
@@ -486,77 +622,13 @@ end
 function ReceivedFromProxy(idBinding, strCommand, tParams)
 	dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
 
-	--Check and see if anything is playing (CurrentPlayerID will not be 0)
-	if (CurrentPlayerID ~= 0) then
-		if strCommand == "STOP" then
-			local t=
-			{
-				["jsonrpc"] = "2.0",
-				["method"] = "Player.Stop",
-				["params"] =
-				{
-					["playerid"] = CurrentPlayerID
-				}
-			}
-			emit(t)
-		
-		elseif strCommand == "PAUSE" then
-			local t=
-			{
-				["jsonrpc"] = "2.0",
-				["method"] = "Player.PlayPause",
-				["params"] =
-				{
-					["playerid"] = CurrentPlayerID
-				}
-			}
-			emit(t)
+	if (CurrentInputMode == "Player") then
+		CMDS_PLAYER[strCommand]["params"]["playerid"] = CurrentPlayerID
+		emit(CMDS_PLAYER[strCommand])
 
-		elseif strCommand == "PLAY" then
-			local t=
-			{
-				["jsonrpc"] = "2.0",
-				["method"] = "Player.PlayPause",
-				["params"] =
-				{
-					["playerid"] = CurrentPlayerID
-				}
-			}
-			emit(t)
-		
-		elseif strCommand == "SKIP_FWD" then
-			local t=
-			{
-				["jsonrpc"] = "2.0",
-				["method"] = "Player.GoNext",
-				["params"] =
-				{
-					["playerid"] = CurrentPlayerID
-				}
-			}
-			emit(t)
-
-		elseif strCommand == "SKIP_REV" then
-			local t=
-			{
-				["jsonrpc"] = "2.0",
-				["method"] = "Player.GoPrevious",
-				["params"] =
-				{
-					["playerid"] = CurrentPlayerID
-				}
-			}
-			emit(t)
-		end
-
-	--If all else fails, try and tie it to a command found in the CMDS variable
-	else
-		local t = {["jsonrpc"] = "2.0", ["method"] = CMDS[strCommand]}
-		emit(t)
+	elseif (CurrentInputMode == "Navigation") then
+		emit(CMDS_NAVIGATION[strCommand])
 	end
-
-	
-
 end
 
 
@@ -580,7 +652,7 @@ end
 
 
 
-function dbg(strDebugText)	
+function dbg(strDebugText)
 	if (g_debugprint) then print(strDebugText) end
 	if (g_debuglog) then C4:ErrorLog(strDebugText) end
 end
@@ -648,46 +720,46 @@ end
 --[[
 
  JSON Encoder and Parser for Lua 5.1
- 
+
  Copyright © 2007 Shaun Brown (http://www.chipmunkav.com).
  All Rights Reserved.
- 
- Permission is hereby granted, free of charge, to any person 
- obtaining a copy of this software to deal in the Software without 
- restriction, including without limitation the rights to use, 
- copy, modify, merge, publish, distribute, sublicense, and/or 
- sell copies of the Software, and to permit persons to whom the 
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or
+ sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
 
- The above copyright notice and this permission notice shall be 
+ The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
  If you find this software useful please give www.chipmunkav.com a mention.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
- ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
- CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  Usage:
 
  -- Lua script:
- local t = { 
+ local t = {
 	["name1"] = "value1",
 	["name2"] = {1, false, true, 23.54, "a \021 string"},
-	name3 = Json.Null() 
+	name3 = Json.Null()
  }
 
  local json = Json.Encode (t)
- print (json) 
+ print (json)
  --> {"name1":"value1","name3":null,"name2":[1,false,true,23.54,"a \u0015 string"]}
 
  local t = Json.Decode(json)
  print(t.name2[4])
  --> 23.54
- 
+
  Notes:
  1) Encodable Lua types: string, number, boolean, table, nil
  2) Use Json.Null() to insert a null value into a Json object
