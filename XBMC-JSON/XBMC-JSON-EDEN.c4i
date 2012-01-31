@@ -254,30 +254,130 @@ XBMC_CMDS =
 	['Files.Download'] = '',
 	['Files.GetDirectory'] = '',
 	['Files.GetSources'] = '',
-	['Input.Back']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Back"},
-	['Input.Down']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Down"},
-	['Input.Home']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Home"},
-	['Input.Left']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Left"},
-	['Input.Right']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Right"},
-	['Input.Select']					= {["jsonrpc"] = "2.0", ["method"] = "Input.Select"},
-	['Input.Up']						= {["jsonrpc"] = "2.0", ["method"] = "Input.Up"},
-	['JSONRPC.Introspect']				= {["jsonrpc"] = "2.0", ["method"] = "JSONRPC.Introspect", ["id"] = nil},
+
+	
+	['Input.Back'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Back",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+	
+	['Input.Down'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Down",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Input.Home'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Home",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Input.Left'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Left",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Input.Right'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Right",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Input.Select'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Select",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Input.Up'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Up",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['JSONRPC.Introspect'] = '',
 	['JSONRPC.NotifyAll'] = '',
 	['JSONRPC.Permission'] = '',
-	['JSONRPC.Ping']					= {["jsonrpc"] = "2.0", ["method"] = "JSONRPC.Ping", ["id"] = nil},
+
+
+	['JSONRPC.Ping'] = function (id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "JSONRPC.Ping",
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end, 
+
+
 	['JSONRPC.Version'] = '',
 	['Player.GetActivePlayers'] = '',
 	['Player.GetItem'] = '',
 	['Player.GetProperties'] = '',
-	['Player.GoNext'] 					= {["jsonrpc"] = "2.0",["method"] = "Player.GoNext",["params"] ={["playerid"] = nil}},
-	['Player.GoPrevious']				= {["jsonrpc"] = "2.0",["method"] = "Player.GoPrevious",["params"] ={["playerid"] = nil}},
+	['Player.GoNext'] = '',
+	['Player.GoPrevious'] = '',
 	['Player.GoTo'] = '',
-	['Player.MoveDown']					= {["jsonrpc"] = "2.0",["method"] = "Player.MoveDown",["params"] ={["playerid"] = nil}},
-	['Player.MoveLeft']					= {["jsonrpc"] = "2.0",["method"] = "Player.MoveLeft",["params"] ={["playerid"] = nil}},
-	['Player.MoveRight']				= {["jsonrpc"] = "2.0",["method"] = "Player.MoveRight",["params"] ={["playerid"] = nil}},
-	['Player.MoveUp']					= {["jsonrpc"] = "2.0",["method"] = "Player.MoveUp",["params"] ={["playerid"] = nil}},
+	['Player.MoveDown'] = '',
+	['Player.MoveLeft'] = '',
+	['Player.MoveRight'] = '',
+	['Player.MoveUp'] = '',
 	['Player.Open'] = '',
-	['Player.PlayPause']				= {["jsonrpc"] = "2.0",["method"] = "Player.PlayPause",["params"] ={["playerid"] = nil}},
+
+
+	['Player.PlayPause'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.PlayPause",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end, 
+
+
 	['Player.Repeat'] = '',					
 	['Player.Rotate'] = '',
 	['Player.Seek'] = '',
@@ -285,7 +385,23 @@ XBMC_CMDS =
 	['Player.SetSpeed'] = '',
 	['Player.SetSubtitle'] = '',
 	['Player.Shuffle'] = '',
-	['Player.Stop']						= {["jsonrpc"] = "2.0",["method"] = "Player.Stop",["params"] ={["playerid"] = nil}},
+	
+
+	['Player.Stop'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.Stop",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end, 
+
+
 	['Player.UnShuffle'] = '',
 	['Player.Zoom'] = '',
 	['Player.ZoomIn'] = '',
@@ -477,8 +593,7 @@ function OnTimerExpired(idTimer)
 		-- Send Poll Packet if we're ONLINE...
 		if (mNetConnected == true) then
  			dbg("XBMC: Sending ping request") 
-			XBMC_CMDS['JSONRPC.Ping']["id"]=nextJsonID()
-			emit(XBMC_CMDS['JSONRPC.Ping'])
+			XBMC_CMDS['JSONRPC.Ping'](nextJsonID())
 		end
 
 		return
@@ -623,11 +738,10 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 	dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
 
 	if (CurrentInputMode == "Player") then
-		CMDS_PLAYER[strCommand]["params"]["playerid"] = CurrentPlayerID
-		emit(CMDS_PLAYER[strCommand])
+		CMDS_PLAYER[strCommand]()
 
 	elseif (CurrentInputMode == "Navigation") then
-		emit(CMDS_NAVIGATION[strCommand])
+		CMDS_NAVIGATION[strCommand]()
 	end
 end
 
