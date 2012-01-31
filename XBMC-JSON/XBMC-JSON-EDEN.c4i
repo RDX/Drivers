@@ -353,13 +353,101 @@ XBMC_CMDS =
 	['Player.GetActivePlayers'] = '',
 	['Player.GetItem'] = '',
 	['Player.GetProperties'] = '',
-	['Player.GoNext'] = '',
-	['Player.GoPrevious'] = '',
+	
+
+	['Player.GoNext'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.GoNext",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+	
+
+	['Player.GoPrevious'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.GoPrevious",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
 	['Player.GoTo'] = '',
-	['Player.MoveDown'] = '',
-	['Player.MoveLeft'] = '',
-	['Player.MoveRight'] = '',
-	['Player.MoveUp'] = '',
+
+
+	['Player.MoveDown'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.MoveDown",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+	
+
+	['Player.MoveLeft'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.MoveLeft",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.MoveRight'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.MoveRight",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.MoveUp'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.MoveUp",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
 	['Player.Open'] = '',
 
 
@@ -378,13 +466,114 @@ XBMC_CMDS =
 	end, 
 
 
-	['Player.Repeat'] = '',					
-	['Player.Rotate'] = '',
-	['Player.Seek'] = '',
-	['Player.SetAudioStream'] = '',
-	['Player.SetSpeed'] = '',
-	['Player.SetSubtitle'] = '',
-	['Player.Shuffle'] = '',
+	['Player.Repeat'] = function (state, playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.Repeat",
+			["params"] = 
+			{
+				["state"] = state or "off",
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+	
+						
+	['Player.Rotate'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.Rotate",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.Seek'] = function (value, playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.Seek",
+			["params"] = 
+			{
+				["value"] = value,
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.SetAudioStream'] = function (stream, playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.SetAudioStream",
+			["params"] = 
+			{
+				["stream"] = stream or "next",
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.SetSpeed'] = function (speed, playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.SetSpeed",
+			["params"] = 
+			{
+				["speed"] = speed or 0,
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.SetSubtitle'] = function (subtitle, playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.SetSubtitle",
+			["params"] = 
+			{
+				["subtitle"] = subtitle or "next",
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.Shuffle'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.Shuffle",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
 	
 
 	['Player.Stop'] = function (playerId, id)
@@ -402,10 +591,67 @@ XBMC_CMDS =
 	end, 
 
 
-	['Player.UnShuffle'] = '',
-	['Player.Zoom'] = '',
-	['Player.ZoomIn'] = '',
-	['Player.ZoomOut'] = '',
+	['Player.UnShuffle'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.UnShuffle",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.Zoom'] = function (value, playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["value"] = value or 1,
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.ZoomIn'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.ZoomIn",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
+	['Player.ZoomOut'] = function (playerId, id)
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Player.ZoomOut",
+			["params"] = 
+			{
+				["playerid"] = playerId or CurrentPlayerID,
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t)
+	end,
+
+
 	['Playlist.Add'] = '',
 	['Playlist.Clear'] = '',
 	['Playlist.GetItems'] = '',
