@@ -686,23 +686,16 @@ XBMC_CMDS =
 	['XBMC.GetInfoBooleans'] = '',
 	['XBMC.GetInfoLabels'] = '',
 
-	['Input.PageDown'] 			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)",
-	['Input.PageUp'] 			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)",
-	['Input.ContextMenu'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)",
-	['Input.Cancel']			= "GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257",
-	['Player.StepBack']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(StepBack)",
-	['Player.StepForward'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(StepForward)",
-	['Player.BigStepBack'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(BigStepBack)",
-	['Player.BigStepForward'] 	= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(BigStepForward)",
-	['Player.SmallStepBack'] 	= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(SmallStepBack)",
-	['Player.FastForward'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(FastForward)",
-	['Player.Rewind']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Rewind)",
-	['Player.Info']				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)",
-	['Player.Subtitle']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(NextSubtitle)",
-	['Player.OSD'] 				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)",
+	--['Input.PageDown'] 			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)",
+	--['Input.PageUp'] 				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)",
+	--['Input.ContextMenu'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)",
+	--['Input.Cancel']				= "GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257",
+	--['Player.FastForward'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(FastForward)",
+	--['Player.Rewind']				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Rewind)",
+	--['Player.Info']				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)",
+	--['Player.Subtitle']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(NextSubtitle)",
+	--['Player.OSD'] 				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)",
 }
-
-
 
 CMDS_NAVIGATION = {
 	['MENU']			= XBMC_CMDS['Input.ContextMenu'],
@@ -729,16 +722,16 @@ CMDS_PLAYER = {
 	['NUMBER_8'] 		= '',
 	['NUMBER_9'] 		= '',
 	['NUMBER_10'] 		= '',
-	['GUIDE']			= XBMC_CMDS['Player.Subtitle'],
+	['GUIDE']			= function (subtitle, playerId, id) XBMC_CMDS['Player.SetSubtitle']("next", playerId, id) end,
 	['MENU']			= '',
-	['UP'] 				= XBMC_CMDS['Player.BigStepForward'],
-	['DOWN'] 			= XBMC_CMDS['Player.BigStepBack'],
-	['LEFT'] 			= XBMC_CMDS['Player.StepBack'],
-	['RIGHT'] 			= XBMC_CMDS['Player.StepForward'],
-	['ENTER'] 			= XBMC_CMDS['OSD'],
-	['CANCEL'] 			= XBMC_CMDS['Input.Cancel'],
+	['UP'] 				= function (value, playerId, id) XBMC_CMDS['Player.Seek']("bigforward", playerId, id) end,
+	['DOWN'] 			= function (value, playerId, id) XBMC_CMDS['Player.Seek']("bigbackward", playerId, id) end,
+	['LEFT'] 			= function (value, playerId, id) XBMC_CMDS['Player.Seek']("smallbackward", playerId, id) end,
+	['RIGHT'] 			= function (value, playerId, id) XBMC_CMDS['Player.Seek']("smallforward", playerId, id) end,
+	['ENTER'] 			= '',
+	['CANCEL'] 			= '',
 	['RECALL'] 			= '',
-	['INFO'] 			= XBMC_CMDS['Player.Info'],
+	['INFO'] 			= '',
 	['REPEAT'] 			= '',
 	['SHUFFLE'] 		= '',
 	['MODE'] 			= '',
@@ -747,8 +740,8 @@ CMDS_PLAYER = {
 	['PAUSE'] 			= XBMC_CMDS['Player.PlayPause'],
 	['SKIP_FWD'] 		= XBMC_CMDS['Player.GoNext'],
 	['SKIP_REV'] 		= XBMC_CMDS['Player.GoPrevious'],
-	['SCAN_FWD'] 		= XBMC_CMDS['Player.FastForward'],
-	['SCAN_REV'] 		= XBMC_CMDS['Player.Rewind'],
+	['SCAN_FWD'] 		= function (value, playerId, id) XBMC_CMDS['Player.SetSpeed']("increment", playerId, id) end,
+	['SCAN_REV'] 		= function (value, playerId, id) XBMC_CMDS['Player.SetSpeed']("decrement", playerId, id) end,
 	['START_CH_UP'] 	= '',
 	['START_CH_DOWN']	= '',
 	['PULSE_CH_UP'] 	= '',
@@ -979,7 +972,6 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 end
 
 
-
 function ReceivedFromProxy(idBinding, strCommand, tParams)
 	dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
 
@@ -992,11 +984,10 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 end
 
 
-
 function ExecuteCommand(Command, Parameters)
 	dbg('XBMC: ExecuteCommand: ' .. Command)
+	--
 end
-
 
 
 function OnDriverDestroyed()
@@ -1011,14 +1002,12 @@ function OnDriverDestroyed()
 end
 
 
-
 function dbg(strDebugText)
 	if (g_debugprint) then print(strDebugText) end
 	if (g_debuglog) then C4:ErrorLog(strDebugText) end
 end
 
 
-
 function startDebugTimer()
 	if (g_DebugTimer) then
 		g_DebugTimer = C4:KillTimer(g_DebugTimer)
@@ -1027,14 +1016,12 @@ function startDebugTimer()
 end
 
 
-
 function startDebugTimer()
 	if (g_DebugTimer) then
 		g_DebugTimer = C4:KillTimer(g_DebugTimer)
 	end
 	g_DebugTimer = C4:AddTimer(15, 'MINUTES')
 end
-
 
 
 function OnPropertyChanged(strProperty)
