@@ -928,7 +928,7 @@ function OnTimerExpired(idTimer)
 		end
 
 		if (bTrying) then
-			gReconnectTimer = C4:AddTimer(5, "SECONDS")
+			gReconnectTimer = C4:AddTimer(10, "SECONDS")
 		end
 	end
 
@@ -1039,7 +1039,7 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 
 				-- Try a re-connect of the device ...
 				if (gReconnectTimer == nil) or (gReconnectTimer == 0) then
-					gReconnectTimer = C4:AddTimer(5, "SECONDS")
+					gReconnectTimer = C4:AddTimer(10, "SECONDS")
 					C4:NetDisconnect(6001, tonumber(jsonPort))
 					C4:NetConnect(6001, tonumber(jsonPort))
 				end
