@@ -823,6 +823,55 @@ CMDS_PLAYER = {
 
 
 
+REMOTE_BUTTONS = 
+{
+	['PROGRAM_A']	= "Red Button",
+	['PROGRAM_B']	= "Green Button",
+	['PROGRAM_C']	= "Yellow Button",
+	['PROGRAM_D']	= "Blue Button",
+
+	['GUIDE']		= "Guide",
+	['RECALL'] 		= "Prev",
+	['PAGE_UP']		= "Page Up",
+	['PAGE_DOWN']	= "Page Down",
+
+	['UP'] 			= "Up",
+	['DOWN'] 		= "Down",
+	['LEFT'] 		= "Left",
+	['RIGHT'] 		= "Right",
+	['ENTER'] 		= "Enter",
+
+--	['MUTE']		= "Mute",
+	['INFO'] 		= "Info",
+	['MENU']		= "Menu",
+	['CANCEL'] 		= "Cancel",
+
+	['PLAY'] 		= "Play",
+	['PAUSE'] 		= "Pause",
+	['SKIP_FWD'] 	= "Skip Next",
+	['SKIP_REV'] 	= "Skip Previous",
+	['SCAN_FWD'] 	= "Fast Forward",
+	['SCAN_REV'] 	= "Rewind",
+	['STOP'] 		= "Stop",
+--	['RECORD']		= "Record",
+--	['DVR']			= "DVR",
+
+	['NUMBER_1'] 	= "1",
+	['NUMBER_2'] 	= "2",
+	['NUMBER_3'] 	= "3",
+	['NUMBER_4'] 	= "4",
+	['NUMBER_5'] 	= "5",
+	['NUMBER_6'] 	= "6",
+	['NUMBER_7'] 	= "7",
+	['NUMBER_8'] 	= "8",
+	['NUMBER_9'] 	= "9",
+	['STAR']		= "*",
+	['NUMBER_0'] 	= "0",
+	['POUND']		= "#",
+}
+
+
+
 
 
 
