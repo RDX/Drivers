@@ -137,6 +137,12 @@
 							<monitor_connection>True</monitor_connection>
 							<keep_connection>True</keep_connection>
 						</port>
+						<port>
+							<number>8080</number>
+							<auto_connect>False</auto_connect>
+							<monitor_connection>False</monitor_connection>
+							<keep_connection>False</keep_connection>
+						</port>
 					</ports>
 				</class>
 			</classes>
@@ -164,16 +170,43 @@
 
 
 	<config>
-		<documentation></documentation>
+		<documentation>
+			-Make sure the "Allow programs on other systems to control XBMC" setting in the network settings of XBMC is enabled
+			-Make sure the "Allow control of XBMC via HTTP" setting is also enabled on port 8080
+		</documentation>
+
 		<commands></commands>
 
 		<properties>
 			<property>
-				<name>IP Port</name>
+				<name>JSON-RPC Port</name>
 				<type>RANGED_INTEGER</type>
 				<minimum>1024</minimum>
 				<maximum>65535</maximum>
 				<default>9090</default>
+				<readonly>false</readonly>
+			</property>
+
+			<property>
+				<name>HTTP Port</name>
+				<type>RANGED_INTEGER</type>
+				<minimum>1024</minimum>
+				<maximum>65535</maximum>
+				<default>8080</default>
+				<readonly>false</readonly>
+			</property>
+
+			<property>
+				<name>HTTP Username</name>
+				<type>STRING</type>
+				<default>xbmc</default>
+				<readonly>false</readonly>
+			</property>
+			
+			<property>
+				<name>HTTP Password</name>
+				<type>STRING</type>
+				<default></default>
 				<readonly>false</readonly>
 			</property>
 
@@ -197,11 +230,32 @@
 				<readonly>false</readonly>
 			</property>
 
-			<property><name>Power On Delay-Seconds</name><type>RANGED_INTEGER</type><minimum>0</minimum><maximum>25</maximum><default>5</default><readonly>false</readonly></property>
+			<property>
+				<name>Power On Delay-Seconds</name>
+				<type>RANGED_INTEGER</type>
+				<minimum>0</minimum>
+				<maximum>25</maximum>
+				<default>5</default>
+				<readonly>false</readonly>
+			</property>
 
-			<property><name>Command Delay-Milliseconds</name><type>RANGED_INTEGER</type><minimum>50</minimum><maximum>2500</maximum><default>250</default><readonly>false</readonly></property>
+			<property>
+				<name>Command Delay-Milliseconds</name>
+				<type>RANGED_INTEGER</type>
+				<minimum>50</minimum>
+				<maximum>2500</maximum>
+				<default>250</default>
+				<readonly>false</readonly>
+			</property>
 
-			<property><name>Volume Ramp Delay-Milliseconds</name><type>RANGED_INTEGER</type><minimum>50</minimum><maximum>500</maximum><default>100</default><readonly>false</readonly></property>
+			<property>
+				<name>Volume Ramp Delay-Milliseconds</name>
+				<type>RANGED_INTEGER</type>
+				<minimum>50</minimum>
+				<maximum>500</maximum>
+				<default>100</default>
+				<readonly>false</readonly>
+			</property>
 		</properties>
 
 		<actions>
@@ -222,9 +276,14 @@ idBusyTimer = 0
 g_debugprint = false
 g_debuglog = false
 g_PowerState = {}
+g_URLPacket = ""
+
+jsonPort = Properties['JSON-RPC Port']
+httpPort = Properties['HTTP Port']
+httpUser = Properties['HTTP Username']
+httpPass = Properties['HTTP Password']
 
 
-mPort = Properties['IP Port']
 mNetConnected = tostring(Properties['Connected To Network'])
 intraCommandDelayValue = Properties['Command Delay-Milliseconds']
 intraVolRampDelayValue = Properties['Volume Ramp Delay-Milliseconds']
@@ -263,7 +322,7 @@ XBMC_CMDS =
 			["method"] = "Input.Back",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 	
@@ -274,7 +333,7 @@ XBMC_CMDS =
 			["method"] = "Input.Down",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -285,7 +344,7 @@ XBMC_CMDS =
 			["method"] = "Input.Home",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -296,7 +355,7 @@ XBMC_CMDS =
 			["method"] = "Input.Left",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -307,7 +366,7 @@ XBMC_CMDS =
 			["method"] = "Input.Right",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -318,7 +377,7 @@ XBMC_CMDS =
 			["method"] = "Input.Select",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -329,7 +388,7 @@ XBMC_CMDS =
 			["method"] = "Input.Up",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -345,7 +404,7 @@ XBMC_CMDS =
 			["method"] = "JSONRPC.Ping",
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end, 
 
 
@@ -366,7 +425,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 	
 
@@ -381,7 +440,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -399,7 +458,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 	
 
@@ -414,7 +473,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -429,7 +488,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -444,7 +503,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -462,7 +521,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end, 
 
 
@@ -478,7 +537,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 	
 						
@@ -493,7 +552,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -509,7 +568,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -525,7 +584,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -541,7 +600,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -557,7 +616,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -572,7 +631,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 	
 
@@ -587,7 +646,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end, 
 
 
@@ -602,7 +661,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -618,7 +677,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -633,7 +692,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -648,7 +707,7 @@ XBMC_CMDS =
 			}
 		}
 		if type(id) == "number" then t["id"] = id end
-		emit(t)
+		emit(t, "json")
 	end,
 
 
@@ -686,15 +745,36 @@ XBMC_CMDS =
 	['XBMC.GetInfoBooleans'] = '',
 	['XBMC.GetInfoLabels'] = '',
 
-	--['Input.PageDown'] 			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)",
-	--['Input.PageUp'] 				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)",
-	--['Input.ContextMenu'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)",
-	--['Input.Cancel']				= "GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257",
-	--['Player.FastForward'] 		= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(FastForward)",
-	--['Player.Rewind']				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Rewind)",
-	--['Player.Info']				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)",
-	--['Player.Subtitle']			= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(NextSubtitle)",
-	--['Player.OSD'] 				= "GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)",
+
+	--nonstandard JSON commands that are actually HTTP requests
+	['Input.PageDown'] = function ()
+		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)", "http")
+	end,
+
+
+	['Input.PageUp'] = function ()
+		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)", "http")
+	end,
+
+
+	['Input.ContextMenu'] = function ()
+		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)", "http")
+	end,
+
+
+	['Input.Cancel'] = function ()
+		emit("GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257", "http")
+	end,
+
+
+	['Player.Info'] = function ()
+		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)", "http")
+	end,
+
+
+	['Player.OSD'] = function ()
+		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)", "http")
+	end,
 }
 
 CMDS_NAVIGATION = {
@@ -769,17 +849,22 @@ function nextJsonID()
 end
 
 
-function emit(command)
+function emit(command, type)
 	local bUsePowerOnDelay = false
+	local output
 	if (strCommandName == 'CONNECT_OUTPUT') then
 			bUsePowerOnDelay = true
 	end
 
-	local output = Encode (command)
+	if (type == "json") then
+		output = Encode (command)
+	elseif (type == "http") then
+		output = command .. "\r\n\r\n"
+	end
 
 	dbg('Emit: ' .. output)
 
-	table.insert(tEmitCommands, {output, bUsePowerOnDelay})
+	table.insert(tEmitCommands, {output, bUsePowerOnDelay, type})
 	if idEmitCommandsTimer == nil then
 		 idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', true)
 	end
@@ -794,7 +879,15 @@ function OnTimerExpired(idTimer)
 
 		if tEmitCommands[1] ~= nil then
 			dbg('SendToNetwork:' .. tEmitCommands[1][1])
-			C4:SendToNetwork(6001, tonumber(mPort), tEmitCommands[1][1])
+
+			if (tEmitCommands[1][3] == "json") then
+				C4:SendToNetwork(6001, tonumber(jsonPort), tEmitCommands[1][1])
+			
+			elseif (tEmitCommands[1][3] == "http") then
+				g_URLPacket = tEmitCommands[1][1]
+				C4:NetConnect(6001, tonumber(httpPort))
+			end
+
 			if (tEmitCommands[1][2] == true) then
 				idBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false)
 			end
@@ -816,6 +909,8 @@ function OnTimerExpired(idTimer)
 
 
 	if (idTimer == gPollTimer) then
+
+		dbg("XBMC: polltimer test") 
 		-- Send a status query on the main port...
 		-- If we haven't gotten a response, increment the 'not checked in'...
 		-- if it hits 3, disconnect all ports...
@@ -824,7 +919,7 @@ function OnTimerExpired(idTimer)
 
 		if (gLastCheckin > 2) then
 			if (mNetConnected == true) then
-				C4:NetDisconnect(6001, mPort)
+				C4:NetDisconnect(6001, jsonPort)
 				dbg("Failed to receive poll responses from XBMC... Disconnecting...")
 			end
 		end
@@ -847,8 +942,8 @@ function OnTimerExpired(idTimer)
 
 		if (gNetworkStatus == "OFFLINE") then
 			-- Try to reconnect to the XBMC Control port...
-			C4:NetDisconnect(6001, mPort)
-			C4:NetConnect(6001, mPort)
+			C4:NetDisconnect(6001, jsonPort)
+			C4:NetConnect(6001, jsonPort)
 			bTrying = true
 		end
 
@@ -859,7 +954,7 @@ function OnTimerExpired(idTimer)
 
 
 	if idTimer == ChannelRampTimerID then
-		emit(ChannelCommands)
+		emit(ChannelCommands, "json")
 		return
 	end
 
@@ -945,27 +1040,36 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 	dbg("XBMC: OnConnectionStatusChanged[" .. idBinding .. " (" .. nPort .. ")]: " .. strStatus)
 
 	if (idBinding == 6001) then
-		gNetworkStatus=strStatus
+		if (nPort == tonumber(jsonPort)) then
+			gNetworkStatus=strStatus
 
-		if (strStatus == "ONLINE") then
-			mNetConnected = true
-			gLastCheckin=0
-			C4:UpdateProperty('Connected To Network','true')
-			C4:ErrorLog("Connected to XBMC...")
+			if (strStatus == "ONLINE") then
+				mNetConnected = true
+				gLastCheckin=0
+				C4:UpdateProperty('Connected To Network','true')
+				dbg("Connected to XBMC...")
 
-			if (gPollTimer ~= 0) then C4:KillTimer(gPollTimer) end
+				if (gPollTimer ~= 0) then C4:KillTimer(gPollTimer) end
 
-			gPollTimer = C4:AddTimer(5, "SECONDS", true) -- 5 second repeating timer...
-		else
-			dbg("XBMC: not connected.")
-			mNetConnected = false
-			C4:UpdateProperty('Connected To Network','false')
+				gPollTimer = C4:AddTimer(5, "SECONDS", true) -- 5 second repeating timer...
+			else
+				dbg("XBMC: not connected.")
+				mNetConnected = false
+				C4:UpdateProperty('Connected To Network','false')
 
-			-- Try a re-connect of the device ...
-			if (gReconnectTimer == nil) or (gReconnectTimer == 0) then
-				gReconnectTimer = C4:AddTimer(5, "SECONDS")
-				C4:NetDisconnect(6001, mPort)
-				C4:NetConnect(6001, mPort)
+				-- Try a re-connect of the device ...
+				if (gReconnectTimer == nil) or (gReconnectTimer == 0) then
+					gReconnectTimer = C4:AddTimer(5, "SECONDS")
+					C4:NetDisconnect(6001, tonumber(jsonPort))
+					C4:NetConnect(6001, tonumber(jsonPort))
+				end
+			end
+		elseif (nPort == tonumber(httpPort)) then
+			gNetworkStatus=strStatus
+
+			if (strStatus == "ONLINE") then
+				C4:SendToNetwork(6001, tonumber(httpPort), g_URLPacket)
+				C4:NetDisconnect(6001, tonumber(httpPort))
 			end
 		end
 	end
@@ -986,7 +1090,6 @@ end
 
 function ExecuteCommand(Command, Parameters)
 	dbg('XBMC: ExecuteCommand: ' .. Command)
-	--
 end
 
 
@@ -1048,10 +1151,61 @@ function OnPropertyChanged(strProperty)
 			startDebugTimer()
 		end
 
-	elseif (strProperty == 'IP Port') then
-		mPort = tonumber(Properties['IP Port'])
+	elseif (strProperty == 'JSON-RPC Port') then
+		jsonPort = tonumber(Properties['JSON-RPC Port'])
 	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
