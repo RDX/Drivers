@@ -747,34 +747,13 @@ XBMC_CMDS =
 
 
 	--nonstandard JSON commands that are actually HTTP requests
-	['Input.PageDown'] = function ()
-		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)", "http")
-	end,
-
-
-	['Input.PageUp'] = function ()
-		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)", "http")
-	end,
-
-
-	['Input.ContextMenu'] = function ()
-		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)", "http")
-	end,
-
-
-	['Input.Cancel'] = function ()
-		emit("GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257", "http")
-	end,
-
-
-	['Player.Info'] = function ()
-		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)", "http")
-	end,
-
-
-	['Player.OSD'] = function ()
-		emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)", "http")
-	end,
+	['Input.PageDown'] 		= function () emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageDown)", 	"http") end,
+	['Input.PageUp'] 		= function () emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(PageUp)", 		"http") end,
+	['Input.ContextMenu'] 	= function () emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(ContextMenu)",	"http") end,
+	['Input.Cancel'] 		= function () emit("GET /xbmcCmds/xbmcHttp?command=SendKey&parameter=257", 							"http") end,
+	['Player.Info'] 		= function () emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(Info)", 		"http") end,
+	['Player.OSD'] 			= '', --function () emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(OSD)", 	"http") end,
+	['Player.Aspect']		= function () emit("GET /xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=XBMC.Action(AspectRatio)", "http") end,
 }
 
 CMDS_NAVIGATION = {
@@ -788,6 +767,7 @@ CMDS_NAVIGATION = {
 	['ENTER'] 			= XBMC_CMDS['Input.Select'],
 	['CANCEL'] 			= XBMC_CMDS['Input.Cancel'],
 	['RECALL'] 			= XBMC_CMDS['Input.Back'],
+	['INFO'] 			= XBMC_CMDS['Player.Info'],
 }
 
 CMDS_PLAYER = {
@@ -803,15 +783,15 @@ CMDS_PLAYER = {
 	['NUMBER_9'] 		= '',
 	['NUMBER_10'] 		= '',
 	['GUIDE']			= function (subtitle, playerId, id) XBMC_CMDS['Player.SetSubtitle']("next", playerId, id) end,
-	['MENU']			= '',
+	['MENU']			= XBMC_CMDS['Player.Aspect'],
 	['UP'] 				= function (value, playerId, id) XBMC_CMDS['Player.Seek']("bigforward", playerId, id) end,
 	['DOWN'] 			= function (value, playerId, id) XBMC_CMDS['Player.Seek']("bigbackward", playerId, id) end,
 	['LEFT'] 			= function (value, playerId, id) XBMC_CMDS['Player.Seek']("smallbackward", playerId, id) end,
 	['RIGHT'] 			= function (value, playerId, id) XBMC_CMDS['Player.Seek']("smallforward", playerId, id) end,
-	['ENTER'] 			= '',
-	['CANCEL'] 			= '',
+	['ENTER'] 			= XBMC_CMDS['Player.OSD'],
+	['CANCEL'] 			= XBMC_CMDS['Input.Cancel'],
 	['RECALL'] 			= '',
-	['INFO'] 			= '',
+	['INFO'] 			= XBMC_CMDS['Player.Info'],
 	['REPEAT'] 			= '',
 	['SHUFFLE'] 		= '',
 	['MODE'] 			= '',
