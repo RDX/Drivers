@@ -507,7 +507,23 @@ XBMC_CMDS =
 	end,
 
 
-	['Player.Open'] = '',
+	['Player.Open'] = function (file, id)
+		--TODO: Do I need to stop the current player if there is one?
+		local t =		
+		{
+			["jsonrpc"] = "2.0", 
+			["method"] = "Player.Open", 
+			["params"] =
+			{
+				["item"] =
+				{
+					["file"] = file, 
+				}
+			}
+		}
+		if type(id) == "number" then t["id"] = id end
+		emit(t, "json")
+	end,
 
 
 	['Player.PlayPause'] = function (playerId, id)
@@ -900,7 +916,7 @@ function emit(command, type)
 		output = command .. "\r\n\r\n"
 	end
 
-	dbg('Emit: ' .. output)
+	--dbg('Emit: ' .. output)
 
 	table.insert(tEmitCommands, {output, bUsePowerOnDelay, type})
 	if idEmitCommandsTimer == nil then
@@ -964,7 +980,7 @@ function OnTimerExpired(idTimer)
 
 		-- Send Poll Packet if we're ONLINE...
 		if (mNetConnected == true) then
- 			dbg("XBMC: Sending ping request") 
+ 			--dbg("XBMC: Sending ping request") 
 			XBMC_CMDS['JSONRPC.Ping'](nextJsonID())
 		end
 
@@ -1117,7 +1133,14 @@ end
 function ReceivedFromProxy(idBinding, strCommand, tParams)
 	dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
 
-	if (CurrentInputMode == "Player") then
+    if (strCommand == "ON") then
+    	dbg('Got ON Command: ' .. "")
+
+    elseif (strCommand == "PLAY_THIS_FILE") then
+    	dbg('Playing file from URL: ' .. tParams["FILE"])
+    	XBMC_CMDS['Player.Open']("smb://" .. tParams["USER"] .. ":" .. tParams["PASSWORD"] .. "@" .. tParams['FILE'], nextJsonID())
+
+	elseif (CurrentInputMode == "Player") then
 		CMDS_PLAYER[strCommand]()
 
 	elseif (CurrentInputMode == "Navigation") then
