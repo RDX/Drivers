@@ -315,80 +315,38 @@ XBMC_CMDS =
 	['Files.GetSources'] = '',
 
 	
-	['Input.Back'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Back",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Back'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Back"}', "json")
 	end,
 
 	
-	['Input.Down'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Down",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Down'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Down"}', "json")
 	end,
 
 
-	['Input.Home'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Home",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Home'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Home"}', "json")
 	end,
 
 
-	['Input.Left'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Left",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Left'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Left"}', "json")
 	end,
 
 
-	['Input.Right'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Right",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Right'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Right"}', "json")
 	end,
 
 
-	['Input.Select'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Select",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Select'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Select"}', "json")
 	end,
 
 
-	['Input.Up'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Input.Up",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Input.Up'] = function ()
+		emit ('{"jsonrpc":"2.0","method":"Input.Up"}', "json")
 	end,
 
 
@@ -397,14 +355,8 @@ XBMC_CMDS =
 	['JSONRPC.Permission'] = '',
 
 
-	['JSONRPC.Ping'] = function (id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "JSONRPC.Ping",
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['JSONRPC.Ping'] = function ()
+		emit ('{"id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"JSONRPC.Ping"}', "json")
 	end, 
 
 
@@ -414,100 +366,40 @@ XBMC_CMDS =
 	['Player.GetProperties'] = '',
 	
 
-	['Player.GoNext'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.GoNext",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.GoNext'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.GoNext","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 	
 
-	['Player.GoPrevious'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.GoPrevious",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.GoPrevious'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.GoPrevious","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
 	['Player.GoTo'] = '',
 
 
-	['Player.MoveDown'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.MoveDown",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.MoveDown'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.MoveDown","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 	
 
-	['Player.MoveLeft'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.MoveLeft",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.MoveLeft'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.MoveLeft","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
-	['Player.MoveRight'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.MoveRight",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.MoveRight'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.MoveRight","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
-	['Player.MoveUp'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.MoveUp",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.MoveUp'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.MoveUp","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
-	['Player.Open'] = function (file, id)
+	['Player.Open'] = function (file)
 		--TODO: Do I need to stop the current player if there is one?
 		local t =		
 		{
@@ -521,209 +413,73 @@ XBMC_CMDS =
 				}
 			}
 		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+		t["id"] = nextJsonID()
+		emit(Json.Encode(t), "json")
 	end,
 
 
-	['Player.PlayPause'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.PlayPause",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.PlayPause'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end, 
 
 
-	['Player.Repeat'] = function (state, playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.Repeat",
-			["params"] = 
-			{
-				["state"] = state or "off",
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.Repeat'] = function (state)
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Repeat","params":{"playerid":' .. CurrentPlayerID .. ', "state":' .. state or "off" .. '}}', "json")
 	end,
 	
 						
-	['Player.Rotate'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.Rotate",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.Rotate'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Rotate","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
-	['Player.Seek'] = function (value, playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.Seek",
-			["params"] = 
-			{
-				["value"] = value,
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.Seek'] = function (value)
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Seek","params":{"playerid":' .. CurrentPlayerID .. ', "value":"' .. value .. '"}}', "json")
 	end,
 
 
-	['Player.SetAudioStream'] = function (stream, playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.SetAudioStream",
-			["params"] = 
-			{
-				["stream"] = stream or "next",
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.SetAudioStream'] = function (stream)
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.SetAudioStream","params":{"playerid":' .. CurrentPlayerID .. ', "stream":' .. stream or "next" .. '}}', "json")
 	end,
 
 
-	['Player.SetSpeed'] = function (speed, playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.SetSpeed",
-			["params"] = 
-			{
-				["speed"] = speed or 0,
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.SetSpeed'] = function (speed)
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.SetSpeed","params":{"playerid":' .. CurrentPlayerID .. ', "speed":' .. speed or 0 .. '}}', "json")
 	end,
 
 
-	['Player.SetSubtitle'] = function (subtitle, playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.SetSubtitle",
-			["params"] = 
-			{
-				["subtitle"] = subtitle or "next",
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.SetSubtitle'] = function (subtitle)
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.SetSubtitle","params":{"playerid":' .. CurrentPlayerID .. ', "subtitle":' .. subtitle or "next" .. '}}', "json")
 	end,
 
 
-	['Player.Shuffle'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.Shuffle",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.Shuffle'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Shuffle","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 	
 
-	['Player.Stop'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.Stop",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.Stop'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end, 
 
 
-	['Player.UnShuffle'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.UnShuffle",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.UnShuffle'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Unshuffle","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
-	['Player.Zoom'] = function (value, playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["value"] = value or 1,
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.Zoom'] = function (value)
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.Zoom","params":{"playerid":' .. CurrentPlayerID .. ', "value":' .. value or 1 .. '}}', "json")
 	end,
 
 
-	['Player.ZoomIn'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.ZoomIn",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+	['Player.ZoomIn'] = function ()
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.ZoomIn","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
 	['Player.ZoomOut'] = function (playerId, id)
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["method"] = "Player.ZoomOut",
-			["params"] = 
-			{
-				["playerid"] = playerId or CurrentPlayerID,
-			}
-		}
-		if type(id) == "number" then t["id"] = id end
-		emit(t, "json")
+		emit ('{ "id":' .. nextJsonID() .. ',"jsonrpc":"2.0","method":"Player.ZoomOut","params":{"playerid":' .. CurrentPlayerID .. '}}', "json")
 	end,
 
 
@@ -911,7 +667,7 @@ function emit(command, type)
 	end
 
 	if (type == "json") then
-		output = Encode (command)
+		output = command
 	elseif (type == "http") then
 		output = command .. "\r\n\r\n"
 	end
@@ -981,7 +737,7 @@ function OnTimerExpired(idTimer)
 		-- Send Poll Packet if we're ONLINE...
 		if (mNetConnected == true) then
  			--dbg("XBMC: Sending ping request") 
-			XBMC_CMDS['JSONRPC.Ping'](nextJsonID())
+			XBMC_CMDS['JSONRPC.Ping']()
 		end
 
 		return
@@ -1133,7 +889,10 @@ end
 function ReceivedFromProxy(idBinding, strCommand, tParams)
 	dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
 
-    if (strCommand == "ON") then
+	if (strCommand == "TOC") then
+		dbg('time to scan media!')
+
+    elseif (strCommand == "ON") then
     	dbg('Got ON Command: ' .. "")
 
     elseif (strCommand == "PLAY_THIS_FILE") then
