@@ -1,0 +1,301 @@
+<devicedata>
+ <copyright>Copyright 2008 Will. All rights reserved.</copyright>
+ <manufacturer>Homemation</manufacturer>
+ <model>Wake On LAN</model>
+ <creator>Craig Paxman</creator>
+ <name>Wake On LAN</name>
+ <control>lua_gen</control>
+ <proxy>Driverworks_WOL</proxy>
+ <composer_categories/>
+  <driver>DriverWorks</driver>
+ <states/>
+ <config>
+   <documentation>
+Homemation Wake On Lan Driver \n\n 
+Enter the target device's 48-bit MAC address you would like to wake in the properties page in the following format:\n
+  -- XX XX XX XX XX XX \n
+OR \n
+  -- XXXXXXXXXXXX \n
+OR \n
+  -- XX:XX:XX:XX:XX:XX \n
+\n
+Version 2 = Code cleanup (Thanks to Ryan Erickson) \n
+Version 1 = Driver Release \n
+</documentation>
+    <actions>
+<action>
+        <name>Test MAC 1 WOL</name>
+        <command>Send MAC 1 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 2 WOL</name>
+        <command>Send MAC 2 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 3 WOL</name>
+        <command>Send MAC 3 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 4 WOL</name>
+        <command>Send MAC 4 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 5 WOL</name>
+        <command>Send MAC 5 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 6 WOL</name>
+        <command>Send MAC 6 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 7 WOL</name>
+        <command>Send MAC 7 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 8 WOL</name>
+        <command>Send MAC 8 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 9 WOL</name>
+        <command>Send MAC 9 WOL</command>
+      </action>
+      <action>
+        <name>Test MAC 10 WOL</name>
+        <command>Send MAC 10 WOL</command>
+      </action>
+    </actions>
+    <properties>
+      <property>
+        <name>Device Name for MAC 1</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 1</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 2</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 2</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 3</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 3</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 4</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 4</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 5</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 5</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 6</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 6</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 7</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 7</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 8</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 8</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 9</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 9</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Name for MAC 10</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>MAC Address 10</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+   </properties>
+    <commands>
+ <command>
+        <name>Send MAC 1 WOL</name>
+        <description>Send the MAC 1 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 2 WOL</name>
+        <description>Send the MAC 2 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 3 WOL</name>
+        <description>Send the MAC 3 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 4 WOL</name>
+        <description>Send the MAC 4 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 5 WOL</name>
+        <description>Send the MAC 5 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 6 WOL</name>
+        <description>Send the MAC 6 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 7 WOL</name>
+        <description>Send the MAC 7 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 8 WOL</name>
+        <description>Send the MAC 8 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 9 WOL</name>
+        <description>Send the MAC 9 WOL Packet to NAME</description>
+      </command>
+      <command>
+        <name>Send MAC 10 WOL</name>
+        <description>Send the MAC 10 WOL Packet to NAME</description>
+      </command>
+    </commands>
+   <script>
+<![CDATA[
+
+MAC = ""
+
+C4:CreateNetworkConnection (6001, "255.255.255.255", 9)
+C4:NetConnect(6001, 9, "UDP")
+
+function ExecuteCommand(strCommand, tParams)
+  	if (strCommand == "Send MAC 1 WOL") then
+    	print("Send MAC 1 WOL")
+		MAC = Properties["MAC Address 1"]
+	end
+	if (strCommand == "Send MAC 2 WOL") then
+ 		print("Send MAC 2 WOL")
+   		MAC = Properties["MAC Address 2"]
+  	end
+	if (strCommand == "Send MAC 3 WOL") then
+ 		print("Send MAC 3 WOL")
+   		MAC = Properties["MAC Address 3"]
+  	end
+	if (strCommand == "Send MAC 4 WOL") then
+ 		print("Send MAC 4 WOL")
+   		MAC = Properties["MAC Address 4"]
+  	end
+	if (strCommand == "Send MAC 5 WOL") then
+ 		print("Send MAC 5 WOL")
+   		MAC = Properties["MAC Address 5"]
+  	end
+	if (strCommand == "Send MAC 6 WOL") then
+ 		print("Send MAC 6 WOL")
+   		MAC = Properties["MAC Address 6"]
+  	end
+	if (strCommand == "Send MAC 7 WOL") then
+ 		print("Send MAC 7 WOL")
+   		MAC = Properties["MAC Address 7"]
+  	end
+	if (strCommand == "Send MAC 8 WOL") then
+ 		print("Send MAC 8 WOL")
+   		MAC = Properties["MAC Address 8"]
+  	end
+	if (strCommand == "Send MAC 9 WOL") then
+ 		print("Send MAC 9 WOL")
+   		MAC = Properties["MAC Address 9"]
+  	end
+	if (strCommand == "Send MAC 10 WOL") then
+ 		print("Send MAC 10 WOL")
+   		MAC = Properties["MAC Address 10"]
+  	end
+MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
+MAC = tohex(MAC) -- Convert to HEX 
+packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
+hexdump (packet)
+C4:SendToNetwork (6001, 9, packet)
+C4:SendToNetwork (6001, 9, packet)
+end
+]]>
+</script>
+ </config>
+ <connections/>
+ <capabilities/>
+ <version>2</version>
+ <created>01/04/2008 12:30 PM</created>
+ <modified>5/17/2011 32:40:00 PM</modified>
+ <front/>
+ <back/>
+ <top/>
+ <bottom/>
+ <left/>
+ <right/>
+</devicedata>
