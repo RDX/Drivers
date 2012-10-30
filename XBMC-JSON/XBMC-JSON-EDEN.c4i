@@ -190,7 +190,7 @@
 			<property>
 				<name>HTTP Port</name>
 				<type>RANGED_INTEGER</type>
-				<minimum>1024</minimum>
+				<minimum>80</minimum>
 				<maximum>65535</maximum>
 				<default>8080</default>
 				<readonly>false</readonly>
