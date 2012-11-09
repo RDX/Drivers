@@ -1,0 +1,2030 @@
+<devicedata>
+  <c4id>cf964826-c9e2-477f-b755-0010d5581f0c</c4id>
+  <copyright>Copyright 2012 Brandon Johnson</copyright>
+  <creator>Brandon Johnson</creator>
+  <manufacturer>XBMC.ORG</manufacturer>
+  <name>XBMC</name>
+  <model>XBMC HTPC</model>
+  <created>01/28/2012 12:00 AM</created>
+  <modified>12/05/2012 12:00 AM</modified>
+  <version>3</version>
+  <small>devices_sm\receiver.gif</small>
+  <large>devices_lg\receiver.gif</large>
+  <top>
+  </top>
+  <bottom>
+  </bottom>
+  <front>
+  </front>
+  <back>
+  </back>
+  <left>
+  </left>
+  <right>
+  </right>
+  <control>lua_gen</control>
+  <controlmethod>ip</controlmethod>
+  <driver>DriverWorks</driver>
+  <search_type>c4:av_gen</search_type>
+
+  <capabilities>
+
+  </capabilities>
+
+
+  <proxies qty="1">
+    <proxy proxybindingid="5001">media_player</proxy>
+  </proxies>
+  <connections>
+    <connection proxybindingid="5001">
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>OUTPUT</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VGA</classname>
+        </class>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+        <class>
+          <classname>DVI</classname>
+        </class>
+        <class>
+          <classname>SVIDEO</classname>
+        </class>
+        <class>
+          <classname>COMPOSITE</classname>
+        </class>
+        <class>
+          <classname>COMPONENT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>OUTPUT</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+        </class>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>MEDIA_PLAYER</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>MEDIA_PLAYER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>XBMC IP Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <number>9090</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection - OUTPUT</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <power_management_method>AlwaysOn</power_management_method>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>0</power_delay>
+    <power_command_needed>False</power_command_needed>
+    
+    <documentation>
+Make sure the "Allow programs on other systems to control XBMC" setting in the network settings of XBMC is enabled
+
+Keymap
+----------------------------------------------------------------------------------------
+| Button    | Navigation   | Video Playback      | Audio Playback    | Picture Viewer  |
+----------------------------------------------------------------------------------------
+| Red       |              |                     |                   |                 |
+| Green     |              |                     |                   |                 |
+| Yellow    |              |                     |                   |                 |
+| Blue      |              |                     |                   |                 |
+|-----------|--------------------------------------------------------|-----------------|
+| GUIDE     |              |                     | Toggle Visualizer |                 |
+| RECALL    | Go Back      |                     |                   |                 |
+| PAGE UP   | Page Up      |                     |                   | Zoom In         |
+| PAGE DOWN | Page Down    |                     |                   | Zoom Out        |
+|-----------|--------------|---------------------|-------------------|-----------------|
+| UP        | Move Up      | Big Step Forward    | Move Up           | Move Zoom Up    |
+| DOWN      | Move Down    | Big Step Backward   | Move Down         | Move Zoom Down  |
+| LEFT      | Move Left    | Small Step Backward | Move Left         | Move Zoom Left  |
+| RIGHT     | Move Right   | Small Step Forward  | Move Right        | Move Zoom Right |
+| ENTER	    | Select       | Show OSD            | Select            |                 |
+|-----------|--------------|---------------------|-------------------|-----------------|
+| INFO      | Show Info    | Show Info           | Show Info         |                 |
+| MENU      | Context Menu |                     |                   |                 |
+| CANCEL    | Go Back      |                     |                   |                 |
+|-----------|--------------|---------------------|-------------------|-----------------|
+| PLAY      |              | Play/Pause          | Play/Pause        | Play/Pause      |
+| PAUSE     |              | Play/Pause          | Play/Pause        | Play/Pause      |
+| STOP      |              | Stop                | Stop              | Stop            |
+|-----------|--------------|---------------------|-------------------|-----------------|
+| SKIP FWD  |              | Skip Next           | Skip Next         | Skip Next       |
+| SKIP REV  |              | Skip Previous       | Skip Previous     | Skip Previous   |
+| SCAN FWD  |              | Fast Forward        | Fast Forward      |                 |
+| SCAN REV  |              | Rewind              | Rewind            |                 |
+|-----------|--------------|---------------------|-------------------|-----------------|
+| NUMBER 1  | 1            |                     |                   | Zoomlevel 1     |
+| NUMBER 2  | 2 / ABC      |                     |                   | Zoomlevel 2     |
+| NUMBER 3  | 3 / DEF      |                     |                   | Zoomlevel 3     |
+| NUMBER 4  | 4 / GHI      |                     |                   | Zoomlevel 4     |
+| NUMBER 5  | 5 / JKL      |                     |                   | Zoomlevel 5     |
+| NUMBER 6  | 6 / MNO      |                     |                   | Zoomlevel 6     |
+| NUMBER 7  | 7 / PQRS     |                     |                   | Zoomlevel 7     |
+| NUMBER 8  | 8 / TUV      |                     |                   | Zoomlevel 8     |
+| NUMBER 9  | 9 / WXYZ     |                     |                   | Zoomlevel 9     |
+| STAR      |              |                     |                   |                 |
+| NUMBER 0  |              |                     |                   | Zoomlevel 10    |
+| POUND     |              |                     |                   |                 |
+----------------------------------------------------------------------------------------
+
+		</documentation>
+    
+    <actions>
+      <action>
+        <name>Destroy All Timers</name>
+        <command>Destroy Timers</command>
+      </action>
+    </actions>
+    
+    <properties>
+      <property>
+        <name>Command Delay-Milliseconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>50</default>
+        <minimum>50</minimum>
+        <maximum>2500</maximum>
+      </property>
+      
+      <property>
+        <name>Power On Delay-Seconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>5</default>
+        <minimum>0</minimum>
+        <maximum>25</maximum>
+      </property>
+
+      <property>
+        <name>Volume Ramp Delay-Milliseconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>50</minimum>
+        <maximum>500</maximum>
+      </property>
+      
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Off</default>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+      </property>
+
+      <property>
+        <name>Connected To Network</name>
+        <type>STRING</type>
+        <readonly>True</readonly>
+        <default>false</default>
+      </property>
+
+      <property>
+        <name>Wake on LAN</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Disabled</default>
+        <items>
+          <item>Disabled</item>
+          <item>Enabled</item>
+        </items>
+      </property>
+
+      <property>
+        <name>XBMC MAC Address</name>
+        <type>STRING</type>
+        <readonly>false</readonly>
+        <default></default>
+      </property>
+
+      <property>
+        <name>Room Off Command</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Does Nothing</default>
+        <items>
+          <item>Do Nothing</item>
+          <item>Quit XBMC</item>
+          <item>Shutdown System</item>
+          <item>Suspend System</item>
+          <item>Hibernate System</item>
+          <item>Reboot System</item>
+        </items>
+      </property>
+    </properties>
+    
+    <script>
+      <![CDATA[
+      
+gPollTimer = 0
+idConnectToNetworkTimer = 0
+tPendingCommands = {}
+tEmitCommands = {}
+idBusyTimer = 0
+g_debugprint = true
+g_debuglog = true
+g_PowerState = {}
+g_URLPacket = ""
+jsonID = 0
+jsonPort = 9090
+mNetConnected = tostring(Properties['Connected To Network'])
+intraCommandDelayValue = Properties['Command Delay-Milliseconds']
+intraVolRampDelayValue = Properties['Volume Ramp Delay-Milliseconds']
+CurrentInputMode = "NAVIGATION"
+CurrentPlayerID = 0
+C4:CreateNetworkConnection (6003, "255.255.255.255", 9)
+
+
+XBMC_ACTIONS = {
+	["Ping"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "JSONRPC.Ping"
+		}
+		emit(t)
+	end,
+
+	["Home"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Home"
+		}
+		emit(t)
+	end,
+  
+	["Back"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Back"
+		}
+		emit(t)
+	end,
+  
+	["Up"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Up"
+		}
+		emit(t)
+	end,
+  
+	["Down"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Down"
+		}
+		emit(t)
+	end,
+  
+	["Left"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Left"
+		}
+		emit(t)
+	end,
+  
+	["Right"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Right"
+		}
+		emit(t)
+	end,
+  
+	["Select"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Select"
+		}
+		emit(t)
+	end,
+  
+	["Context Menu"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.ContextMenu"
+		}
+		emit(t)
+	end,
+  
+	["Info"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.Info"
+		}
+		emit(t)
+	end,
+  
+	["Page Up"] = function() 
+	local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.ExecuteAction",
+			["params"] =
+			{
+				["action"] = "pageup"
+			}
+		}
+		emit(t)
+	end,  
+
+	["Page Down"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.ExecuteAction",
+			["params"] =
+			{
+				["action"] = "pagedown"
+			}
+		}
+		emit(t)
+	end,
+
+	["Show OSD"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Input.ShowOSD"
+		}
+		emit(t)
+	end,
+  
+	["Clean Audio Library"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "AudioLibrary.Clean"
+		}
+		emit(t)
+	end,
+  
+	["Scan Audio Library"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "AudioLibrary.Scan"
+		}
+		emit(t)
+	end,
+  
+	["Clean Video Library"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "VideoLibrary.Clean"
+		}
+		emit(t)
+	end,
+  
+	["Scan Video Library"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "VideoLibrary.Scan"
+		}
+		emit(t)
+	end,
+  
+	["Eject Optical Drive"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "System.EjectOpticalDrive"
+		}
+		emit(t)
+	end,
+  
+	["Quit XBMC"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "Application.Quit"
+		}
+		emit(t)
+	end,
+  
+	["Suspend System"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "System.Suspend"
+		}
+		emit(t)
+	end,
+  
+	["Hibernate System"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "System.Hibernate"
+		}
+		emit(t)
+	end,
+  
+	["Reboot System"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "System.Reboot"
+		}
+		emit(t)
+	end,
+  
+	["Shutdown System"] = function() 
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["method"] = "System.Shutdown"
+		}
+		emit(t)
+	end,
+
+	["Next Subtitle"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.SetSubtitle",
+			["params"] = 
+			{
+				["subtitle"] = "next",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Big Step Forward"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Seek",
+			["params"] = 
+			{
+				["value"] = "bigforward",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Big Step Backward"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Seek",
+			["params"] = 
+			{
+				["value"] = "bigbackward",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Small Step Forward"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Seek",
+			["params"] = 
+			{
+				["value"] = "smallforward",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Small Step Backward"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Seek",
+			["params"] = 
+			{
+				["value"] = "smallbackward",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Play Pause"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.PlayPause",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Stop"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Stop",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Skip Next"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.GoTo",
+			["params"] = 
+			{
+				["to"] = "next",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Skip Previous"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.GoTo",
+			["params"] = 
+			{
+				["to"] = "previous",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Fast Forward"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.SetSpeed",
+			["params"] = 
+			{
+				["speed"] = "increment",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Rewind"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.SetSpeed",
+			["params"] = 
+			{
+				["speed"] = "decrement",
+				["playerid"] = CurrentPlayerID
+			}
+		}
+		emit(t)
+	end,
+
+	["Fullscreen"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "GUI.SetFullscreen",
+			["params"] = 
+			{
+				["fullscreen"] = "toggle",
+			}
+		}
+		emit(t)
+	end,
+
+	["Move Zoom Up"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Move",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["direction"] = "up"
+			}
+		}
+		emit(t)
+	end,
+
+	["Move Zoom Down"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Move",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["direction"] = "down"
+			}
+		}
+		emit(t)
+	end,
+
+	["Move Zoom Left"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Move",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["direction"] = "left"
+			}
+		}
+		emit(t)
+	end,
+
+	["Move Zoom Right"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Move",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["direction"] = "right"
+			}
+		}
+		emit(t)
+	end,
+
+	["Rotate Clockwise"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Rotate",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["value"] = "clockwise"
+			}
+		}
+		emit(t)
+	end,
+
+	["Rotate Counterclockwise"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Rotate",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["value"] = "counterclockwise"
+			}
+		}
+		emit(t)
+	end,	
+
+	["Zoom In"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = "in"
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoom Out"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = "out"
+			}
+		}
+		emit(t)
+	end,
+
+	["Zoomlevel 1"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 1
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 2"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 2
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 3"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 3
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 4"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 4
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 5"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 5
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 6"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 6
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 7"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 7
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 8"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 8
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 9"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 9
+			}
+		}
+		emit(t)
+	end,		
+
+	["Zoomlevel 10"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.Zoom",
+			["params"] = 
+			{
+				["playerid"] = CurrentPlayerID,
+				["zoom"] = 10
+			}
+		}
+		emit(t)
+	end,		
+}
+
+
+REMOTE_BUTTONS_PICTURE_PLAYBACK = {
+	['PROGRAM_A']	= XBMC_ACTIONS[""],
+	['PROGRAM_B']	= XBMC_ACTIONS[""],
+	['PROGRAM_C']	= XBMC_ACTIONS[""],
+	['PROGRAM_D']	= XBMC_ACTIONS[""],
+
+	['GUIDE']		= XBMC_ACTIONS["Fullscreen"],
+	['RECALL'] 		= XBMC_ACTIONS["Rotate Clockwise"],
+	['PAGE_UP']		= XBMC_ACTIONS["Zoom In"],
+	['PAGE_DOWN']	= XBMC_ACTIONS["Zoom Out"],
+
+	['UP'] 			= XBMC_ACTIONS["Move Zoom Up"],
+	['DOWN'] 		= XBMC_ACTIONS["Move Zoom Down"],
+	['LEFT'] 		= XBMC_ACTIONS["Move Zoom Left"],
+	['RIGHT'] 		= XBMC_ACTIONS["Move Zoom Right"],
+	['ENTER'] 		= XBMC_ACTIONS[""],
+
+	['INFO'] 		= XBMC_ACTIONS["Info"],
+	['MENU']		= XBMC_ACTIONS[""],
+	['CANCEL'] 		= XBMC_ACTIONS[""],
+
+	['PLAY'] 		= XBMC_ACTIONS["Play Pause"],
+	['PAUSE'] 		= XBMC_ACTIONS["Play Pause"],
+	['SKIP_FWD'] 	= XBMC_ACTIONS["Skip Next"],
+	['SKIP_REV'] 	= XBMC_ACTIONS["Skip Previous"],
+	['SCAN_FWD'] 	= XBMC_ACTIONS[""],
+	['SCAN_REV'] 	= XBMC_ACTIONS[""],
+	['STOP'] 		= XBMC_ACTIONS["Stop"],
+
+	['NUMBER_1'] 	= XBMC_ACTIONS["Zoomlevel 1"],
+	['NUMBER_2'] 	= XBMC_ACTIONS["Zoomlevel 2"],
+	['NUMBER_3'] 	= XBMC_ACTIONS["Zoomlevel 3"],
+	['NUMBER_4'] 	= XBMC_ACTIONS["Zoomlevel 4"],
+	['NUMBER_5'] 	= XBMC_ACTIONS["Zoomlevel 5"],
+	['NUMBER_6'] 	= XBMC_ACTIONS["Zoomlevel 6"],
+	['NUMBER_7'] 	= XBMC_ACTIONS["Zoomlevel 7"],
+	['NUMBER_8'] 	= XBMC_ACTIONS["Zoomlevel 8"],
+	['NUMBER_9'] 	= XBMC_ACTIONS["Zoomlevel 9"],
+	['STAR']		= XBMC_ACTIONS[""],
+	['NUMBER_0'] 	= XBMC_ACTIONS["Zoomlevel 10"],
+	['POUND']		= XBMC_ACTIONS[""]	
+}
+
+
+REMOTE_BUTTONS_AUDIO_PLAYBACK = {
+	['PROGRAM_A']	= XBMC_ACTIONS[""],
+	['PROGRAM_B']	= XBMC_ACTIONS[""],
+	['PROGRAM_C']	= XBMC_ACTIONS[""],
+	['PROGRAM_D']	= XBMC_ACTIONS[""],
+
+	['GUIDE']		= XBMC_ACTIONS["Fullscreen"],
+	['RECALL'] 		= XBMC_ACTIONS[""],
+	['PAGE_UP']		= XBMC_ACTIONS[""],
+	['PAGE_DOWN']	= XBMC_ACTIONS[""],
+
+	['UP'] 			= XBMC_ACTIONS["Up"],
+	['DOWN'] 		= XBMC_ACTIONS["Down"],
+	['LEFT'] 		= XBMC_ACTIONS["Left"],
+	['RIGHT'] 		= XBMC_ACTIONS["Right"],
+	['ENTER'] 		= XBMC_ACTIONS["Select"],
+
+	['INFO'] 		= XBMC_ACTIONS["Info"],
+	['MENU']		= XBMC_ACTIONS[""],
+	['CANCEL'] 		= XBMC_ACTIONS[""],
+
+	['PLAY'] 		= XBMC_ACTIONS["Play Pause"],
+	['PAUSE'] 		= XBMC_ACTIONS["Play Pause"],
+	['SKIP_FWD'] 	= XBMC_ACTIONS["Skip Next"],
+	['SKIP_REV'] 	= XBMC_ACTIONS["Skip Previous"],
+	['SCAN_FWD'] 	= XBMC_ACTIONS["Fast Forward"],
+	['SCAN_REV'] 	= XBMC_ACTIONS["Rewind"],
+	['STOP'] 		= XBMC_ACTIONS["Stop"],
+
+	['NUMBER_1'] 	= XBMC_ACTIONS[""],
+	['NUMBER_2'] 	= XBMC_ACTIONS[""],
+	['NUMBER_3'] 	= XBMC_ACTIONS[""],
+	['NUMBER_4'] 	= XBMC_ACTIONS[""],
+	['NUMBER_5'] 	= XBMC_ACTIONS[""],
+	['NUMBER_6'] 	= XBMC_ACTIONS[""],
+	['NUMBER_7'] 	= XBMC_ACTIONS[""],
+	['NUMBER_8'] 	= XBMC_ACTIONS[""],
+	['NUMBER_9'] 	= XBMC_ACTIONS[""],
+	['STAR']		= XBMC_ACTIONS[""],
+	['NUMBER_0'] 	= XBMC_ACTIONS[""],
+	['POUND']		= XBMC_ACTIONS[""]	
+}
+
+
+REMOTE_BUTTONS_VIDEO_PLAYBACK = {
+	['PROGRAM_A']	= XBMC_ACTIONS[""],
+	['PROGRAM_B']	= XBMC_ACTIONS[""],
+	['PROGRAM_C']	= XBMC_ACTIONS[""],
+	['PROGRAM_D']	= XBMC_ACTIONS[""],
+
+	['GUIDE']		= XBMC_ACTIONS["Fullscreen"],
+	['RECALL'] 		= XBMC_ACTIONS[""],
+	['PAGE_UP']		= XBMC_ACTIONS[""],
+	['PAGE_DOWN']	= XBMC_ACTIONS[""],
+
+	['UP'] 			= XBMC_ACTIONS["Big Step Forward"],
+	['DOWN'] 		= XBMC_ACTIONS["Big Step Backward"],
+	['LEFT'] 		= XBMC_ACTIONS["Small Step Backward"],
+	['RIGHT'] 		= XBMC_ACTIONS["Small Step Forward"],
+	['ENTER'] 		= XBMC_ACTIONS["Show OSD"],
+
+	['INFO'] 		= XBMC_ACTIONS["Info"],
+	['MENU']		= XBMC_ACTIONS[""],
+	['CANCEL'] 		= XBMC_ACTIONS[""],
+
+	['PLAY'] 		= XBMC_ACTIONS["Play Pause"],
+	['PAUSE'] 		= XBMC_ACTIONS["Play Pause"],
+	['SKIP_FWD'] 	= XBMC_ACTIONS["Skip Next"],
+	['SKIP_REV'] 	= XBMC_ACTIONS["Skip Previous"],
+	['SCAN_FWD'] 	= XBMC_ACTIONS["Fast Forward"],
+	['SCAN_REV'] 	= XBMC_ACTIONS["Rewind"],
+	['STOP'] 		= XBMC_ACTIONS["Stop"],
+
+	['NUMBER_1'] 	= XBMC_ACTIONS[""],
+	['NUMBER_2'] 	= XBMC_ACTIONS[""],
+	['NUMBER_3'] 	= XBMC_ACTIONS[""],
+	['NUMBER_4'] 	= XBMC_ACTIONS[""],
+	['NUMBER_5'] 	= XBMC_ACTIONS[""],
+	['NUMBER_6'] 	= XBMC_ACTIONS[""],
+	['NUMBER_7'] 	= XBMC_ACTIONS[""],
+	['NUMBER_8'] 	= XBMC_ACTIONS[""],
+	['NUMBER_9'] 	= XBMC_ACTIONS[""],
+	['STAR']		= XBMC_ACTIONS[""],
+	['NUMBER_0'] 	= XBMC_ACTIONS[""],
+	['POUND']		= XBMC_ACTIONS[""]
+}
+
+REMOTE_BUTTONS_NAVIGATION = {
+	['GUIDE']		= XBMC_ACTIONS[""],
+	['RECALL'] 		= XBMC_ACTIONS["Back"],
+	['PAGE_UP']		= XBMC_ACTIONS["Page Up"],
+	['PAGE_DOWN']	= XBMC_ACTIONS["Page Down"],
+
+	['UP'] 			= XBMC_ACTIONS["Up"],
+	['DOWN'] 		= XBMC_ACTIONS["Down"],
+	['LEFT'] 		= XBMC_ACTIONS["Left"],
+	['RIGHT'] 		= XBMC_ACTIONS["Right"],
+	['ENTER'] 		= XBMC_ACTIONS["Select"],
+
+	['INFO'] 		= XBMC_ACTIONS["Info"],
+	['MENU']		= XBMC_ACTIONS["Context Menu"],
+	['CANCEL'] 		= XBMC_ACTIONS["Back"],
+
+	['NUMBER_1'] 	= XBMC_ACTIONS["1"],
+	['NUMBER_2'] 	= XBMC_ACTIONS["2"],
+	['NUMBER_3'] 	= XBMC_ACTIONS["3"],
+	['NUMBER_4'] 	= XBMC_ACTIONS["4"],
+	['NUMBER_5'] 	= XBMC_ACTIONS["5"],
+	['NUMBER_6'] 	= XBMC_ACTIONS["6"],
+	['NUMBER_7'] 	= XBMC_ACTIONS["7"],
+	['NUMBER_8'] 	= XBMC_ACTIONS["8"],
+	['NUMBER_9'] 	= XBMC_ACTIONS["9"],
+	['STAR']		= XBMC_ACTIONS[""],
+	['NUMBER_0'] 	= XBMC_ACTIONS[""],
+	['POUND']		= XBMC_ACTIONS[""],
+
+	['OPEN_CLOSE']	= XBMC_ACTIONS["Eject Optical Drive"]
+}
+
+
+function nextJsonID()
+	if jsonID >= 1024 then
+		jsonID = 0
+	end
+
+	jsonID = jsonID + 1
+	return jsonID
+end
+
+
+function emit(t)
+	command = Encode (t)
+	bUsePowerOnDelay = false
+	dbg('Emit: ' .. command)
+
+	table.insert(tEmitCommands, {command, bUsePowerOnDelay})
+
+	if idEmitCommandsTimer == nil then
+		 idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', true)
+	end
+end
+
+
+function OnTimerExpired(idTimer)
+	dbg("On Timer Expired")
+	
+	if (idTimer == idEmitCommandsTimer) then
+		if idBusyTimer ~= 0 then return end
+
+		if tEmitCommands[1] ~= nil then
+			dbg('SendToNetwork:' .. tEmitCommands[1][1])
+			C4:SendToNetwork(6001, tonumber(jsonPort), tEmitCommands[1][1])
+			
+			if (tEmitCommands[1][2] == true) then
+				idBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false)
+			end
+			
+			table.remove(tEmitCommands, 1)
+
+		elseif tEmitCommands[1] == nil then
+			C4:KillTimer(idEmitCommandsTimer)
+			idEmitCommandsTimer = nil
+		end
+
+		return
+	end
+
+
+	if (idTimer == idBusyTimer) then
+		idBusyTimer = C4:KillTimer(idBusyTimer)
+	end
+
+
+	if (idTimer == gPollTimer) then
+
+		dbg("XBMC: polltimer test") 
+		-- Send a status query on the main port...
+		-- If we haven't gotten a response, increment the 'not checked in'...
+		-- if it hits 3, disconnect all ports...
+		gLastCheckin = gLastCheckin or 0
+		gLastCheckin = gLastCheckin + 1
+
+		if (gLastCheckin > 2) then
+			if (mNetConnected == true) then
+				C4:NetDisconnect(6001, jsonPort)
+				dbg("Failed to receive poll responses from XBMC... Disconnecting...")
+			end
+		end
+
+		-- Send Poll Packet if we're ONLINE...
+		if (mNetConnected == true) then
+ 			--dbg("XBMC: Sending ping request") 
+			XBMC_ACTIONS['Ping']()
+		end
+
+		return
+	end
+
+
+	if (idTimer == gReconnectTimer) then
+		dbg("Attempting to reconnect to XBMC...")
+
+		local bTrying = false
+		gReconnectTimer = C4:KillTimer(gReconnectTimer)
+
+		if (gNetworkStatus == "OFFLINE") then
+			-- Try to reconnect to the XBMC Control port...
+			C4:NetDisconnect(6001, jsonPort)
+			C4:NetConnect(6001, jsonPort)
+			bTrying = true
+		end
+
+		if (bTrying) then
+			gReconnectTimer = C4:AddTimer(10, "SECONDS")
+		end
+	end
+
+
+	if idTimer == ChannelRampTimerID then
+		emit(ChannelCommands, "json")
+		return
+	end
+
+
+	if (idTimer == g_DebugTimer) then
+		dbg('Turning Debug Mode back to Off [default] (timer expired)')
+		C4:UpdateProperty('Debug Mode', 'Off')
+		g_debugprint = false
+		g_debuglog = false
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+		return
+	end
+end
+
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+	dbg("Received From Network")
+	dbg('XBMC: Received something from network on binding ' .. idBinding )
+	dbg(strData)
+	local t = Decode(strData)
+
+
+-- 	if (t.method == "AudioLibrary.OnRemove") then
+-- 		return
+--
+-- 	elseif (t.method == "AudioLibrary.OnUpdate") then
+--		return
+--
+--	elseif (t.method == "Player.OnPause") then
+--		return
+
+ 	if (t.method == "Player.OnPlay") then
+ 		CurrentPlayerID = t.params['data']['player']['playerid']
+ 		local playerType = t.params['data']['item']['type']
+
+ 		if (playerType == "movie") then 
+ 			CurrentInputMode = "VIDEO_PLAYER"
+ 		
+ 		elseif (playerType == "episode") then 
+ 			CurrentInputMode = "VIDEO_PLAYER"
+ 		
+ 		elseif (playerType == "musicvideo") then 
+ 			CurrentInputMode = "VIDEO_PLAYER"
+ 		
+ 		elseif (playerType == "song") then 
+ 			CurrentInputMode = "AUDIO_PLAYER"
+ 		
+ 		elseif (playerType == "picture") then 
+ 			CurrentInputMode = "PICTURE_PLAYER"
+ 		end
+
+ 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+		dbg("Current Input Mode is now " .. CurrentInputMode)
+
+--	elseif (t.method == "Player.OnSeek") then
+--		return
+--
+--	elseif (t.method == "Player.OnSpeedChanged") then
+--		return
+
+	elseif (t.method == "Player.OnStop") then
+		CurrentPlayerID = 0
+		CurrentInputMode = "NAVIGATION"
+ 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+		dbg("Current Input Mode is now NAVIGATION")
+		return
+
+--	elseif (t.method == "System.OnLowBattery") then
+--		return
+--
+--	elseif (t.method == "System.OnQuit") then
+--		return
+--
+--	elseif (t.method == "System.OnRestart") then
+--		return
+--
+--	elseif (t.method == "System.OnSleep") then
+--		return
+--
+--	elseif (t.method == "System.OnWake") then
+--		return
+--
+--	elseif (t.method == "VideoLibrary.OnRemove") then
+--		return
+--
+--	elseif (t.method == "VideoLibrary.OnUpdate") then
+--		return
+--	end
+
+ 	if (t.result == "pong") then
+ 		dbg("Resetting checkin counter")
+ 		gLastCheckin = 0
+ 		return
+ 	end
+end
+
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	dbg("XBMC: OnConnectionStatusChanged[" .. idBinding .. " (" .. nPort .. ")]: " .. strStatus)
+
+	if (idBinding == 6001) then
+		gNetworkStatus=strStatus
+
+		if (strStatus == "ONLINE") then
+			mNetConnected = true
+			gLastCheckin=0
+			C4:UpdateProperty('Connected To Network','true')
+			dbg("Connected to XBMC...")
+
+			if (gPollTimer ~= 0) then C4:KillTimer(gPollTimer) end
+
+			gPollTimer = C4:AddTimer(30, "SECONDS", true) -- 30 second repeating timer...
+		
+		else
+			dbg("XBMC: not connected.")
+			mNetConnected = false
+			C4:UpdateProperty('Connected To Network','false')
+
+			-- Try a re-connect of the device ...
+			if (gReconnectTimer == nil) or (gReconnectTimer == 0) then
+				gReconnectTimer = C4:AddTimer(10, "SECONDS")
+				C4:NetDisconnect(6001, tonumber(jsonPort))
+				C4:NetConnect(6001, tonumber(jsonPort))
+			end
+		end
+	end
+end
+
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
+
+	if (strCommand == "ON") then
+		dbg('Got ON Command: ' .. "")
+
+		if (Properties["Wake on LAN"] == "Enabled") then
+		
+			-- wake on lan support comes from a WOL driver written by
+			-- a guy named Will from homemation.
+			dbg("Sending Wake on LAN magic packet")
+			local MAC = Properties["XBMC MAC Address"]
+			C4:NetConnect(6003, 9, "UDP")
+			MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
+			MAC = tohex(MAC) -- Convert to HEX 
+			packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
+			hexdump (packet)
+			C4:SendToNetwork (6003, 9, packet)
+			C4:SendToNetwork (6003, 9, packet)
+			C4:NetDisconnect(6003, 9)
+		end
+		-- TODO: Turn off screensaver
+		-- TODO: Find current input mode
+		-- TODO: Get current player ID
+		
+	elseif (strCommand == "OFF") then
+		XBMC_ACTIONS[Properties['Room Off Command']]()
+
+	elseif (CurrentInputMode == "NAVIGATION") then
+		REMOTE_BUTTONS_NAVIGATION[strCommand]()
+		
+	elseif (CurrentInputMode == "VIDEO_PLAYER") then
+		REMOTE_BUTTONS_VIDEO_PLAYBACK[strCommand]()
+	
+	elseif (CurrentInputMode == "AUDIO_PLAYER") then
+		REMOTE_BUTTONS_AUDIO_PLAYBACK[strCommand]()
+
+	elseif (CurrentInputMode == "PICTURE_PLAYER") then
+		REMOTE_BUTTONS_PICTURE_PLAYBACK[strCommand]()
+	end
+end
+
+
+
+function ExecuteCommand(Command, Parameters)
+	dbg('XBMC: ExecuteCommand: ' .. Command)
+end
+
+
+function OnDriverDestroyed()
+	if (idEmitCommandsTimer) then
+		idEmitCommandsTimer = C4:KillTimer(idEmitCommandsTimer)
+		idEmitCommandsTimer = nil
+	end
+
+	if (g_DebugTimer) then g_DebugTimer = C4:KillTimer(g_DebugTimer) end
+	if (gReconnectTimer ~= nil) then gReconnectTimer = C4:KillTimer(gReconnectTimer) end
+	if (gPollTimer ~= nil) then gPollTimer = C4:KillTimer(gPollTimer) end
+end
+
+
+function dbg(strDebugText)
+	if (g_debugprint) then print(strDebugText) end
+	if (g_debuglog) then C4:ErrorLog(strDebugText) end
+end
+
+
+function startDebugTimer()
+	if (g_DebugTimer) then
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+	end
+	g_DebugTimer = C4:AddTimer(15, 'MINUTES')
+end
+
+
+function OnPropertyChanged(strProperty)
+	dbg("Property Changed")
+	if (strProperty == 'Debug Mode') then
+		if (Properties[strProperty] == 'Off') then
+			g_debugprint = false
+			g_debuglog = false
+			g_DebugTimer = C4:KillTimer(g_DebugTimer)
+			g_DebugTimer = 0
+		end
+		if (Properties[strProperty] == 'Print') then
+			g_debugprint = true
+			g_debuglog = false
+			startDebugTimer()
+		end
+		if (Properties[strProperty] == 'Log') then
+			g_debugprint = false
+			g_debuglog = true
+			startDebugTimer()
+		end
+		if (Properties[strProperty] == 'Print and Log') then
+			g_debugprint = true
+			g_debuglog = true
+			startDebugTimer()
+		end
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[[
+
+ JSON Encoder and Parser for Lua 5.1
+
+ Copyright ? 2007 Shaun Brown (http://www.chipmunkav.com).
+ All Rights Reserved.
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or
+ sell copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ If you find this software useful please give www.chipmunkav.com a mention.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ Usage:
+
+ -- Lua script:
+ local t = {
+	["name1"] = "value1",
+	["name2"] = {1, false, true, 23.54, "a \021 string"},
+	name3 = Json.Null()
+ }
+
+ local json = Json.Encode (t)
+ print (json)
+ --> {"name1":"value1","name3":null,"name2":[1,false,true,23.54,"a \u0015 string"]}
+
+ local t = Json.Decode(json)
+ print(t.name2[4])
+ --> 23.54
+
+ Notes:
+ 1) Encodable Lua types: string, number, boolean, table, nil
+ 2) Use Json.Null() to insert a null value into a Json object
+ 3) All control chars are encoded to \uXXXX format eg "\021" encodes to "\u0015"
+ 4) All Json \uXXXX chars are decoded to chars (0-255 byte range only)
+ 5) Json single line // and /* */ block comments are discarded during decoding
+ 6) Numerically indexed Lua arrays are encoded to Json Lists eg [1,2,3]
+ 7) Lua dictionary tables are converted to Json objects eg {"one":1,"two":2}
+ 8) Json nulls are decoded to Lua nil and treated by Lua in the normal way
+
+--]]
+local string = string
+local math = math
+local table = table
+local error = error
+local tonumber = tonumber
+local tostring = tostring
+local type = type
+local setmetatable = setmetatable
+local pairs = pairs
+local ipairs = ipairs
+local assert = assert
+local Chipmunk = Chipmunk
+
+--module("Json")
+
+local StringBuilder = {
+	buffer = {}
+}
+
+function StringBuilder:New()
+	local o = {}
+	setmetatable(o, self)
+	self.__index = self
+	o.buffer = {}
+	return o
+end
+
+function StringBuilder:Append(s)
+	self.buffer[#self.buffer+1] = s
+end
+
+function StringBuilder:ToString()
+	return table.concat(self.buffer)
+end
+
+local JsonWriter = {
+	backslashes = {
+		['\b'] = "\\b",
+		['\t'] = "\\t",
+		['\n'] = "\\n",
+		['\f'] = "\\f",
+		['\r'] = "\\r",
+		['"']  = "\\\"",
+		['\\'] = "\\\\",
+		['/']  = "\\/"
+	}
+}
+
+function JsonWriter:New()
+	local o = {}
+	o.writer = StringBuilder:New()
+	setmetatable(o, self)
+	self.__index = self
+	return o
+end
+
+function JsonWriter:Append(s)
+	self.writer:Append(s)
+end
+
+function JsonWriter:ToString()
+	return self.writer:ToString()
+end
+
+function JsonWriter:Write(o)
+	local t = type(o)
+	if t == "nil" then
+		self:WriteNil()
+	elseif t == "boolean" then
+		self:WriteString(o)
+	elseif t == "number" then
+		self:WriteString(o)
+	elseif t == "string" then
+		self:ParseString(o)
+	elseif t == "table" then
+		self:WriteTable(o)
+	elseif t == "function" then
+		self:WriteFunction(o)
+	elseif t == "thread" then
+		self:WriteError(o)
+	elseif t == "userdata" then
+		self:WriteError(o)
+	end
+end
+
+function JsonWriter:WriteNil()
+	self:Append("null")
+end
+
+function JsonWriter:WriteString(o)
+	self:Append(tostring(o))
+end
+
+function JsonWriter:ParseString(s)
+	self:Append('"')
+	self:Append(string.gsub(s, "[%z%c\\\"/]", function(n)
+		local c = self.backslashes[n]
+		if c then return c end
+		return string.format("\\u%.4X", string.byte(n))
+	end))
+	self:Append('"')
+end
+
+function JsonWriter:IsArray(t)
+	local count = 0
+	local isindex = function(k)
+		if type(k) == "number" and k > 0 then
+			if math.floor(k) == k then
+				return true
+			end
+		end
+		return false
+	end
+	for k,v in pairs(t) do
+		if not isindex(k) then
+			return false, '{', '}'
+		else
+			count = math.max(count, k)
+		end
+	end
+	return true, '[', ']', count
+end
+
+function JsonWriter:WriteTable(t)
+	local ba, st, et, n = self:IsArray(t)
+	self:Append(st)
+	if ba then
+		for i = 1, n do
+			self:Write(t[i])
+			if i < n then
+				self:Append(',')
+			end
+		end
+	else
+		local first = true;
+		for k, v in pairs(t) do
+			if not first then
+				self:Append(',')
+			end
+			first = false;
+			self:ParseString(k)
+			self:Append(':')
+			self:Write(v)
+		end
+	end
+	self:Append(et)
+end
+
+function JsonWriter:WriteError(o)
+	error(string.format(
+		"Encoding of %s unsupported",
+		tostring(o)))
+end
+
+function JsonWriter:WriteFunction(o)
+	if o == Null then
+		self:WriteNil()
+	else
+		self:WriteError(o)
+	end
+end
+
+local StringReader = {
+	s = "",
+	i = 0
+}
+
+function StringReader:New(s)
+	local o = {}
+	setmetatable(o, self)
+	self.__index = self
+	o.s = s or o.s
+	return o
+end
+
+function StringReader:Peek()
+	local i = self.i + 1
+	if i <= #self.s then
+		return string.sub(self.s, i, i)
+	end
+	return nil
+end
+
+function StringReader:Next()
+	self.i = self.i+1
+	if self.i <= #self.s then
+		return string.sub(self.s, self.i, self.i)
+	end
+	return nil
+end
+
+function StringReader:All()
+	return self.s
+end
+
+local JsonReader = {
+	escapes = {
+		['t'] = '\t',
+		['n'] = '\n',
+		['f'] = '\f',
+		['r'] = '\r',
+		['b'] = '\b',
+	}
+}
+
+function JsonReader:New(s)
+	local o = {}
+	o.reader = StringReader:New(s)
+	setmetatable(o, self)
+	self.__index = self
+	return o;
+end
+
+function JsonReader:Read()
+	self:SkipWhiteSpace()
+	local peek = self:Peek()
+	if peek == nil then
+		error(string.format(
+			"Nil string: '%s'",
+			self:All()))
+	elseif peek == '{' then
+		return self:ReadObject()
+	elseif peek == '[' then
+		return self:ReadArray()
+	elseif peek == '"' then
+		return self:ReadString()
+	elseif string.find(peek, "[%+%-%d]") then
+		return self:ReadNumber()
+	elseif peek == 't' then
+		return self:ReadTrue()
+	elseif peek == 'f' then
+		return self:ReadFalse()
+	elseif peek == 'n' then
+		return self:ReadNull()
+	elseif peek == '/' then
+		self:ReadComment()
+		return self:Read()
+	else
+		error(string.format(
+			"Invalid input: '%s'",
+			self:All()))
+	end
+end
+
+function JsonReader:ReadTrue()
+	self:TestReservedWord{'t','r','u','e'}
+	return true
+end
+
+function JsonReader:ReadFalse()
+	self:TestReservedWord{'f','a','l','s','e'}
+	return false
+end
+
+function JsonReader:ReadNull()
+	self:TestReservedWord{'n','u','l','l'}
+	return nil
+end
+
+function JsonReader:TestReservedWord(t)
+	for i, v in ipairs(t) do
+		if self:Next() ~= v then
+			 error(string.format(
+				"Error reading '%s': %s",
+				table.concat(t),
+				self:All()))
+		end
+	end
+end
+
+function JsonReader:ReadNumber()
+        local result = self:Next()
+        local peek = self:Peek()
+        while peek ~= nil and string.find(
+		peek,
+		"[%+%-%d%.eE]") do
+            result = result .. self:Next()
+            peek = self:Peek()
+	end
+	result = tonumber(result)
+	if result == nil then
+	        error(string.format(
+			"Invalid number: '%s'",
+			result))
+	else
+		return result
+	end
+end
+
+function JsonReader:ReadString()
+	local result = ""
+	assert(self:Next() == '"')
+        while self:Peek() ~= '"' do
+		local ch = self:Next()
+		if ch == '\\' then
+			ch = self:Next()
+			if self.escapes[ch] then
+				ch = self.escapes[ch]
+			end
+		end
+                result = result .. ch
+	end
+        assert(self:Next() == '"')
+	local fromunicode = function(m)
+		return string.char(tonumber(m, 16))
+	end
+	return string.gsub(
+		result,
+		"u%x%x(%x%x)",
+		fromunicode)
+end
+
+function JsonReader:ReadComment()
+        assert(self:Next() == '/')
+        local second = self:Next()
+        if second == '/' then
+            self:ReadSingleLineComment()
+        elseif second == '*' then
+            self:ReadBlockComment()
+        else
+            error(string.format(
+		"Invalid comment: %s",
+		self:All()))
+	end
+end
+
+function JsonReader:ReadBlockComment()
+	local done = false
+	while not done do
+		local ch = self:Next()
+		if ch == '*' and self:Peek() == '/' then
+			done = true
+                end
+		if not done and
+			ch == '/' and
+			self:Peek() == "*" then
+                    error(string.format(
+			"Invalid comment: %s, '/*' illegal.",
+			self:All()))
+		end
+	end
+	self:Next()
+end
+
+function JsonReader:ReadSingleLineComment()
+	local ch = self:Next()
+	while ch ~= '\r' and ch ~= '\n' do
+		ch = self:Next()
+	end
+end
+
+function JsonReader:ReadArray()
+	local result = {}
+	assert(self:Next() == '[')
+	local done = false
+	if self:Peek() == ']' then
+		done = true;
+	end
+	while not done do
+		local item = self:Read()
+		result[#result+1] = item
+		self:SkipWhiteSpace()
+		if self:Peek() == ']' then
+			done = true
+		end
+		if not done then
+			local ch = self:Next()
+			if ch ~= ',' then
+				error(string.format(
+					"Invalid array: '%s' due to: '%s'",
+					self:All(), ch))
+			end
+		end
+	end
+	assert(']' == self:Next())
+	return result
+end
+
+function JsonReader:ReadObject()
+	local result = {}
+	assert(self:Next() == '{')
+	local done = false
+	if self:Peek() == '}' then
+		done = true
+	end
+	while not done do
+		local key = self:Read()
+		if type(key) ~= "string" then
+			error(string.format(
+				"Invalid non-string object key: %s",
+				key))
+		end
+		self:SkipWhiteSpace()
+		local ch = self:Next()
+		if ch ~= ':' then
+			error(string.format(
+				"Invalid object: '%s' due to: '%s'",
+				self:All(),
+				ch))
+		end
+		self:SkipWhiteSpace()
+		local val = self:Read()
+		result[key] = val
+		self:SkipWhiteSpace()
+		if self:Peek() == '}' then
+			done = true
+		end
+		if not done then
+			ch = self:Next()
+                	if ch ~= ',' then
+				error(string.format(
+					"Invalid array: '%s' near: '%s'",
+					self:All(),
+					ch))
+			end
+		end
+	end
+	assert(self:Next() == "}")
+	return result
+end
+
+function JsonReader:SkipWhiteSpace()
+	local p = self:Peek()
+	while p ~= nil and string.find(p, "[%s/]") do
+		if p == '/' then
+			self:ReadComment()
+		else
+			self:Next()
+		end
+		p = self:Peek()
+	end
+end
+
+function JsonReader:Peek()
+	return self.reader:Peek()
+end
+
+function JsonReader:Next()
+	return self.reader:Next()
+end
+
+function JsonReader:All()
+	return self.reader:All()
+end
+
+function Encode(o)
+	local writer = JsonWriter:New()
+	writer:Write(o)
+	return writer:ToString()
+end
+
+function Decode(s)
+	local reader = JsonReader:New(s)
+	return reader:Read()
+end
+
+function Null()
+	return Null
+end
+
+]]></script>
+
+  </config>
+</devicedata>
