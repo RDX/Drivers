@@ -6,8 +6,8 @@
   <name>XBMC</name>
   <model>XBMC HTPC</model>
   <created>01/28/2012 12:00 AM</created>
-  <modified>12/05/2012 12:00 AM</modified>
-  <version>3</version>
+  <modified>05/30/2013 12:00 AM</modified>
+  <version>2</version>
   <small>devices_sm\receiver.gif</small>
   <large>devices_lg\receiver.gif</large>
   <top>
@@ -26,12 +26,6 @@
   <controlmethod>ip</controlmethod>
   <driver>DriverWorks</driver>
   <search_type>c4:av_gen</search_type>
-
-  <capabilities>
-
-  </capabilities>
-
-
   <proxies qty="1">
     <proxy proxybindingid="5001">media_player</proxy>
   </proxies>
@@ -157,51 +151,51 @@
 Make sure the "Allow programs on other systems to control XBMC" setting in the network settings of XBMC is enabled
 
 Keymap
-----------------------------------------------------------------------------------------
-| Button    | Navigation   | Video Playback      | Audio Playback    | Picture Viewer  |
-----------------------------------------------------------------------------------------
-| Red       |              |                     |                   |                 |
-| Green     |              |                     |                   |                 |
-| Yellow    |              |                     |                   |                 |
-| Blue      |              |                     |                   |                 |
-|-----------|--------------------------------------------------------|-----------------|
-| GUIDE     |              |                     | Toggle Visualizer |                 |
-| RECALL    | Go Back      |                     |                   |                 |
-| PAGE UP   | Page Up      |                     |                   | Zoom In         |
-| PAGE DOWN | Page Down    |                     |                   | Zoom Out        |
-|-----------|--------------|---------------------|-------------------|-----------------|
-| UP        | Move Up      | Big Step Forward    | Move Up           | Move Zoom Up    |
-| DOWN      | Move Down    | Big Step Backward   | Move Down         | Move Zoom Down  |
-| LEFT      | Move Left    | Small Step Backward | Move Left         | Move Zoom Left  |
-| RIGHT     | Move Right   | Small Step Forward  | Move Right        | Move Zoom Right |
-| ENTER	    | Select       | Show OSD            | Select            |                 |
-|-----------|--------------|---------------------|-------------------|-----------------|
-| INFO      | Show Info    | Show Info           | Show Info         |                 |
-| MENU      | Context Menu |                     |                   |                 |
-| CANCEL    | Go Back      |                     |                   |                 |
-|-----------|--------------|---------------------|-------------------|-----------------|
-| PLAY      |              | Play/Pause          | Play/Pause        | Play/Pause      |
-| PAUSE     |              | Play/Pause          | Play/Pause        | Play/Pause      |
-| STOP      |              | Stop                | Stop              | Stop            |
-|-----------|--------------|---------------------|-------------------|-----------------|
-| SKIP FWD  |              | Skip Next           | Skip Next         | Skip Next       |
-| SKIP REV  |              | Skip Previous       | Skip Previous     | Skip Previous   |
-| SCAN FWD  |              | Fast Forward        | Fast Forward      |                 |
-| SCAN REV  |              | Rewind              | Rewind            |                 |
-|-----------|--------------|---------------------|-------------------|-----------------|
-| NUMBER 1  | 1            |                     |                   | Zoomlevel 1     |
-| NUMBER 2  | 2 / ABC      |                     |                   | Zoomlevel 2     |
-| NUMBER 3  | 3 / DEF      |                     |                   | Zoomlevel 3     |
-| NUMBER 4  | 4 / GHI      |                     |                   | Zoomlevel 4     |
-| NUMBER 5  | 5 / JKL      |                     |                   | Zoomlevel 5     |
-| NUMBER 6  | 6 / MNO      |                     |                   | Zoomlevel 6     |
-| NUMBER 7  | 7 / PQRS     |                     |                   | Zoomlevel 7     |
-| NUMBER 8  | 8 / TUV      |                     |                   | Zoomlevel 8     |
-| NUMBER 9  | 9 / WXYZ     |                     |                   | Zoomlevel 9     |
-| STAR      |              |                     |                   |                 |
-| NUMBER 0  |              |                     |                   | Zoomlevel 10    |
-| POUND     |              |                     |                   |                 |
-----------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+|.Button....|.Navigation...|.Video.Playback......|.Audio.Playback....|.Picture.Viewer.|
+---------------------------------------------------------------------------------------
+|.Red.......|..............|.....................|...................|................|
+|.Green.....|..............|.....................|...................|................|
+|.Yellow....|..............|.....................|...................|................|
+|.Blue......|..............|.....................|...................|................|
+|-----------|--------------------------------------------------------|----------------|
+|.GUIDE.....|..............|.....................|.Toggle.Visualizer.|................|
+|.RECALL....|.Go.Back......|.....................|...................|................|
+|.PAGE.UP...|.Page.Up......|.....................|...................|................|
+|.PAGE.DOWN.|.Page.Down....|.....................|...................|................|
+|-----------|--------------|---------------------|-------------------|----------------|
+|.UP........|.Move.Up......|.Big.Step.Forward....|.Move.Up...........|................|
+|.DOWN......|.Move.Down....|.Big.Step.Backward...|.Move.Down.........|................|
+|.LEFT......|.Move.Left....|.Small.Step.Backward.|.Move.Left.........|................|
+|.RIGHT.....|.Move.Right...|.Small.Step.Forward..|.Move.Right........|................|
+|.ENTER	....|.Select.......|.Show.OSD............|.Select............|................|
+|-----------|--------------|---------------------|-------------------|----------------|
+|.INFO......|.Show.Info....|.Show.Info...........|.Show.Info.........|................|
+|.MENU......|.Context.Menu.|.....................|...................|................|
+|.CANCEL....|.Go.Back......|.....................|...................|................|
+|-----------|--------------|---------------------|-------------------|----------------|
+|.PLAY......|..............|.Play/Pause..........|.Play/Pause........|................|
+|.PAUSE.....|..............|.Play/Pause..........|.Play/Pause........|................|
+|.STOP......|..............|.Stop................|.Stop..............|................|
+|-----------|--------------|---------------------|-------------------|----------------|
+|.SKIP.FWD..|..............|.Skip.Next...........|.Skip.Next.........|................|
+|.SKIP.REV..|..............|.Skip.Previous.......|.Skip.Previous.....|................|
+|.SCAN.FWD..|..............|.Fast.Forward........|.Fast.Forward......|................|
+|.SCAN.REV..|..............|.Rewind..............|.Rewind............|................|
+|-----------|--------------|---------------------|-------------------|----------------|
+|.NUMBER.1..|.1............|.....................|...................|................|
+|.NUMBER.2..|.2./.ABC......|.....................|...................|................|
+|.NUMBER.3..|.3./.DEF......|.....................|...................|................|
+|.NUMBER.4..|.4./.GHI......|.....................|...................|................|
+|.NUMBER.5..|.5./.JKL......|.....................|...................|................|
+|.NUMBER.6..|.6./.MNO......|.....................|...................|................|
+|.NUMBER.7..|.7./.PQRS.....|.....................|...................|................|
+|.NUMBER.8..|.8./.TUV......|.....................|...................|................|
+|.NUMBER.9..|.9./.WXYZ.....|.....................|...................|................|
+|.STAR......|..............|.....................|...................|................|
+|.NUMBER.0..|.0............|.....................|...................|................|
+|.POUND.....|..............|.....................|...................|................|
+---------------------------------------------------------------------------------------
 
 		</documentation>
     
@@ -323,6 +317,16 @@ XBMC_ACTIONS = {
 			["jsonrpc"] = "2.0",
 			["id"] = nextJsonID(),
 			["method"] = "JSONRPC.Ping"
+		}
+		emit(t)
+	end,
+
+	["Get Active Players"] = function()
+		local t =
+		{
+			["jsonrpc"] = "2.0",
+			["id"] = nextJsonID(),
+			["method"] = "Player.GetActivePlayers" 
 		}
 		emit(t)
 	end,
@@ -708,321 +712,7 @@ XBMC_ACTIONS = {
 			}
 		}
 		emit(t)
-	end,
-
-	["Move Zoom Up"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Move",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["direction"] = "up"
-			}
-		}
-		emit(t)
-	end,
-
-	["Move Zoom Down"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Move",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["direction"] = "down"
-			}
-		}
-		emit(t)
-	end,
-
-	["Move Zoom Left"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Move",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["direction"] = "left"
-			}
-		}
-		emit(t)
-	end,
-
-	["Move Zoom Right"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Move",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["direction"] = "right"
-			}
-		}
-		emit(t)
-	end,
-
-	["Rotate Clockwise"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Rotate",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["value"] = "clockwise"
-			}
-		}
-		emit(t)
-	end,
-
-	["Rotate Counterclockwise"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Rotate",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["value"] = "counterclockwise"
-			}
-		}
-		emit(t)
-	end,	
-
-	["Zoom In"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = "in"
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoom Out"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = "out"
-			}
-		}
-		emit(t)
-	end,
-
-	["Zoomlevel 1"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 1
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 2"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 2
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 3"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 3
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 4"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 4
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 5"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 5
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 6"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 6
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 7"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 7
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 8"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 8
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 9"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 9
-			}
-		}
-		emit(t)
-	end,		
-
-	["Zoomlevel 10"] = function()
-		local t =
-		{
-			["jsonrpc"] = "2.0",
-			["id"] = nextJsonID(),
-			["method"] = "Player.Zoom",
-			["params"] = 
-			{
-				["playerid"] = CurrentPlayerID,
-				["zoom"] = 10
-			}
-		}
-		emit(t)
-	end,		
-}
-
-
-REMOTE_BUTTONS_PICTURE_PLAYBACK = {
-	['PROGRAM_A']	= XBMC_ACTIONS[""],
-	['PROGRAM_B']	= XBMC_ACTIONS[""],
-	['PROGRAM_C']	= XBMC_ACTIONS[""],
-	['PROGRAM_D']	= XBMC_ACTIONS[""],
-
-	['GUIDE']		= XBMC_ACTIONS["Fullscreen"],
-	['RECALL'] 		= XBMC_ACTIONS["Rotate Clockwise"],
-	['PAGE_UP']		= XBMC_ACTIONS["Zoom In"],
-	['PAGE_DOWN']	= XBMC_ACTIONS["Zoom Out"],
-
-	['UP'] 			= XBMC_ACTIONS["Move Zoom Up"],
-	['DOWN'] 		= XBMC_ACTIONS["Move Zoom Down"],
-	['LEFT'] 		= XBMC_ACTIONS["Move Zoom Left"],
-	['RIGHT'] 		= XBMC_ACTIONS["Move Zoom Right"],
-	['ENTER'] 		= XBMC_ACTIONS[""],
-
-	['INFO'] 		= XBMC_ACTIONS["Info"],
-	['MENU']		= XBMC_ACTIONS[""],
-	['CANCEL'] 		= XBMC_ACTIONS[""],
-
-	['PLAY'] 		= XBMC_ACTIONS["Play Pause"],
-	['PAUSE'] 		= XBMC_ACTIONS["Play Pause"],
-	['SKIP_FWD'] 	= XBMC_ACTIONS["Skip Next"],
-	['SKIP_REV'] 	= XBMC_ACTIONS["Skip Previous"],
-	['SCAN_FWD'] 	= XBMC_ACTIONS[""],
-	['SCAN_REV'] 	= XBMC_ACTIONS[""],
-	['STOP'] 		= XBMC_ACTIONS["Stop"],
-
-	['NUMBER_1'] 	= XBMC_ACTIONS["Zoomlevel 1"],
-	['NUMBER_2'] 	= XBMC_ACTIONS["Zoomlevel 2"],
-	['NUMBER_3'] 	= XBMC_ACTIONS["Zoomlevel 3"],
-	['NUMBER_4'] 	= XBMC_ACTIONS["Zoomlevel 4"],
-	['NUMBER_5'] 	= XBMC_ACTIONS["Zoomlevel 5"],
-	['NUMBER_6'] 	= XBMC_ACTIONS["Zoomlevel 6"],
-	['NUMBER_7'] 	= XBMC_ACTIONS["Zoomlevel 7"],
-	['NUMBER_8'] 	= XBMC_ACTIONS["Zoomlevel 8"],
-	['NUMBER_9'] 	= XBMC_ACTIONS["Zoomlevel 9"],
-	['STAR']		= XBMC_ACTIONS[""],
-	['NUMBER_0'] 	= XBMC_ACTIONS["Zoomlevel 10"],
-	['POUND']		= XBMC_ACTIONS[""]	
+	end
 }
 
 
@@ -1076,7 +766,7 @@ REMOTE_BUTTONS_VIDEO_PLAYBACK = {
 	['PROGRAM_C']	= XBMC_ACTIONS[""],
 	['PROGRAM_D']	= XBMC_ACTIONS[""],
 
-	['GUIDE']		= XBMC_ACTIONS["Fullscreen"],
+	['GUIDE']		= XBMC_ACTIONS[""],
 	['RECALL'] 		= XBMC_ACTIONS[""],
 	['PAGE_UP']		= XBMC_ACTIONS[""],
 	['PAGE_DOWN']	= XBMC_ACTIONS[""],
@@ -1218,7 +908,8 @@ function OnTimerExpired(idTimer)
 		-- Send Poll Packet if we're ONLINE...
 		if (mNetConnected == true) then
  			--dbg("XBMC: Sending ping request") 
-			XBMC_ACTIONS['Ping']()
+			--XBMC_ACTIONS['Ping']()
+			XBMC_ACTIONS['Get Active Players']()
 		end
 
 		return
@@ -1267,79 +958,123 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
 	dbg(strData)
 	local t = Decode(strData)
 
+	if (table.contains(t, "method")) then
+	 	if (t.method == "AudioLibrary.OnRemove") then
+	 		return
 
--- 	if (t.method == "AudioLibrary.OnRemove") then
--- 		return
---
--- 	elseif (t.method == "AudioLibrary.OnUpdate") then
---		return
---
---	elseif (t.method == "Player.OnPause") then
---		return
+	 	elseif (t.method == "AudioLibrary.OnUpdate") then
+			return
 
- 	if (t.method == "Player.OnPlay") then
- 		CurrentPlayerID = t.params['data']['player']['playerid']
- 		local playerType = t.params['data']['item']['type']
+		elseif (t.method == "Player.OnPause") then
+			return
 
- 		if (playerType == "movie") then 
- 			CurrentInputMode = "VIDEO_PLAYER"
+	 	elseif (t.method == "Player.OnPlay") then
+	 		CurrentPlayerID = t.params['data']['player']['playerid']
+	 		local playerType = t.params['data']['item']['type']
+
+	 		if (playerType == "movie") then 
+	 			CurrentInputMode = "VIDEO_PLAYER"
+	 		
+	 		elseif (playerType == "episode") then 
+	 			CurrentInputMode = "VIDEO_PLAYER"
+	 		
+	 		elseif (playerType == "musicvideo") then 
+	 			CurrentInputMode = "VIDEO_PLAYER"
+	 		
+	 		elseif (playerType == "song") then 
+	 			CurrentInputMode = "AUDIO_PLAYER"
+	 		
+	 		elseif (playerType == "picture") then 
+	 			CurrentInputMode = "PICTURE_PLAYER"
+	 		end
+
+	 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+			dbg("Current Input Mode is now " .. CurrentInputMode)
+
+		elseif (t.method == "Player.OnSeek") then
+			return
+
+		elseif (t.method == "Player.OnSpeedChanged") then
+			return
+
+		elseif (t.method == "Player.OnStop") then
+			CurrentPlayerID = 0
+			CurrentInputMode = "NAVIGATION"
+	 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+			dbg("Current Input Mode is now NAVIGATION")
+			return
+
+		elseif (t.method == "System.OnLowBattery") then
+			return
+
+		elseif (t.method == "System.OnQuit") then
+			return
+
+		elseif (t.method == "System.OnRestart") then
+			return
+
+		elseif (t.method == "System.OnSleep") then
+			return
+
+		elseif (t.method == "System.OnWake") then
+			return
+
+		elseif (t.method == "VideoLibrary.OnRemove") then
+			return
+
+		elseif (t.method == "VideoLibrary.OnUpdate") then
+			return
+		end
+
+		XBMC_ACTIONS['Get Active Players']() -- Just to be sure
+
+	elseif (table.contains(t, "result")) then
+ 		if (t.result == "pong") then
+ 			dbg("Resetting checkin counter")
+ 			gLastCheckin = 0
+ 			return
  		
- 		elseif (playerType == "episode") then 
- 			CurrentInputMode = "VIDEO_PLAYER"
- 		
- 		elseif (playerType == "musicvideo") then 
- 			CurrentInputMode = "VIDEO_PLAYER"
- 		
- 		elseif (playerType == "song") then 
- 			CurrentInputMode = "AUDIO_PLAYER"
- 		
- 		elseif (playerType == "picture") then 
- 			CurrentInputMode = "PICTURE_PLAYER"
+ 		elseif (t.result[1] == nil) then
+			dbg("Resetting checkin counter")
+			CurrentInputMode = "NAVIGATION"
+			CurrentPlayerID = 0
+			gLastCheckin = 0
+			return
+	
+ 		elseif (t.result[1]['type'] == "video") then
+ 			dbg("Resetting checkin counter")
+    		CurrentInputMode = "VIDEO_PLAYER"
+    		CurrentPlayerID = t.result[1]['playerid']
+    		gLastCheckin = 0
+ 			return
+
+    	elseif (t.result[1]['type'] == "audio") then
+    		dbg("Resetting checkin counter")
+    		CurrentInputMode = "AUDIO_PLAYER"
+    		CurrentPlayerID = t.result[1]['playerid']
+    		gLastCheckin = 0
+ 			return
+
+    	elseif (t.result[1]['type'] == "player") then
+    		dbg("Resetting checkin counter")
+    		CurrentInputMode = "PICTURE_PLAYER"
+    		CurrentPlayerID = t.result[1]['playerid']
+    		gLastCheckin = 0
+ 			return
  		end
 
- 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
-		dbg("Current Input Mode is now " .. CurrentInputMode)
+ 		dbg("Current Input Mode is " .. CurrentInputMode)
+	end
+end
 
---	elseif (t.method == "Player.OnSeek") then
---		return
---
---	elseif (t.method == "Player.OnSpeedChanged") then
---		return
 
-	elseif (t.method == "Player.OnStop") then
-		CurrentPlayerID = 0
-		CurrentInputMode = "NAVIGATION"
- 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
-		dbg("Current Input Mode is now NAVIGATION")
-		return
-
---	elseif (t.method == "System.OnLowBattery") then
---		return
---
---	elseif (t.method == "System.OnQuit") then
---		return
---
---	elseif (t.method == "System.OnRestart") then
---		return
---
---	elseif (t.method == "System.OnSleep") then
---		return
---
---	elseif (t.method == "System.OnWake") then
---		return
---
---	elseif (t.method == "VideoLibrary.OnRemove") then
---		return
---
---	elseif (t.method == "VideoLibrary.OnUpdate") then
---		return
---	end
-
- 	if (t.result == "pong") then
- 		dbg("Resetting checkin counter")
- 		gLastCheckin = 0
- 		return
- 	end
+function table.contains(table, element)
+  for _, value in pairs(table) do
+    if _ == element then
+      return true
+    end
+  end
+  return false
 end
 
 
@@ -1357,7 +1092,7 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 
 			if (gPollTimer ~= 0) then C4:KillTimer(gPollTimer) end
 
-			gPollTimer = C4:AddTimer(30, "SECONDS", true) -- 30 second repeating timer...
+			gPollTimer = C4:AddTimer(10, "SECONDS", true) -- 30 second repeating timer...
 		
 		else
 			dbg("XBMC: not connected.")
@@ -1412,8 +1147,8 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 	elseif (CurrentInputMode == "AUDIO_PLAYER") then
 		REMOTE_BUTTONS_AUDIO_PLAYBACK[strCommand]()
 
-	elseif (CurrentInputMode == "PICTURE_PLAYER") then
-		REMOTE_BUTTONS_PICTURE_PLAYBACK[strCommand]()
+--	elseif (CurrentInputMode == "PICTURE_PLAYER") then
+--		REMOTE_BUTTONS_PICTURE_PLAYBACK[strCommand]()
 	end
 end
 
