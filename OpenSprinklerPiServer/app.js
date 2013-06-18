@@ -1,32 +1,35 @@
 var zones = new Array();
 var programs = new Array();
 var currentTimeoutId = -1;
-
-var gpio;
+var gpio = new ShiftRegister(zones.length);
 var fs = require('fs');
-
-
-
+var sys = require("sys");
 var restify = require('restify');
 var server = restify.createServer();
+var listenPort = "8080" //default port
+
 server.use(restify.bodyParser());
 server.use(restify.jsonp());
 server.use(restify.CORS());
 server.use(restify.fullResponse());
 
-
 loadConfig();
-gpio = new ShiftRegister(zones.length);
+server.listen(listenPort, function() {console.log('%s listening at %s', server.name, server.url);});
 gpio.startup();
 
-server.listen(8080, function() {
-  console.log('%s listening at %s', server.name, server.url);
+var stdin = process.openStdin();
+console.log("Press Enter to quit");
+stdin.addListener("data", function(d){process.exit();});
+
+
+process.on('exit', function() 
+{
+  gpio.cleanup();  
+  saveConfig();
+  console.log('Exit');
 });
 
 
-
-
-// Read in config from file
 function loadConfig()
 {
   var data = fs.readFileSync('./config.json');
@@ -35,6 +38,7 @@ function loadConfig()
   try
   {
     temp = JSON.parse(data);
+    listenPort = temp.port;
     temp.zones.forEach(function(someElement, someIndex, someArray)
     {
       zones[someIndex] = new Zone(someElement.number, someElement.name);
@@ -65,7 +69,7 @@ function saveConfig()
   console.log("Saving config...");
   fs.writeFileSync(
     "config.json", 
-    JSON.stringify({ zones:zones, programs:programs }, null ,2), 
+    JSON.stringify({port: listenPort, zones:zones, programs:programs }, null ,2), 
     null, function(err) {
       if(err)
       {
@@ -76,37 +80,6 @@ function saveConfig()
 }
 
 
-
-
-
-
-
-
-
-var sys = require("sys");
-var stdin = process.openStdin();
-console.log("Press Enter to quit");
-stdin.addListener("data", function(d)
-{
-  process.exit();
-});
-
-process.on('exit', function() {
-  console.log('About to exit.');
-
-  console.log("Cleaning up GPIOs");
-  gpio.cleanup();
-  
-  saveConfig();
-  console.log('Exit');
-});
-
-
-
-
-
-
-// Create a new zone
 server.post('/sprinkler/zone', function createZone(req,res,next)
 {
   var body;
@@ -265,20 +238,20 @@ server.del('/sprinkler/zone/:zoneNumber', function deleteZone(req,res,next)
     {
       if (zones[i].number == number)
       {
-/* TODO: When removing a zone, the programs need to be updated
-        for (var j=0; j<programs.length; j++)
-        {
-          var program = programs[j];
-          for (var k=0; k<program.zones.length; k++)
-          {
-            var zone = program.zones[k];
-            if (zone.number == number)
-            {
-              program.zones.splice(k,1);
-            }
-          }
-        }
-*/
+        /* TODO: When removing a zone, the programs need to be updated
+                for (var j=0; j<programs.length; j++)
+                {
+                  var program = programs[j];
+                  for (var k=0; k<program.zones.length; k++)
+                  {
+                    var zone = program.zones[k];
+                    if (zone.number == number)
+                    {
+                      program.zones.splice(k,1);
+                    }
+                  }
+                }
+        */
         zones.splice(i,1);
         foundIt = true;
 
@@ -356,10 +329,6 @@ server.get('/sprinkler/zone/:zoneNumber/:action', function startZoneGet(req,res,
 
   next();
 });
-
-
-
-
 
 
 server.post('/sprinkler/program', function createProgram(req,res,next)
@@ -626,20 +595,11 @@ server.del('/sprinkler/program/:programName', function deleteProgram(req,res,nex
 });
 
 
-
-
-
-
-
-
-server.get(/\/?.*/, restify.serveStatic({
+server.get(/\/?.*/, restify.serveStatic(
+{
+  // blah
   directory: './www'
 }));
-
-
-
-
-
 
 
 function Zone(number, name)
@@ -707,12 +667,6 @@ function Zone(number, name)
     }
   }
 }
-
-
-
-
-
-
 
 
 function Program (_name, _zones)
@@ -874,8 +828,6 @@ function Program (_name, _zones)
 }
 
 
-
-
 function PiGpio()
 {
   var self = this;
@@ -994,7 +946,7 @@ function ShiftRegister (_pincount)
         gpio.OutputPin(21, pinstates[pincount-1-i]);
         gpio.OutputPin(4,true)
 
-//        console.log(pinstates[pincount-1-i]);
+        //        console.log(pinstates[pincount-1-i]);
       }
 
       gpio.OutputPin(22,true);
