@@ -1,17 +1,19 @@
 var zones = new Array();
 var programs = new Array();
 var currentTimeoutId = -1;
-var restify = require('restify');
-var server = restify.createServer();
+
 var gpio;
 var fs = require('fs');
-var http = require('http');
-var path = require('path');
 
+
+
+var restify = require('restify');
+var server = restify.createServer();
 server.use(restify.bodyParser());
 server.use(restify.jsonp());
 server.use(restify.CORS());
 server.use(restify.fullResponse());
+
 
 loadConfig();
 gpio = new ShiftRegister(zones.length);
@@ -24,58 +26,55 @@ server.listen(8080, function() {
 
 
 
-
-
-
-
-
-http.createServer(function (request, response) 
+// Read in config from file
+function loadConfig()
 {
-  var filePath = './www' + request.url;
+  var data = fs.readFileSync('./config.json');
+  var temp;
 
-  if (filePath == './www/')
-    filePath = './www/index.html';
-
-  var extname = path.extname(filePath);
-  var contentType = 'text/html';
-
-  switch (extname) 
+  try
   {
-    case '.js':
-    contentType = 'text/javascript';
-    break;
+    temp = JSON.parse(data);
+    temp.zones.forEach(function(someElement, someIndex, someArray)
+    {
+      zones[someIndex] = new Zone(someElement.number, someElement.name);
+    });
 
-    case '.css':
-    contentType = 'text/css';
-    break;
+    temp.programs.forEach(function(someElement, someIndex, someArray)
+    {
+      programs[someIndex] = new Program(someElement.name, someElement.zones);
+    });
   }
-
-  fs.exists(filePath, function(exists) 
+  catch (err)
   {
-    if (exists) 
+    console.log('Error parsing config.')
+
+    // Set up a default config with 8 zones
+    zones = new Array();
+    programs = new Array ();
+
+    for (var i=0; i<8; i++)
     {
-      fs.readFile(filePath, function(error, content) 
+      zones[0] = new Zone(i+1, "Zone " + i+1);
+    }
+  }
+}
+
+function saveConfig()
+{
+  console.log("Saving config...");
+  fs.writeFileSync(
+    "config.json", 
+    JSON.stringify({ zones:zones, programs:programs }, null ,2), 
+    null, function(err) {
+      if(err)
       {
-        if (error) 
-        {
-          response.writeHead(500);
-          response.end();
-        }
-        else 
-        {
-          response.writeHead(200, { 'Content-Type': contentType });
-          response.end(content, 'utf-8');
-        }
-      });
-    }
-    else
-    {
-      response.writeHead(404);
-      response.end();
-    }
+        console.log("Error saving config: " + err);
+      }
   });
-}).listen(8081);
-console.log('Server running at http://127.0.0.1:8081/');
+  console.log("Done!");
+}
+
 
 
 
@@ -97,20 +96,8 @@ process.on('exit', function() {
 
   console.log("Cleaning up GPIOs");
   gpio.cleanup();
-  console.log("Done!");
-
-  console.log("Saving config...");
-  fs.writeFileSync(
-    "config.json", 
-    JSON.stringify({ zones:zones, programs:programs }, null ,2), 
-    null, function(err) {
-      if(err)
-      {
-        console.log("Error saving config: " + err);
-      }
-  });
-  console.log("Done!");
-
+  
+  saveConfig();
   console.log('Exit');
 });
 
@@ -645,40 +632,9 @@ server.del('/sprinkler/program/:programName', function deleteProgram(req,res,nex
 
 
 
-// Read in config from file
-function loadConfig()
-{
-  var data = fs.readFileSync('./config.json');
-  var temp;
-
-  try
-  {
-    temp = JSON.parse(data);
-    temp.zones.forEach(function(someElement, someIndex, someArray)
-    {
-      zones[someIndex] = new Zone(someElement.number, someElement.name);
-    });
-
-    temp.programs.forEach(function(someElement, someIndex, someArray)
-    {
-      programs[someIndex] = new Program(someElement.name, someElement.zones);
-    });
-  }
-  catch (err)
-  {
-    console.log('Error parsing config.')
-
-    // Set up a default config with 8 zones
-    zones = new Array();
-    programs = new Array ();
-
-    for (var i=0; i<8; i++)
-    {
-      zones[0] = new Zone(i+1, "Zone " + i+1);
-    }
-  }
-}
-
+server.get(/\/?.*/, restify.serveStatic({
+  directory: './www'
+}));
 
 
 

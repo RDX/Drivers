@@ -241,7 +241,8 @@ function SprinklerCtrl ($scope, $http, $templateCache)
 
 
 
-  $scope.myUrl = 'http://10.0.0.12:8080/sprinkler/';
+  //$scope.myUrl = 'http://10.0.0.11:8080/sprinkler/';
+  $scope.myUrl = '/sprinkler/';
 
   $http.defaults.useXDomain = true;
   delete $http.defaults.headers.common['X-Requested-With'];

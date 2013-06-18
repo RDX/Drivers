@@ -64,7 +64,7 @@
         New: <input ng-model="newProgramName"/><a href="" ng-click="[CreateProgram(newProgramName),newProgramName='']">[+]</a>
       </div>
     </div>
-
+<!--
     <div id="schedulesContainer">
       <h4>Schedule</h4>
       <div class="schedule" ng-repeat="schedule in schedules">
@@ -100,85 +100,8 @@
         </div>
       </div>
     </div>
-  
+-->  
   </body>
 </html>
 
 
-
-<!--
-    <table border="1">
-      <tr><th>#</th><th>Name</th><th></th><th></th></tr>
-      <tr ng-repeat="zone in zones">
-        <td>{{zone.number}}</td>
-        <td>
-          <a href="" ng-click="editorEnabled=!editorEnabled" ng-hide="editorEnabled">{{zone.name}}</a>
-          <span ng-show="editorEnabled">
-            <input ng-model="zone.name"/>
-            <a href="#" ng-click="[editorEnabled=!editorEnabled,updateZoneName(zone)]">[done]</a>
-          </span>
-        </td>
-        <td>
-          <a href="" ng-click="[startZone(zone)]" ng-hide="zone.isRunning">[start]</a>
-          <a href="" ng-click="[stopZone(zone)]" ng-show="zone.isRunning">[stop]</a>
-        </td>
-        <td>
-          <a href="" ng-click="[deleteZone(zone)]">[-]</a>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>{{zones.length + 1}}</td>
-        <td><input ng-model="newZoneName"/></td>
-        <td></td>
-        <td><a href="" ng-click="[addZone(zones.length + 1, newZoneName),newZoneName='']">[+]</a></td>
-      </tr>
-    </table>
--->
-
-<!--
-    <table border="1" class="program">
-      <tr><th>Name</th><th></th><th></th></tr>
-      <tr ng-repeat="program in programs">
-        <td>
-          <a href="" ng-click="[oldName=program.name, programEditorEnabled=!programEditorEnabled]" ng-hide="programEditorEnabled">{{program.name}}</a>
-          <div ng-show="programEditorEnabled">
-            <input ng-model="program.name"/>
-            <a href="" ng-click="[programEditorEnabled=!programEditorEnabled,updateProgramName(oldName, program)]">[done]</a>
-          </div>
-          <div>
-            <table border="1">
-              <tr><th>Zone</th><th>Duration</th><th></th></tr>
-              <tr ng-repeat="zone in program.zones">
-                <td>{{zone.number}}</td>
-                <td>{{zone.duration}}</td>
-                <td><a href="" ng-click="removeZoneFromProgram(program, zone.number)">[-]</a></td>
-              </tr>
-              
-              <tr>
-                <th>
-                  <select>
-                    <option ng-repeat="zone in zones" value="zone.number">{{zone.number}}</option>
-                  </select>
-                </th>
-                <th></th>
-                <th><a href="" ng-click="[addZoneToProgram(program, 2, 4)]">[+]</a></th>
-              </tr>
-            </table>
-          </div>
-        </td>
-        <td>
-          <a href="" ng-click="[startProgram(program)]" ng-hide="program.isRunning" >[start]</a>
-          <a href="" ng-click="[stopProgram(program)]" ng-show="program.isRunning" >[stop]</a>
-        </td>
-        <td>
-          <a href="" ng-click="[deleteProgram(program)]">[-]</a>
-        </td>
-      </tr>
-      <tr>
-        <td><input ng-model="newProgramName"/></td>
-        <td></td>
-        <td><a href="" ng-click="[addProgram(newProgramName),newProgramName='']">[+]</a></td>
-      </tr>
-    </table>
--->
