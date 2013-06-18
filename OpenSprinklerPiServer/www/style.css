@@ -1,0 +1,41 @@
+/*
+html
+{
+  background-image:url('grass.jpg');
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+*/
+
+#zonesContainer{border:2px solid; margin:10px; padding:5px; float: left;}
+.zone{}
+.zoneNumber{}
+.zoneName{}
+.zoneNameEdit{}
+.startZone{}
+.stopZone{}
+.deleteZone{}
+#zoneNew{}
+
+
+#programsContainer{border:2px solid; margin:10px; padding:5px; float: left;}
+.program{float: left; padding: 5px;}
+.programName{}
+.programNameEdit{}
+.startProgram{}
+.stopProgram{}
+.deleteProgram{}
+.programZonesContainer{border:1px solid;}
+.programZone{}
+.programZoneName{}
+.programZoneDuration{}
+.programZoneRemove{}
+.programZoneNew{}
+#programNew{clear:both;}
+
+
+#schedulesContainer {border:2px solid; margin:10px; padding:5px; float: left;}
+.addNewScheduleBody { text-align: center; }
+.addNewScheduleWell { margin-top: 10px; margin-bottom: 10px; }
+.schedule{}
+#scheduleNew{margin:10px;}
