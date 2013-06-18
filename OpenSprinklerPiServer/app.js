@@ -6,7 +6,7 @@ var fs = require('fs');
 var sys = require("sys");
 var restify = require('restify');
 var server = restify.createServer();
-var listenPort = "8080" //default port
+var listenPort //default port
 
 server.use(restify.bodyParser());
 server.use(restify.jsonp());
@@ -38,7 +38,7 @@ function loadConfig()
   try
   {
     temp = JSON.parse(data);
-    listenPort = temp.port;
+    listenPort = temp.port || 8080;
     temp.zones.forEach(function(someElement, someIndex, someArray)
     {
       zones[someIndex] = new Zone(someElement.number, someElement.name);
