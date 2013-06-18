@@ -6,7 +6,6 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "restify": "2.5.0",
-    "connect": "2.7.11"
+    "restify": "2.5.0"
   }
 }
