@@ -1,5 +1,5 @@
-  var GPIO_PATH = "/sys/class/gpio/";
-  //var GPIO_PATH = "./gpio/";
+  //var GPIO_PATH = "/sys/class/gpio/";
+  var GPIO_PATH = "./gpio/";
 
 var zones = new Array();
 var programs = new Array();
@@ -148,6 +148,15 @@ server.get('/sprinkler/zone', function ReadZones(req,res,next)
 {
   res.send(200, {zones:zones});
   next();
+});
+
+
+server.get('/sprinkler/zone/stop', function startZoneGet(req,res,next)
+{
+  for (var i=0; i<zones.length; i++)
+  {
+    if (zones[i].isRunning) { zones[i].stop(); }
+  }
 });
 
 
@@ -385,6 +394,29 @@ server.get('/sprinkler/program', function readPrograms(req,res,next)
 });
 
 
+server.get('/sprinkler/program/stop', function updateZoneGet(req,res,next)
+{
+  for (var i=0; i<programs.length; i++)
+  {
+    if (programs[i].isRunning) { programs[i].stop(); }
+  }
+
+  res.send(200);
+  next();
+});
+
+server.get('/sprinkler/program/next', function updateZoneGet(req,res,next)
+{
+  for (var i=0; i<programs.length; i++)
+  {
+    if (programs[i].isRunning) { programs[i].next(); }
+  }
+
+  res.send(200);
+  next();
+});
+
+
 server.get('/sprinkler/program/:programName', function readProgram(req,res,next)
 {
   try
@@ -414,6 +446,7 @@ server.get('/sprinkler/program/:programName', function readProgram(req,res,next)
   next();
 });
 
+
 server.get('/sprinkler/program/:programName/:action', function updateZoneGet(req,res,next)
 {
   var foundIt = false;
@@ -437,6 +470,7 @@ server.get('/sprinkler/program/:programName/:action', function updateZoneGet(req
 
   next();
 });
+
 
 server.put('/sprinkler/program', function updateProgram(req,res,next)
 {
