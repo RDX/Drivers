@@ -1,40 +1,5 @@
 {
   "port": 8080,
-  "zones": [
-    {
-      "number": 1,
-      "name": "asdf",
-      "isRunning": false
-    },
-    {
-      "number": 2,
-      "name": "qwer",
-      "isRunning": false
-    },
-    {
-      "number": 3,
-      "name": "zxcv",
-      "isRunning": false
-    }
-  ],
-  "programs": [
-    {
-      "name": "qwer",
-      "zones": [
-        {
-          "number": "1",
-          "duration": "5"
-        },
-        {
-          "number": "2",
-          "duration": "10"
-        },
-        {
-          "number": "3",
-          "duration": "15"
-        }
-      ],
-      "isRunning": false
-    }
-  ]
+  "zones": [],
+  "programs": []
 }
