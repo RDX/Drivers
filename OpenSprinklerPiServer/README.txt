@@ -56,6 +56,10 @@ GET http://0.0.0.0/sprinkler/zone/1/start
 
 
 Manually Stop a Zone
+GET http://0.0.0.0/sprinkler/zone/1/stop
+
+
+Stop All Zones:
 GET http://0.0.0.0/sprinkler/zone/stop
 
 
@@ -131,5 +135,13 @@ Stop a Program:
 GET http://0.0.0.0/sprinkler/program/Program%20Name/start
 
 
+Stop all Programs:
+GET http://0.0.0.0/sprinkler/program/stop
+
+
 Advance to next zone in a program:
 GET http://0.0.0.0/sprinkler/program/Program%20Name/next
+
+
+Advance to next zone in any program:
+GET http://0.0.0.0/sprinkler/program/next

@@ -1,5 +1,5 @@
-  //var GPIO_PATH = "/sys/class/gpio/";
-  var GPIO_PATH = "./gpio/";
+var GPIO_PATH = "/sys/class/gpio/";
+//var GPIO_PATH = "./gpio/";
 
 var zones = new Array();
 var programs = new Array();
