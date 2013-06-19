@@ -1,6 +1,6 @@
 Run "npm install" in this directory to install all the dependencies (currently only restify).
 
-You can access the web based frontend by browsing to http://<IP>:<PORT>/sprinkler/index.html
+You can access the web based frontend by browsing to http://<IP>:<PORT>/index.html
 
 By default , the app is set up to run on the raspberry pi, but you can change it so a PC will emulate the GPIOs of a Raspberry Pi. This is useful for development work.  To run on a PC, you will need to do the following two steps:
 
@@ -132,7 +132,7 @@ GET http://0.0.0.0/sprinkler/program/Program%20Name/start
 
 
 Stop a Program:
-GET http://0.0.0.0/sprinkler/program/Program%20Name/start
+GET http://0.0.0.0/sprinkler/program/Program%20Name/stop
 
 
 Stop all Programs:
