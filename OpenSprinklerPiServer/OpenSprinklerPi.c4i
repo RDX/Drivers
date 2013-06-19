@@ -311,11 +311,11 @@ end
 function ReceivedFromProxy(idBinding, strCommand, tParams)
   dbg('ReceivedFromProxy: ' .. idBinding .. " " .. strCommand)
 
-  if (strCommand == "ON") then
+  if (strCommand == "CLOSE") then
     --C4:SendToProxy(idBinding, "OPENED", {}, "NOTIFY")
     C4:urlGet("http://" .. httpAddress .. ":" .. httpPort .. "/sprinkler/zone/" .. idBinding .. "/start")
     
-  elseif (strCommand == "OFF") then
+  elseif (strCommand == "OPEN") then
     --C4:SendToProxy(idBinding, "CLOSED", {}, "NOTIFY")
     C4:urlGet("http://" .. httpAddress .. ":" .. httpPort .. "/sprinkler/zone/" .. idBinding .. "/stop")
     
