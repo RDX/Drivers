@@ -831,8 +831,8 @@ function Program (_name, _zones)
 function PiGpio()
 {
   var self = this;
-  //var GPIO_PATH = "/sys/class/gpio/";
-  var GPIO_PATH = "./gpio/";
+  var GPIO_PATH = "/sys/class/gpio/";
+  //var GPIO_PATH = "./gpio/";
   var _OutExported = new Array();
 
   this.SetupPin = SetupPin;

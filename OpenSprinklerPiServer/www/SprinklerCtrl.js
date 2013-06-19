@@ -112,9 +112,6 @@ function SprinklerCtrl ($scope, $http, $templateCache)
   }
 
 
-
-
-
   $scope.CreateProgram = function(name)
   {
     var myData;
@@ -164,16 +161,25 @@ function SprinklerCtrl ($scope, $http, $templateCache)
     {
     });
   }
+
+
   $scope.UpdateProgramName = function(oldProgram, newName)
   {
+    //helper
     $scope.UpdateProgram(oldProgram, "Rename", {name:newName});
   }
+
+
   $scope.UpdateProgramAddZone = function(program, number, duration)
   {
+    // helper
     $scope.UpdateProgram(program, "Add Zone", {number:number,duration:duration});
   }
+
+
   $scope.UpdateProgramRemoveZone = function(program, number)
   {
+    //helper
     $scope.UpdateProgram(program, "Remove Zone", {number:number});
   }
 
@@ -233,20 +239,9 @@ function SprinklerCtrl ($scope, $http, $templateCache)
   }
 
 
-
-
-
-
-
-
-
-
-  //$scope.myUrl = 'http://10.0.0.11:8080/sprinkler/';
   $scope.myUrl = '/sprinkler/';
-
   $http.defaults.useXDomain = true;
   delete $http.defaults.headers.common['X-Requested-With'];
-       
   $scope.ReadZones();
   $scope.ReadPrograms();
 }
