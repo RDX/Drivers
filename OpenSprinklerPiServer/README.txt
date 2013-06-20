@@ -64,7 +64,11 @@ PUT http://0.0.0.0/sprinkler/zone
 body:
 {
 	number:1,
-	name:"New Name"
+	method: "Rename",
+	params:
+	{
+		name:"New Zone Name"
+	}
 }
 
 

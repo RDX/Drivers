@@ -47,9 +47,9 @@ function SprinklerCtrl ($scope, $http, $templateCache)
   }
 
 
-  $scope.UpdateZone = function(zone)
+  $scope.UpdateZone = function(zone, method, params)
   {
-    $http.put($scope.myUrl + 'zone', JSON.stringify({number:zone.number, name:zone.name})).
+    $http.put($scope.myUrl + 'zone', JSON.stringify({number:zone.number, method:method, params:params})).
       success(function(data)
       {
         $scope.ReadZones();
@@ -57,6 +57,13 @@ function SprinklerCtrl ($scope, $http, $templateCache)
       error(function(data, status, headers, config) 
       {
       });
+  }
+
+
+  $scope.UpdateZoneName = function(oldZone, newName)
+  {
+    //helper
+    $scope.UpdateZone(oldZone, "Rename", {name:newName});
   }
 
 

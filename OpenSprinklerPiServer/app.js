@@ -205,11 +205,12 @@ server.put('/sprinkler/zone', function updateZone(req,res,next)
 
   try
   {
-    if (!body.name || !body.number)
+    if (!body.number || !body.method)
     {
-      throw new Error('bad data');
+      throw new Error('Bad Data');
     }
 
+    var zone;    
     var foundIt = false;
 
     for (var i=0; i<zones.length; i++)
@@ -217,15 +218,22 @@ server.put('/sprinkler/zone', function updateZone(req,res,next)
       if (zones[i].number == body.number)
       {
         foundIt = true;
-        console.log("zone number " + body.number +"'s name is now '" + body.name + "'");
-        zones[i].name = body.name;
-        res.send(200, {zone:zones[i]});
+        zone = zones[i];
       }
     }
- 
+
     if (!foundIt)
     {
       throw new Error('Zone doesnt exist');
+    }
+
+    if (body.method == "Rename")
+    {
+      var params = body.params;
+   
+      console.log("zone number " + body.number +"'s name is now '" + params.name + "'");
+      zone.name = params.name;
+      res.send(200, {zone:zones[i]});
     }
   }
   catch(err)

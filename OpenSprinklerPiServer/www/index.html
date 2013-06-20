@@ -14,15 +14,15 @@
         <span class="zoneNumber">({{zone.number}})</span>
         <span class="zoneName" ng-hide="editorEnabled"><a href="" ng-click="editorEnabled=!editorEnabled">{{zone.name}}</a></span>
         <span class="zoneNameEdit" ng-show="editorEnabled">
-          <input ng-model="zone.name"/><a href="#" ng-click="[editorEnabled=!editorEnabled,UpdateZone(zone)]">[done]</a></span>
+          <input ng-model="newZoneName"/><a href="#" ng-click="[editorEnabled=!editorEnabled,UpdateZoneName(zone,newZoneName)]">[done]</a></span>
         <span class="startZone" ng-hide="zone.isRunning"><a href="" ng-click="[StartZone(zone)]">[start]</a></span>
         <span class="stopZone" ng-show="zone.isRunning"><a href="" ng-click="[StopZone(zone)]">[stop]</a></span>
         <span class="deleteZone"><a href="" ng-click="[DeleteZone(zone)]">[-]</a></span>
       </div>
 
       <div id="zoneNew">
-        <span>({{zones.length + 1}}) <input ng-model="newZoneName" placeholder="New Zone Name"/>
-          <a href="" ng-click="[CreateZone(zones.length + 1, newZoneName),newZoneName='']">[+]</a></span>
+        <span>({{zones.length + 1}}) <input ng-model="createNewZoneName" placeholder="New Zone Name"/>
+          <a href="" ng-click="[CreateZone(zones.length + 1, createNewZoneName), createNewZoneName='']">[+]</a></span>
       </div>
     </div>
 
