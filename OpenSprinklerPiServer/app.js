@@ -240,6 +240,8 @@ server.put('/sprinkler/zone', function updateZone(req,res,next)
 
 server.del('/sprinkler/zone/:zoneNumber', function deleteZone(req,res,next)
 {
+
+  // It's Looptacular!
   var foundIt = false;
   var number = req.params.zoneNumber
   try
@@ -250,26 +252,38 @@ server.del('/sprinkler/zone/:zoneNumber', function deleteZone(req,res,next)
     {
       if (zones[i].number == number)
       {
-        /* TODO: When removing a zone, the programs need to be updated
-                for (var j=0; j<programs.length; j++)
-                {
-                  var program = programs[j];
-                  for (var k=0; k<program.zones.length; k++)
-                  {
-                    var zone = program.zones[k];
-                    if (zone.number == number)
-                    {
-                      program.zones.splice(k,1);
-                    }
-                  }
-                }
-        */
+        // Remove the zone from any programs that use it
+        for (var j=0; j<programs.length; j++)
+        {
+          for (var k=0; k<programs[j].zones.length; k++)
+          {
+            if (programs[j].zones[k].number == number)
+            {
+              programs[j].zones.splice(k,1);
+            }
+          }
+        }
         zones.splice(i,1);
         foundIt = true;
+
 
         // adjust the zone numbers
         for (var j=0; j<zones.length; j++)
         {
+          var zone = zones[j];
+          
+
+          for (var k=0; k<programs.length; k++)
+          {
+            for (var l=0; l<programs[k].zones.length; l++)
+            {
+                if (programs[k].zones[l].number  == zone.number)
+                {
+                  programs[k].zones[l].number = j+1;
+                }
+            }
+          }
+
           zones[j].number = j+1;
         }
 

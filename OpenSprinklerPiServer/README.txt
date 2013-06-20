@@ -19,7 +19,6 @@ The driver contains the ability to start, stop, and toggle zones and programs.  
 Limitations/Known Bugs/TODOs
 -----------------------------
 -Scheduling is not yet implemented, though it is the next on my list.  Control4 can handle scheduling, and some have even used Google Calendar to fire off a program as well.
--Deleting a zone does not automatically adjust programs that have that zone in it.
 -Reordering programs on the fly is not yet implemented.
 -You can add a zone to a program multiple times, but removing those zones from the program is a little buggy.
 -The Frontend is currently very ugly and simple.  We're working on it!
