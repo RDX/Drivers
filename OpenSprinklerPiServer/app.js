@@ -1,15 +1,17 @@
-var GPIO_PATH = "/sys/class/gpio/";
-//var GPIO_PATH = "./gpio/";
-
 var zones = new Array();
 var programs = new Array();
 var currentTimeoutId = -1;
-var gpio = new ShiftRegister(zones.length);
+
+var Zone = require('./Zone');
+var Program = require('./Program');
+
 var fs = require('fs');
 var sys = require("sys");
 var restify = require('restify');
 var server = restify.createServer();
 var listenPort //default port
+
+var ShiftRegister = require('./ShiftRegister');
 
 server.use(restify.bodyParser());
 server.use(restify.jsonp());
@@ -18,7 +20,7 @@ server.use(restify.fullResponse());
 
 loadConfig();
 server.listen(listenPort, function() {console.log('%s listening at %s', server.name, server.url);});
-gpio.startup();
+ShiftRegister.startup();
 
 var stdin = process.openStdin();
 console.log("Press Enter to quit");
@@ -27,7 +29,7 @@ stdin.addListener("data", function(d){process.exit();});
 
 process.on('exit', function() 
 {
-  gpio.cleanup();  
+  ShiftRegister.cleanup();  
   saveConfig();
   console.log('Exit');
 });
@@ -49,12 +51,12 @@ function loadConfig()
 
     temp.programs.forEach(function(someElement, someIndex, someArray)
     {
-      programs[someIndex] = new Program(someElement.name, someElement.zones);
+      programs[someIndex] = new Program(zones, someElement.name, someElement.zones);
     });
   }
   catch (err)
   {
-    console.log('Error parsing config.')
+    console.log('Error parsing config: ' + err);
 
     // Set up a default config with 8 zones
     zones = new Array();
@@ -395,7 +397,7 @@ server.post('/sprinkler/program', function createProgram(req,res,next)
       }
     }
 
-    programs[programs.length] = new Program(body.name);
+    programs[programs.length] = new Program(zones, body.name);
     console.log("Added new Program, '" + body.name + "'");
     res.send(200, {programs:programs});
   }
@@ -659,354 +661,3 @@ server.get(/\/?.*/, restify.serveStatic(
   // blah
   directory: './www'
 }));
-
-
-function Zone(number, name)
-{
-  var self = this;
-
-  this.number=number;
-  this.name=name;
-  this.isRunning=false;
-  this.stop = stop;
-  this.start = start;
-  this.toggle = toggle;
-
-  function start(duration, callback)
-  {
-    self.isRunning = true;
-    gpio.setPinState(number - 1, true);
-
-    if (duration)
-    {
-      currentTimeoutId = setTimeout(function() 
-      {
-        currentTimeoutId = -1;
-        if (!callback)
-        {
-          zones[number-1].stop();
-        }
-        else
-        {
-          zones[number-1].stop(callback);
-        }
-      }, duration * 60000);
-    }
-    console.log("Zone " + self.number + " is ON");
-  }
-
-  function stop(callback)
-  {
-    self.isRunning=false;
-    gpio.setPinState(number - 1, false);
-
-    console.log("Zone " + self.number + " is OFF");
-    if (callback)
-    {
-      callback();
-    }
-  }
-
-  function toggle(duration)
-  {
-    if (self.isRunning)
-    {
-      self.stop();
-    }
-    else
-    {
-      if (arguments.length == 1)
-      {
-        self.start(duration);
-      }
-      else
-      {
-        self.start();
-      }
-    }
-  }
-}
-
-
-function Program (_name, _zones)
-{
-  var self = this;
- 
-  var pZones = new Array();
-
-  if (_zones)
-  {
-    pZones = _zones;
-  }
-
-
-  var index = -1;
-
-  this.name = _name;
-  this.zones = pZones;
-  this.isRunning = false;
-
-
-  this.start = start;
-  this.stop = stop;
-  this.next = next;
-  this.add = add;
-  this.removeOnce = removeOnce;
-  this.removeAt = removeAt;
-  this.remove = remove;
-  this.clear = clear;
-
-  function start()
-  {
-    var canStart = true;
-    
-    for (var i=0; i<programs.length; i++)
-    {
-      if (programs[i].isRunning)
-      {
-        canStart = false;
-      }
-    }
-    
-    if (canStart)
-    {
-      console.log("starting program '" + self.name + "'");
-      self.isRunning = true;
-      startHelper();
-    }
-    else
-    {
-      console.log("A program is already running");
-    }
-  }
-
-  function startHelper()
-  {
-    index++;
-    if (index < pZones.length)
-    {
-      if (self.isRunning)
-      {
-        zones[pZones[index].number - 1].start(pZones[index].duration, startHelper);
-      }
-    }
-    else
-    {
-      self.stop();
-    }
-  }
-
-  function stop()
-  {
-    if (self.isRunning)
-    {
-      index = -1;
-      self.isRunning=false;
-      console.log("stopping program '" + self.name + "'");  
-      
-      if (currentTimeoutId != -1)
-      {
-        clearTimeout(currentTimeoutId);
-        currentTimeoutId = -1;
-      }
-      for (var i=0; i<pZones.length; i++)
-      {
-        if (zones[pZones[i].number - 1].isRunning == true)
-        {
-          zones[pZones[i].number - 1].stop();
-        }
-      }
-    }
-  }
-
-  function next()
-  {
-    if (self.isRunning)
-    {
-      console.log("advancing to next zone on program '" + self.name + "'");
-
-      if (currentTimeoutId != -1)
-      {
-        clearTimeout(currentTimeoutId);
-        currentTimeoutId = -1;
-      }
-    
-      zones[pZones[index].number - 1].stop();
-      startHelper();
-    }
-  }
-
-  function add(number, duration, order)
-  {
-    if (!order)
-    {
-      pZones[pZones.length] = { number: number, duration: duration }
-    }
-    else
-    {
-      pZones.splice(order,0, { number: number, duration: duration });
-    }
-  }
-
-  /// removes first instance of a zone with specified number
-  function removeOnce(number)
-  {
-    for (var i=0; i<pZones.length; i++)
-    {
-      if (pZones[i].number == number)
-      {
-        pZones.splice(i,1);
-        return;
-      }
-    }
-  }
-
-  /// removes all instances of a zone with specified number
-  function remove(number)
-  {
-    for (var i=0; i<pZones.length; i++)
-    {
-      if (pZones[i].number == number)
-      {
-        pZones.splice(i,1);
-      }
-    }
-  }
-
-  /// removes zone at specified index
-  function removeAt(index)
-  {
-    pZones.splice(index,1);
-  }
-
-  /// removes all zones from program
-  function clear()
-  {
-    pZones = new Array();
-  }
-}
-
-
-function PiGpio()
-{
-  var self = this;
-  var _OutExported = new Array();
-
-  this.SetupPin = SetupPin;
-  this.OutputPin = OutputPin;
-  this.UnexportPin = UnexportPin;
-  this.CleanUpAllPins = CleanUpAllPins;
-
-  function SetupPin(pin, direction)
-  {
-    //console.log("blah: " + _OutExported.indexOf(pin));
-    if (_OutExported.indexOf(pin) != -1 )
-    {
-      UnexportPin(pin);
-    }
-
-    fs.writeFileSync(GPIO_PATH + "export", pin);
-    fs.writeFileSync(GPIO_PATH + "gpio" + pin + "/direction", direction);
-
-    if (direction == "out")
-    {
-      _OutExported.push(pin);
-    }
-  }  
-
-  function OutputPin(pin, value)
-  {
-    if (_OutExported.indexOf(pin) == -1)
-      SetupPin(pin, "out");
-
-    var writeValue = "0";
-    if (value == true)
-    {
-      writeValue = "1";
-    }
-
-    fs.writeFileSync(GPIO_PATH + "gpio" + pin + "/value", writeValue);
-  }
-
-  function UnexportPin(pin)
-  {
-    if (_OutExported.indexOf(pin) != -1)
-    {
-      fs.writeFileSync(GPIO_PATH + "unexport", pin);
-    }
-  }
-
-  function CleanUpAllPins()
-  {
-    for (var i=_OutExported.length - 1; i>=0; i--)
-    {
-      UnexportPin(_OutExported[i]);
-    }
-  }
-}
-
-
-function ShiftRegister (_pincount)
-{
-  var self = this;
-  var gpio = new PiGpio();
-  var pinstates = new Array();
-  var pincount = _pincount;
-
-  this.startup = startup;
-  this.cleanup = cleanup;
-  this.setPinState = setPinState;
-
-  function startup()
-  {
-    gpio.OutputPin(4,false);
-    gpio.OutputPin(17,false);
-    gpio.OutputPin(21,false);
-    gpio.OutputPin(22,false);
-
-    for (var i=0; i<pincount; i++)
-    {
-      pinstates[i] = false;
-    }
-
-    // not really sure why i need to do this,
-    // but it wont work unless i do...
-    gpio.OutputPin(17,true);
-    setTimeout(function()
-    {
-      gpio.OutputPin(17, false);
-    }, 500);
-
-  }
-
-  function cleanup()
-  {
-    gpio.CleanUpAllPins();
-  }
-
-  function setPinState(number, value)
-  {
-    if (number < 0 || number > pincount)
-    {
-      return; // TODO: error
-    }
-    else
-    {
-      pinstates[number] = value;
-      
-      gpio.OutputPin(4,false);
-      gpio.OutputPin(22,false);
-
-      for (var i=0; i<pincount; i++)
-      {
-        gpio.OutputPin(4,false);
-        gpio.OutputPin(21, pinstates[pincount-1-i]);
-        gpio.OutputPin(4,true)
-
-        //        console.log(pinstates[pincount-1-i]);
-      }
-
-      gpio.OutputPin(22,true);
-    }
-  }
-}
