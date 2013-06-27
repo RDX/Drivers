@@ -1,7 +1,7 @@
 function Program (_gZones, _name, _zones)
 {
   var self = this;
- 
+  var currentTimeoutId = -1;
   var pZones = new Array();
   var zones = _gZones;
 

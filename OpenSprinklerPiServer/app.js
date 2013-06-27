@@ -1,6 +1,5 @@
 var zones = new Array();
 var programs = new Array();
-var currentTimeoutId = -1;
 
 var Zone = require('./Zone');
 var Program = require('./Program');
