@@ -29,6 +29,7 @@ function Program (_gZones, _name, _zones)
 
   function start()
   {
+    console.log("starting program '" + self.name + "'");  
     self.isRunning = true;
       startHelper();
   }
@@ -36,6 +37,7 @@ function Program (_gZones, _name, _zones)
   function startHelper()
   {
     index++;
+
     if (index < pZones.length)
     {
       if (self.isRunning)

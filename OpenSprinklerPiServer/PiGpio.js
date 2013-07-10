@@ -44,8 +44,11 @@ function OutputPin(pin, value)
 
 function UnexportPin(pin)
 {
-  if (_OutExported.indexOf(pin) != -1)
+  index = _OutExported.indexOf(pin);
+  
+  if (index != -1)
   {
+    _OutExported.splice(index,1);
     fs.writeFileSync(GPIO_PATH + "unexport", pin);
   }
 }

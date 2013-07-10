@@ -1,36 +1,274 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="sprinkler">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
-    <script src="SprinklerCtrl.js"></script>
   </head>
 
   <body ng-controller="SprinklerCtrl">
-    
-    <div id="zonesContainer">
-      <h4>Zones</h4>
-      <div class="zone" ng-repeat="zone in zones">
-        <span class="zoneNumber">({{zone.number}})</span>
-        <span class="zoneName" ng-hide="editorEnabled"><a href="" ng-click="editorEnabled=!editorEnabled">{{zone.name}}</a></span>
-        <span class="zoneNameEdit" ng-show="editorEnabled">
-          <input ng-model="newZoneName"/><a href="#" ng-click="[editorEnabled=!editorEnabled,UpdateZoneName(zone,newZoneName)]">[done]</a></span>
-        <span class="startZone" ng-hide="zone.isRunning"><a href="" ng-click="[StartZone(zone)]">[start]</a></span>
-        <span class="stopZone" ng-show="zone.isRunning"><a href="" ng-click="[StopZone(zone)]">[stop]</a></span>
-        <span class="deleteZone"><a href="" ng-click="[DeleteZone(zone)]">[-]</a></span>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js"></script>
+    <script src="SprinklerCtrl.js"></script>
+
+    <div>
+      <h1 class="text-center">blah <a href="" ng-click="openZoneEditor()">[settings]</a></h1>
+
+      <div class="row">
+        <div id="zones" class="span8 offset2">
+          <div class="row">
+            <div class="span1 text-center zone" ng-repeat="zone in zones">
+              <div ng-click="ToggleZone(zone)">
+                <img src="http://dummyimage.com/100x100/555555/999999.gif" ng-hide="zone.isRunning"/>
+                <img src="http://dummyimage.com/100x100/999999/555555.gif" ng-show="zone.isRunning"/><br/>
+                {{zone.name}}</div>
+              </div>
+          </div>
+        </div>
       </div>
 
-      <div id="zoneNew">
-        <span>({{zones.length + 1}}) <input ng-model="createNewZoneName" placeholder="New Zone Name"/>
-          <a href="" ng-click="[CreateZone(zones.length + 1, createNewZoneName), createNewZoneName='']">[+]</a></span>
+      <div class="row">
+        <div class="span8 offset2" id="programs">
+          <h3 class="text-center">Programs</h3>
+
+          <div class="program text-right" ng-repeat="program in programs">
+            <h4 class="text-center">{{program.name}}</h4>
+    
+            <ul class="unstyled text-left">
+              <li ng-repeat="zone in program.zones">
+                <span class="programZoneName">({{zone.number}}) {{zones[zone.number-1].name}},</span>
+                <span class="programZoneDuration">{{zone.duration}} minutes</span>
+              </li>
+            </ul>
+            <button class="btn-link btn-mini text-right" type="button" ng-hide="program.isRunning" ng-click="[StartProgram(program)]"><i class="icon-play"></i></button>
+            <button class="btn-link btn-mini text-right" type="button" ng-show="program.isRunning" ng-click="[StopProgram(program)]"><i class="icon-stop"></i></button>
+            <button class="btn-link btn-mini text-right" type="button" ng-show="program.isRunning" ng-click="[ProgramNext(program)]"><i class="icon-forward"></i></button>
+            <button class="btn-link btn-mini text-right" type="button" ng-click="[DeleteProgram(program)]"><i class="icon-minus-sign"></i></button>
+            <button class="btn-link btn-mini text-right" type="button" ng-click="openProgramEditor(program.name)"><i class="icon-pencil"></i></button>
+          </div>
+
+          <div class="text-right" id="newProgramButton">
+            <input ng-model="newProgramName" placeholder="New Program Name"/>
+            <button class="btn-link" type="button" ng-click="[CreateProgram(newProgramName),newProgramName='']">
+              <i class="icon-plus-sign"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span8 offset2" id="schedules">
+          <h3 class="text-center">Schedules</h3>
+      
+          <div class="schedule text-right" ng-repeat="schedule in schedules">
+            <h4 class="text-center">{{schedule.name}}</h4>
+            
+            <ul class="unstyled text-left">
+              <li>Run Program "A"</li>
+              <li>Every 2 days at 08:30am</li>
+              <li>Starting May 1, Ending Oct 15</li>
+            </ul>
+            <button class="btn-link btn-mini text-right" type="button"><i class="icon-pencil"></i></button>
+          </div>
+
+          <div class="text-right" id="newScheduleButton">
+            <button class="btn-link" type="button"><i class="icon-plus-sign"></i></button>
+          </div>
+        </div>
       </div>
     </div>
 
+    <div modal="ProgramEditorIsOpen" close="closeProgramEditor()" options="ProgramEditorOptions">
+      <div class="modal-header">
+          <h3>Edit Program</h3>
+      </div>
+
+      <div class="modal-body">
+        <p class="text-center">Name <input ng-model="programs[ProgramToEdit].name" /></p>
+        <div class="text-left">
+          <h4>Zones</h4>
+          <ul class="unstyled">
+              <li ng-repeat="zone in programs[ProgramToEdit].zones">
+                ({{zone.number}}) {{zones[zone.number-1].name}}, {{zone.duration}} minutes 
+                <button class="btn-link" type="button" ng-click="UpdateProgramRemoveZone(programs[ProgramToEdit],zone.number)"><i class="icon-minus-sign"></i></button>
+              </li>
+              <li>
+                Zone 
+                <select class="input-small" ng-model="newProgramZone" ng-options="zone.name for zone in zones"></select> for
+                <select class="input-small" ng-model="newProgramDuration">
+                  <option>5</option><option>10</option><option>15</option><option>20</option>
+                  <option>25</option><option>30</option><option>35</option><option>40</option>
+                  <option>45</option><option>50</option><option>55</option><option>60</option>
+                </select> minutes
+                  <button class="btn-link" type="button" ng-click="[UpdateProgramAddZone(programs[ProgramToEdit], newProgramZone.number, newProgramDuration)]"><i class="icon-plus-sign"></i></button>
+              </li>
+          </ul>
+        </div> 
+      </div>
+      
+      <div class="modal-footer">
+          <button class="btn cancel" ng-click="closeProgramEditor()">Close</button>
+      </div>
+    </div>
+
+
+    <div modal="ZoneEditorIsOpen" close="closeZoneEditor()" options="ZoneEditorOptions">
+      <div class="modal-header">
+          <h3>Edit Zones</h3>
+      </div>
+
+      <div class="modal-body">
+        <ul class="unstyled">
+          <li ng-repeat="zone in zones">
+            {{zone.number}}  
+            <input ng-model="zone.name" />
+            <button class="btn-link" type="button" ng-click="UpdateZoneName(zone, zone.name)"><i class="icon-ok"></i></button>
+            <button class="btn-link" type="button" ng-click="DeleteZone(zone)"><i class="icon-minus-sign"></i></button>
+          </li>
+          <br />
+          <li>
+            {{zones.length+1}}
+            <input ng-model="newZoneName" placeholder="New Zone Name" />
+            <button class="btn-link" type="button" ng-click="[CreateZone(zones.length+1, newZoneName), newZoneName='']"><i class="icon-plus-sign"></i></button>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="closeZoneEditor()">Close</button>
+      </div>
+    </div>
+
+
+    <div modal="ScheduleEditorIsOpen" close="closeScheduleEditor()" options="ScheduleEditorOptions">
+      <div class="modal-header">
+          <h3>Edit Schedule</h3>
+      </div>
+
+      <div class="modal-body">
+          Name: <input ng-model="editScheduleName"/><br /><br/>
+          Run Program <select ng-model="editScheduleProgram" ng-options="program.name for program in programs"></select></br>
+          At: <timepicker ng-model="scheduleEditorTimePicker" hour-step="scheduleEditorhStep" minute-step="scheduleEditormStep" show-meridian="scheduleEditorIsMeridian"></timepicker>
+          
+          Repeating<br/>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" ng-model="editScheduleType" btn-radio="'Daily'">Daily</button>
+            <button type="button" class="btn btn-primary" ng-model="editScheduleType" btn-radio="'Weekly'">Weekly</button>
+            <button type="button" class="btn btn-primary" ng-model="editScheduleType" btn-radio="'Monthly'">Monthly</button>
+          </div>
+
+          <div ng-show="editScheduleType=='Daily'">
+            Every <input ng-model="editScheduleDaily" /> day(s)
+          </div>
+          
+          <div ng-show="editScheduleType=='Weekly'">
+            Every <input ng-model="editScheduleWeekly" /> week(s) on<br />
+            <input type="checkbox" ng-model="Sunday" />Sunday<br />
+            <input type="checkbox" ng-model="Monday" />Monday<br />
+            <input type="checkbox" ng-model="Tuesday" />Tuesday<br />
+            <input type="checkbox" ng-model="Wednesday" />Wednesday<br />
+            <input type="checkbox" ng-model="Thursday" />Thursday<br />
+            <input type="checkbox" ng-model="Friday" />Friday<br />
+            <input type="checkbox" ng-model="Saturday" />Saturday<br />
+          </div>
+
+          <div ng-show="editScheduleType=='Monthly'">
+            Every <input ng-model="editScheduleWeekly" /> month(s) on the 
+            <select>
+              <option>first</option>
+              <option>second</option>
+              <option>third</option>
+              <option>fourth</option>
+              <option>---</option>
+              <option>last</option>
+            </select>
+
+            <select>
+              <option>Sunday</option>
+              <option>Monday</option>
+              <option>Tuesday</option>
+              <option>Wednesday</option>
+              <option>Thursday</option>
+              <option>Friday</option>
+              <option>Saturday</option>
+              <option>---</option>
+              <option>day</option>
+              <option>weekday</option>
+              <option>weekend day</option>
+            </select>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button class="btn ok" ng-click="saveScheduleEditor()">Save</button>
+          <button class="btn btn-warning cancel" ng-click="closeScheduleEditor()">Cancel</button>
+      </div>
+    </div>
+
+  </body>
+</html>
+
+
+<!--
+
+
+            <select ng-model="newProgramZone">
+              <option ng-repeat="zone in zones" value="{{zone.number}}">({{zone.number}}) {{zones[zone.number-1].name}}</option></select>
+            <select ng-model="newProgramDuration">
+              <option>5</option><option>10</option><option>15</option><option>20</option>
+              <option>25</option><option>30</option><option>35</option><option>40</option>
+              <option>45</option><option>50</option><option>55</option><option>60</option></select>
+
+            -->
+<!--
+    <div modal="ScheduleEditorIsOpen" close="closeScheduleEditor()" options="ScheduleEditorOptions">
+      <div class="modal-header">
+          <h3>Edit Schedule</h3>
+      </div>
+
+      <div class="modal-body">
+      </div>
+      
+      <div class="modal-footer">
+          <button class="btn ok" ng-click="saveScheduleEditor()">Save</button>
+          <button class="btn btn-warning cancel" ng-click="closeScheduleEditor()">Cancel</button>
+      </div>
+    </div>
+-->
+
+
+
+<!--
+    <div id="zonesContainer" class="row">
+      <div class="span10">
+        <h4>Zones</h4>
+        <div class="row">
+          <div class="zone span1" ng-repeat="zone in zones">
+            <span class="zoneNumber">({{zone.number}})</span>
+            <span class="zoneName" ng-hide="editorEnabled"><a href="" ng-click="[editorEnabled=!editorEnabled,newZoneName=zone.name]">{{zone.name}}</a></span>
+            <span class="zoneNameEdit" ng-show="editorEnabled">
+              <input ng-model="newZoneName"/><a href="#" ng-click="[editorEnabled=!editorEnabled,UpdateZoneName(zone,newZoneName)]">[done]</a></span>
+            <span class="startZone" ng-hide="zone.isRunning"><a href="" ng-click="[StartZone(zone)]">[start]</a></span>
+            <span class="stopZone" ng-show="zone.isRunning"><a href="" ng-click="[StopZone(zone)]">[stop]</a></span>
+            <span class="deleteZone"><a href="" ng-click="[DeleteZone(zone)]">[-]</a></span>
+          </div>
+        </div>
+
+        <div class="span3" id="zoneNew">
+          <span>({{zones.length + 1}}) <input ng-model="createNewZoneName" placeholder="New Zone Name"/>
+            <a href="" ng-click="[CreateZone(zones.length + 1, createNewZoneName), createNewZoneName='']">[+]</a></span>
+        </div>
+      </div>
+    </div>
+-->
+
+<!--
     <div id="programsContainer">
       <h4>Programs</h4>
       <div class="program" ng-repeat="program in programs">
         <span class="programName" ng-hide="programEditorEnabled">
-          <a href="" ng-click="[programEditorEnabled=!programEditorEnabled]">{{program.name}}</a></span>
+          <a href="" ng-click="[programEditorEnabled=!programEditorEnabled, newProgramName=program.name]">{{program.name}}</a></span>
         <span class="programNameEdit" ng-show="programEditorEnabled">
           <input ng-model="newProgramName"/>
           <a href="" ng-click="[programEditorEnabled=!programEditorEnabled,UpdateProgramName(program, newProgramName)]">[done]</a></span>
@@ -47,7 +285,9 @@
           </div>
 
           <div class="programZoneNew">Add:
-            <!--<select ng-model="newProgramZone" ng-options="zone.name for zone in zones"></select>-->
+            
+            <select ng-model="newProgramZone" ng-options="zone.name for zone in zones"></select>
+
             <select ng-model="newProgramZone">
               <option ng-repeat="zone in zones" value="{{zone.number}}">({{zone.number}}) {{zones[zone.number-1].name}}</option></select>
             <select ng-model="newProgramDuration">
@@ -61,47 +301,72 @@
       </div>
 
       <div id="programNew">
-        New: <input ng-model="newProgramName"/><a href="" ng-click="[CreateProgram(newProgramName),newProgramName='']">[+]</a>
+        <input ng-model="newProgramName" placeholder="New Program Name"/>
+        <a href="" ng-click="[CreateProgram(newProgramName),newProgramName='']">[+]</a>
       </div>
     </div>
-<!--
+
     <div id="schedulesContainer">
       <h4>Schedule</h4>
       <div class="schedule" ng-repeat="schedule in schedules">
-        <span class="scheduleName"><a href="">ScheduleName1</a></span>
+        Name: {{schedule.name}}<br />
+        Program to run: {{schedule.program}}<br />
+        When: 11:30pm<br />
+        Recurrence: Every other day<br />
+        Start Date: May 1<br />
+        End Date : September 1<br />
+        <a href="" ng-click="openScheduleEditor()">[edit]</a><br />
+      </div>
+      <a href="">[new]</a>
+-->
+
+<!--
+      <div class="schedule" ng-repeat="schedule in schedules">
+        <span class="scheduleName" ng-hide="scheduleEditorEnabled">
+          <a href="" ng-click="[scheduleEditorEnabled=!scheduleEditorEnabled, newScheduleName=schedule.name]">{{schedule.name}}</a></span>
+        
+        <span ng-show="scheduleEditorEnabled" class="scheduleNameEdit">
+          <input ng-model="newScheduleName"/>
+          <a href="" ng-click="[scheduleEditorEnabled=!scheduleEditorEnabled,UpdateScheduleName(schedule,newScheduleName)]">[done]</a></span>
+
+        <div class="scheduleSettingsContainer">
+          
+          Program to Run:<select ng-model="newScheduleProgram" ng-options="program.name for program in programs"></select></br>
+          Repeat:<select ng-model="newScheduleType"><option>Daily</option><option>Weekly</option><option>Monthly</option></select><br/>
+
+          <div ng-show="newScheduleType=='Daily'">
+            Every <input ng-model="newScheduleDaily" /> day(s)
+          </div>
+          
+          <div ng-show="newScheduleType=='Weekly'">
+            Every <input ng-model="newScheduleWeekly" /> week(s) on<br />
+            <input type="checkbox" ng-model="Sunday" />Sunday<br /><input type="checkbox" ng-model="Monday" />Monday<br />
+            <input type="checkbox" ng-model="Tuesday" />Tuesday<br /><input type="checkbox" ng-model="Wednesday" />Wednesday<br />
+            <input type="checkbox" ng-model="Thursday" />Thursday<br /><input type="checkbox" ng-model="Friday" />Friday<br />
+            <input type="checkbox" ng-model="Saturday" />Saturday<br />
+          </div>
+
+          <div ng-show="newScheduleType=='Monthly'">
+            Every <input ng-model="newScheduleWeekly" /> month(s) on the 
+            <select>
+              <option>first</option><option>second</option><option>third</option><option>fourth</option><option>---</option><option>last</option>
+            </select>
+
+            <select>
+              <option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+              <option>Thursday</option><option>Friday</option><option>Saturday</option><option>---</option>
+              <option>day</option><option>weekday</option><option>weekend day</option>
+            </select>
+          </div>
+
+          <a href="" ng-click="[UpdateScheduleProgram(schedule,newScheduleProgram.name)]">[update]</a></span>
+        </div>
       </div>
 
       <div id="scheduleNew">
-        <span><input ng-model="newScheduleName" placeholder="New Schedule Name"/></span>
-        <span>Repeat:<select ng-model="newScheduleType"><option>Daily</option><option>Weekly</option><option>Monthly</option></select></span>
-        <div ng-show="newScheduleType=='Daily'">
-          Every <input ng-model="newScheduleDaily" /> day(s)
-        </div>
-        
-        <div ng-show="newScheduleType=='Weekly'">
-          Every <input ng-model="newScheduleWeekly" /> week(s) on<br />
-          <input type="checkbox" ng-model="Sunday" />Sunday<br /><input type="checkbox" ng-model="Monday" />Monday<br />
-          <input type="checkbox" ng-model="Tuesday" />Tuesday<br /><input type="checkbox" ng-model="Wednesday" />Wednesday<br />
-          <input type="checkbox" ng-model="Thursday" />Thursday<br /><input type="checkbox" ng-model="Friday" />Friday<br />
-          <input type="checkbox" ng-model="Saturday" />Saturday<br />
-        </div>
-
-        <div ng-show="newScheduleType=='Monthly'">
-          Every <input ng-model="newScheduleWeekly" /> month(s) on the 
-          <select>
-            <option>first</option><option>second</option><option>third</option><option>fourth</option><option>---</option><option>last</option>
-          </select>
-
-          <select>
-            <option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option>
-            <option>Thursday</option><option>Friday</option><option>Saturday</option><option>---</option>
-            <option>day</option><option>weekday</option><option>weekend day</option>
-          </select>
-        </div>
+        <input ng-model="newScheduleName" placeholder="New Schedule Name"/>
+        <a href="" ng-click="[CreateSchedule(newScheduleName),newScheduleName='']">[+]</a>
       </div>
-    </div>
--->  
-  </body>
-</html>
+-->
 
 

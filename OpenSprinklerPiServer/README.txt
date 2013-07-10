@@ -41,132 +41,231 @@ REST API Documentation
 Commands that can be sent using the REST API (replace the IP with your actual IP):
 
 
-Create a zone:
-POST http://0.0.0.0/sprinkler/zone
-body:
-{
-	name:"Name of Zone", 
-	number:1
-}
--note: zone numbers will be reordered to be the last zone number in the list, regardless of the number you put here
+POST /sprinkler/zone
+
+	Creates a new zone
+
+	Parameters
+	name 		string		The friendly name of the zone
+	number 		int 		The physical zone number
+
+	Status Codes
+	201 		Zone was successfully created
+	400			Data supplied is invalid, reason supplied in the body
+	409			Zone number already exists
+
+	Notes
+	zone numbers will be reordered to be the last zone number in the list, regardless of the number you put here
 
 
-List all Zones:
+
+
 GET http://0.0.0.0/sprinkler/zone
 
+	List all Zones
 
-List specific zone:
+	Status Codes
+	200			All zones returned
+
+
+
+
 GET http://0.0.0.0/sprinkler/zone
 
+	List specific zone
 
-Update Zone Name:
+
+	Status Codes
+	200			All zones returned
+	404			Zone not found, doesn't exist
+
+
+
+
 PUT http://0.0.0.0/sprinkler/zone
-body:
-{
-	number:1,
-	method: "Rename",
-	params:
-	{
-		name:"New Zone Name"
-	}
-}
+
+	Update Zone
+
+	Parameters
+	number 		int
+	method		"Rename"
+	params
+		name 	string
+
+	Status Codes
+	200			Zone renamed
+	400			Data supplied is invalid, reason supplied in the body
+	404			Zone not found, doesn't exist
 
 
-Delete a Zone:
+
+
 DELETE http://0.0.0.0/sprinkler/zone/1
 
+	Delete a Zone
 
-Manually Start a Zone
+	Status Codes
+	200			Zone Deleted
+	404			Zone not found, doesn't exist
+
+
+
+
 GET http://0.0.0.0/sprinkler/zone/1/start
 
+	Manually Start a Zone
 
-Manually Stop a Zone
+	Status Codes
+	200			Zone started
+	404			Zone not found, doesn't exist
+
+
+
+
 GET http://0.0.0.0/sprinkler/zone/1/stop
 
+	Manually Stop a Zone
 
-Stop All Zones:
+	Status Codes
+	200			Zone Stopped
+	404			Zone not found, doesn't exist
+
+
+
+
 GET http://0.0.0.0/sprinkler/zone/stop
 
+	Stop All Zones
 
-Toggle a Zone On/Off
-http://0.0.0.0/sprinkler/zone/toggle
+	Status Codes
+	200			All zones stopped
 
 
-Create a Program
+
+
+GET http://0.0.0.0/sprinkler/zone/1/toggle
+
+	Toggle a Zone On/Off
+
+	Status Codes
+	200			Zone toggled
+	404			Zone not found, doesn't exist
+
+
+
+
 POST http://0.0.0.0/sprinkler/program
-body:
-{
-	name:"Name of Program"
-}
+
+	Create a Program
+
+	Parameters
+	name 		string
+
+	Status Codes
+	201 		Program was successfully created
+	400			Data supplied is invalid, reason supplied in the body
+	409			Program name already exists
 
 
-List All Programs:
+
+
 GET http://0.0.0.0/sprinkler/program
 
+	List All Programs
 
-List Specific Program:
+	Status Codes
+	200			All programs returned
+
+
+
+
 GET http://0.0.0.0/sprinkler/program/Program%20Name
 
+	List Specific Program
 
-Add a Zone to a Program:
+	Status Codes
+	200	 		Program returned
+	404 		Program name not found, doesn't exist
+
+
+
+
 PUT http://0.0.0.0/sprinkler/program
-body:
-{
-	name:"Program Name",
-	method: "Add Zone",
-    params:
-    {
-    	number:1, 		//zone number
-    	duration:5 		//in minutes
-    }
-}
+
+	Modify a Program
+
+	Parameters
+	name 		string
+	method 		"Add Zone", "Remove Zone", "Rename"
+	params
+	  number 	string 		Zone number to add or remove [Add zone, Remove zone]
+	  duration  int 		duration the zone will run (in minutes) [Add zone]
+	  name 		string		new name of program [Rename]
+
+	Status Codes
+	200 		Program sucessfully updated
+	400 		Data supplied is invalid, reason supplied in the body
+	404 		Program name not found, doesn't exist [All requests]
+	404			Zone not found [Add zone, Remove zone]
+	409			Program name already exists
 
 
-Remove a Zone from a Program:
-PUT http://0.0.0.0/sprinkler/program
-body:
-{
-	name:"Program Name",
-	method: "Remove Zone",
-	params:
-	{
-		number:1		//zone number
-	}
-}
-
-
-Update Program Name:
-PUT http://0.0.0.0/sprinkler/program
-body:
-{
-	name:"Program Name",
-	method: "Rename",
-	params:
-	{
-		name: "New Program Name"
-	}
-}
-
-
-Delete a Program:
 DELETE http://0.0.0.0/sprinkler/program/Program%20Name
 
+	Delete a Program
 
-Start a Program:
+	Status Codes
+	200 		Program deleted
+	404			Program not found, Doesn't exist
+
+
+
+
 GET http://0.0.0.0/sprinkler/program/Program%20Name/start
 
+	Start a Program
 
-Stop a Program:
+	Status Codes
+	200 		Program started
+	404			Program not found, Doesn't exist
+
+
+
+
 GET http://0.0.0.0/sprinkler/program/Program%20Name/stop
 
+	Stop a Program
 
-Stop all Programs:
+	Status Codes
+	200 		Program stopped
+	404			Program not found, Doesn't exist
+
+
+
+
 GET http://0.0.0.0/sprinkler/program/stop
 
+	Stop all Programs
 
-Advance to next zone in a program:
+	Status Codes
+	200 		All programs stopped
+
+
+
+
 GET http://0.0.0.0/sprinkler/program/Program%20Name/next
 
+	Advance to next zone in a program
 
-Advance to next zone in any program:
+	Status Codes
+	200 		OK
+
+
+
+
 GET http://0.0.0.0/sprinkler/program/next
+
+	Advance to next zone in any program
+
+	Status Codes
+	200 		OK
