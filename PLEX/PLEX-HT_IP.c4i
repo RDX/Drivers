@@ -1,0 +1,1405 @@
+<devicedata>
+
+  <c4id>01f794b2-2b2d-4a9f-bdcf-0396d203eb39</c4id>
+    <!-- This is a comment string in the .c4i and is ignored -->
+  <copyright>Copyright 2014 Nathan Burr.  All rights reserved.</copyright>
+  <manufacturer>PLEX.TV</manufacturer>
+    <!-- Manufacturer of the device -->
+
+  <creator>Nathan Burr</creator>
+  <created>2/13/2014 12:00:00 PM</created>
+  <modified>2/14/2014 12:00:00 PM</modified>  
+  <name>PLEX Home Theater</name>
+    <!-- Default name of driver when added to system -->
+
+  <model>10</model>
+    <!-- Model info displayed in Search interface -->
+
+  <small>devices_sm/receiver.gif</small>
+  <large>devices_lg/receiver.gif</large>
+    <!-- Icon can be changed to any available .gif in c:\Program Files\Control4\Composer160\Images - only used in Composer -->
+
+  <top>
+  </top>
+  <bottom>
+  </bottom>
+  <front>
+  </front>
+  <back>
+  </back>
+  <left>
+  </left>
+  <right>
+  </right>
+
+  <control>lua_gen</control>
+  <controlmethod>ip</controlmethod>
+  <driver>DriverWorks</driver>
+  <search_type>c4:av_gen</search_type>
+
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="Plex Home Theater">media_player</proxy>
+  </proxies>
+
+
+  <connections>
+    <connection>
+      <id>5001</id>
+      <type>2</type>
+      <connectionname>MEDIA_PLAYER</connectionname>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <consumer>False</consumer>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>MEDIA_PLAYER</classname>
+        </class>
+      </classes>
+    </connection>
+
+    <connection proxybindingid="5001" verified="False">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>OUTPUT</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+       <class>
+        <classname>STEREO</classname>
+       </class>
+       <class>
+        <classname>DIGITAL_OPTICAL</classname>
+       </class>
+       <class>
+        <classname>DIGITAL_COAX</classname>
+       </class>
+      </classes>
+    </connection>
+
+    <connection proxybindingid="5001" verified="False">
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>OUTPUT</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+       <class>
+        <classname>COMPONENT</classname>
+       </class>
+       <class>
+        <classname>COMPOSITE</classname>
+       </class>
+       <class>
+        <classname>SVIDEO</classname>
+       </class>
+        <class>
+         <classname>DVI</classname>
+        </class>
+       <class>
+        <classname>HDMI</classname>
+       </class>
+       <class>
+        <classname>VGA</classname>
+       </class>
+      </classes>
+    </connection>
+
+    <connection proxybindingid="5001" verified="False">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection - OUTPUT</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+
+    <connection proxybindingid="5001" verified="True">
+      <id>3002</id>
+      <facing>6</facing>
+      <connectionname>TUNER</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <idautobind>1</idautobind>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>STEREO</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>COMPONENT</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>COMPOSITE</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>SVIDEO</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>VGA</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>DVI</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>HDMI</classname>
+          <autobind>True</autobind></class>
+      </classes>
+    </connection>
+
+    <connection proxybindingid="5001" verified="True">
+      <id>4001</id>
+      <facing>6</facing>
+      <connectionname>TUNER Proxy Output To MEDIA PLAYER [REQUIRED]</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <idautobind>1</idautobind>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>STEREO</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>VGA</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>COMPONENT</classname>
+          <autobind>True</autobind></class>
+       <class>
+          <classname>COMPOSITE</classname>
+          <autobind>True</autobind></class>
+       <class>
+          <classname>SVIDEO</classname>
+          <autobind>True</autobind></class>
+        <class>
+          <classname>DVI</classname>
+          <autobind>True</autobind></class>
+       <class>
+          <classname>HDMI</classname>
+          <autobind>True</autobind></class>
+      </classes>
+    </connection>
+
+    <connection>
+    <id>6001</id>
+    <facing>6</facing>
+    <connectionname>PLEX Home Theater IP</connectionname>
+    <type>4</type>
+    <consumer>True</consumer>
+    <audiosource>False</audiosource>
+    <videosource>False</videosource>
+    <linelevel>True</linelevel>
+    <classes>
+      <class>
+        <classname>TCP</classname>
+        <ports>
+          <port>
+            <number>3005</number>
+            <auto_connect>True</auto_connect>
+            <monitor_connection>False</monitor_connection>
+            <keep_connection>False</keep_connection>
+          </port>
+        </ports>
+      </class>
+    </classes>
+    </connection>
+
+    <connection>
+      <id>2001</id>
+        <facing>6</facing>
+        <force>True</force>
+        <connectionname>Digital Media Storage</connectionname>
+        <type>5</type>
+        <consumer>True</consumer>
+        <audiosource>False</audiosource>
+        <videosource>False</videosource>
+        <linelevel>False</linelevel>
+        <hidden>True</hidden>
+        <classes>
+          <class>
+            <autobind>True</autobind>
+            <classname>DIGITAL_MEDIA_STORAGE</classname>
+          </class>
+        </classes>
+    </connection>
+
+  </connections>
+
+  <capabilities controlweight="0.5">
+   <has_discrete_volume_control>False</has_discrete_volume_control>
+   <has_up_down_volume_control>False</has_up_down_volume_control>
+   <has_discrete_preset>False</has_discrete_preset>
+   <has_discrete_input_select controlrating="0.2">True</has_discrete_input_select>
+   <surround_modes/>
+   <can_upclass controlrating="0">False</can_upclass>
+   <can_downclass controlrating="0">False</can_downclass>
+   <media_count controlrating="0">10000</media_count>
+   <has_direct_disk_access controlrating="0.5">True</has_direct_disk_access>
+   <has_discrete_channel_select controlrating="0.4">True</has_discrete_channel_select>
+   <has_direct_track_access controlrating="0.5">False</has_direct_track_access>
+   <has_discrete_input_select controlrating="0.1">True</has_discrete_input_select>
+   <can_play_dvd controlrating="0">True</can_play_dvd>
+   <can_play_cd controlrating="0">True</can_play_cd>
+   <media_type controlrating="0">5</media_type>
+   <can_scan_media>True</can_scan_media>
+  </capabilities>
+
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+
+  <config>
+    <power_management_method>AlwaysOn</power_management_method>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>0</power_delay>
+    <power_command_needed>False</power_command_needed>
+
+    <documentation>Identify the driver by entering the Plex Home Theater IP. Setup AV Connections</documentation>
+
+    <properties>
+
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+				  <item>True</item>
+				  <item>False</item>
+        </items>
+        <default>False</default>
+        <readonly>False</readonly>
+      </property>
+
+      <property>
+        <name>Red Button</name>
+        <type>LIST</type>
+        <items>
+          <item>STEP_BACK</item>
+          <item>STEP_FORWARD</item>
+          <item>BIG_STEP_BACK</item>
+          <item>BIG_STEP_FORWARD</item>
+          <item>PULSE_CH_UP</item>
+          <item>PULSE_CH_DOWN</item>
+          <item>MENU</item>
+          <item>INFO</item>
+          <item>Do_Nothing</item>
+        </items>
+        <default>Do_Nothing</default>
+        <readonly>false</readonly>
+      </property>
+
+      <property>
+        <name>Green Button</name>
+        <type>LIST</type>
+        <items>
+          <item>STEP_BACK</item>
+          <item>STEP_FORWARD</item>
+          <item>BIG_STEP_BACK</item>
+          <item>BIG_STEP_FORWARD</item>
+          <item>PULSE_CH_UP</item>
+          <item>PULSE_CH_DOWN</item>
+          <item>MENU</item>
+          <item>INFO</item>
+          <item>Do_Nothing</item>
+        </items>
+        <default>Do_Nothing</default>
+        <readonly>false</readonly>
+      </property>
+
+      <property>
+        <name>Yellow Button</name>
+        <type>LIST</type>
+        <items>
+          <item>STEP_BACK</item>
+          <item>STEP_FORWARD</item>
+          <item>BIG_STEP_BACK</item>
+          <item>BIG_STEP_FORWARD</item>
+          <item>PULSE_CH_UP</item>
+          <item>PULSE_CH_DOWN</item>
+          <item>MENU</item>
+          <item>INFO</item>
+          <item>Do_Nothing</item>
+        </items>
+        <default>Do_Nothing</default>
+        <readonly>false</readonly>
+      </property>
+
+      <property>
+        <name>Blue Button</name>
+        <type>LIST</type>
+        <items>
+          <item>STEP_BACK</item>
+          <item>STEP_FORWARD</item>
+          <item>BIG_STEP_BACK</item>
+          <item>BIG_STEP_FORWARD</item>
+          <item>PULSE_CH_UP</item>
+          <item>PULSE_CH_DOWN</item>
+          <item>MENU</item>
+          <item>INFO</item>
+          <item>Do_Nothing</item>
+        </items>
+        <default>Do_Nothing</default>
+        <readonly>false</readonly>
+      </property>
+
+</properties>
+
+<commands>
+
+  <command>
+    <name>Play File</name>
+    <description>NAME PARAM1</description>
+    <params>
+      <param>
+        <name>File Name</name>
+        <type>STRING</type>
+      </param>
+    </params>
+  </command>
+
+</commands>
+
+<script><![CDATA[
+
+-- Static Variables
+-- API located here: https://oldwiki.plexapp.com/index.php?title=HTTP_API/Control
+
+COMMAND_MAP = {
+UP              = "/navigation/moveUp",
+DOWN 	          = "/navigation/moveDown",
+LEFT		        = "/navigation/moveLeft",
+RIGHT           = "/navigation/moveRight",
+PAGE_UP         = "/navigation/pageUp",
+PAGE_DOWN       = "/navigation/pageDown",
+PULSE_CH_UP     = "/navigation/previousLetter",
+PULSE_CH_DOWN   = "/navigation/nextLetter",
+
+ENTER     = "/navigation/select",
+RECALL    = "/navigation/back",
+MENU      = "/navigation/contextMenu",
+INFO      = "/navigation/toggleOSD",
+CANCEL    = "/navigation/back",
+
+PLAY 			= "/playback/play",
+PAUSE 		= "/playback/pause",
+STOP 			= "/playback/stop",
+SCAN_REV 	= "/playback/rewind",
+SCAN_FWD 	= "/playback/fastForward",
+BIG_STEP_BACK     = "/playback/bigStepBack",
+BIG_STEP_FORWARD  = "/playback/bigStepForward",
+STEP_FORWARD      = "/playback/stepBack",
+STEP_BACK         = "/playback/stepForward",
+
+SKIP_FWD 	= "/playback/skipNext",
+SKIP_REV 	= "/playback/skipPrevious",
+
+
+--Virtual Keys not working at the moment.
+
+-- NUMBER_0  = "/application/sendVirtualKey?code=48",
+-- NUMBER_1  = "/application/sendVirtualKey?code=49",
+-- NUMBER_2  = "/application/sendVirtualKey?code=50",
+-- NUMBER_3  = "/application/sendVirtualKey?code=51",
+-- NUMBER_4  = "/application/sendVirtualKey?code=52",
+-- NUMBER_5  = "/application/sendVirtualKey?code=53",
+-- NUMBER_6  = "/application/sendVirtualKey?code=54",
+-- NUMBER_7  = "/application/sendVirtualKey?code=55",
+-- NUMBER_8  = "/application/sendVirtualKey?code=56",
+-- NUMBER_9  = "/application/sendVirtualKey?code=57",
+-- SELECT_AUDIO_CHANNEL    = "/application/sendKey?code=65",
+-- SELECT_CAPTION_CHANNEL  = "/application/sendKey?code=83",
+-- CANCEL    = "/application/sendKey?code=27",
+
+Do_Nothing = "",
+}
+
+-- Global Variables
+g_URLPacket = ""
+g_Receivebuffer = ""
+g_LastXMLResult = ""
+
+
+--- Helper Functions ---
+function GenerateHTTPRequest( strPath )
+  local path = "/player" .. strPath
+  local request = GenerateHTTPHeader( path )
+  print(path)
+  return request
+end
+
+function GenerateHTTPHeader( strPath )
+	local endLine		= "\r\n\r\n"
+	return "GET " .. strPath .. " HTTP/1.1\r\nHost: localhost:3005" .. endLine
+end
+
+function processResults()
+  local startPos = string.find(g_Receivebuffer,"?xml%s")
+  if(startPos ~= nil) then
+    startPos = startPos - 1
+
+    local length = string.len(g_Receivebuffer)
+    local xml = string.sub(g_Receivebuffer, startPos, length)
+    local h = simpleTreeHandler()
+    local x = xmlParser(h)
+
+    x:parse(xml)
+
+    g_LastXMLResult = xml
+  end
+end
+
+
+--- DriverWorks Functions ---
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+  if Properties["Debug Mode"] == "True" then
+   print("ReceivedFromNetwork [" .. idBinding .. "] : " .. nPort .. " : " .. strData)
+  end
+
+  -- Save up things coming back on HTTP port, process when done sending to us...
+  g_Receivebuffer = g_Receivebuffer .. strData
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+  if Properties["Debug Mode"] == "True" then
+   print("ReceivedFromProxy [" .. idBinding .. "] : " .. strCommand)
+   if (tParams ~= nil) then
+    for ParamName, ParamValue in pairs(tParams) do
+     print(ParamName, ParamValue)
+    end
+   end
+  end
+
+  if (strCommand == "PLAY_THIS_FILE") then
+   playURL("smb:" .. tParams["FILE"])
+  end
+
+  --Media Player Events
+  if (strCommand == "ON") then
+   C4:SendToProxy(5001, "ON","")
+  end
+
+  if (strCommand == "OFF") then
+   C4:SendToProxy(idBinding, "OFF","")
+  end
+
+  if (strCommand == "PLAY") then
+   C4:SendToProxy(idBinding, "PLAY","")
+  end   
+  if (strCommand == "STOP") then
+   C4:SendToProxy(idBinding, "STOP","")
+  end
+  if (strCommand == "PAUSE") then
+   C4:SendToProxy(idBinding, "PAUSE","")
+  end
+
+  if (strCommand == "PROGRAM_A") then
+    g_URLPacket = GenerateHTTPRequest( COMMAND_MAP[Properties["Red Button"]] )
+    C4:NetConnect(6001, 3005)
+  elseif (strCommand == "PROGRAM_B") then
+    g_URLPacket = GenerateHTTPRequest( COMMAND_MAP[Properties["Green Button"]] )
+    C4:NetConnect(6001, 3005)
+  elseif (strCommand == "PROGRAM_C") then
+    g_URLPacket = GenerateHTTPRequest( COMMAND_MAP[Properties["Yellow Button"]] )
+    C4:NetConnect(6001, 3005)
+  elseif (strCommand == "PROGRAM_D") then
+    g_URLPacket = GenerateHTTPRequest( COMMAND_MAP[Properties["Blue Button"]] )
+    C4:NetConnect(6001, 3005)
+  elseif (COMMAND_MAP[strCommand] ~= nill) then
+    g_URLPacket = GenerateHTTPRequest( COMMAND_MAP[strCommand] )
+    C4:NetConnect(6001, 3005)
+  end
+
+end
+
+
+function ExecuteCommand(strCommand, tParams)
+  if Properties["Debug Mode"] == "True" then
+   print("ExecuteCommand : " .. strCommand)
+   if (tParams ~= nil) then
+    for ParamName, ParamValue in pairs(tParams) do
+     print(ParamName, ParamValue)
+    end
+   end
+  end
+
+  if (strCommand == "LUA_ACTION") then
+    if tParams ~= nil then
+      for cmd,cmdv in pairs(tParams) do 
+        print (cmd,cmdv)
+        if cmd == "ACTION" then
+          print("From ExecuteCommand Function - Undefined Action")
+          print("Key: " .. cmd .. "  Value: " .. cmdv)
+        else
+          print("From ExecuteCommand Function - Undefined Command")
+          print("Key: " .. cmd .. "  Value: " .. cmdv)
+        end
+      end
+    end
+  end
+
+  if (strCommand == "Play File") then
+   if (tParams ~= nil) then
+    for ParamName, ParamValue in pairs(tParams) do
+     if (ParamName == "File Name") then
+      g_Receivebuffer = ""
+      C4:NetConnect(6001, 3005)
+      g_URLPacket = ""
+      Temp = UnEscapeHTTP(ParamValue)
+      g_URLPacket = g_URLPacket .. play_file .. Temp .. suffix
+        if Properties["Debug Mode"] == "True" then
+        print("sending command : " .. g_URLPacket)
+        print("sending value : " .. ParamValue)
+       end
+     end
+    end
+   end
+  end
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	if Properties["Debug Mode"] == "True" then
+    print("OnConnectionStatusChanged [" .. idBinding .. "] : " .. nPort .. " : " .. strStatus)
+  end
+
+  if (idBinding == 6001) then
+    if (strStatus == "ONLINE") then
+      g_Receivebuffer = ""
+      C4:SendToNetwork(6001, nPort, g_URLPacket)
+    else
+      processResults()
+    end
+  end
+end
+
+
+----------------------------
+-- THIRD PARTY XML PARSER --
+----------------------------
+
+
+---
+--  Overview:
+--  =========
+--      Standard XML event handler(s) for XML parser module (xml.lua)
+--  
+--  Features:
+--  =========
+--      printHandler        - Generate XML event trace
+--      domHandler          - Generate DOM-like node tree
+--      simpleTreeHandler   - Generate 'simple' node tree
+--  
+--  API:
+--  ====
+--      Must be called as handler function from xmlParser
+--      and implement XML event callbacks (see xmlParser.lua 
+--      for callback API definition)
+--
+--      printHandler:
+--      -------------
+--
+--      printHandler prints event trace for debugging
+--
+--      domHandler:
+--      -----------
+--
+--      domHandler generates a DOM-like node tree  structure with 
+--      a single ROOT node parent - each node is a table comprising 
+--      fields below.
+--  
+--      node = { _name = <Element Name>,
+--              _type = ROOT|ELEMENT|TEXT|COMMENT|PI|DECL|DTD,
+--              _attr = { Node attributes - see callback API },
+--              _parent = <Parent Node>
+--              _children = { List of child nodes - ROOT/NODE only }
+--            }
+--
+--      The dom structure is capable of representing any valid XML document
+--
+--      simpleTreeHandler
+--      -----------------
+--
+--      simpleTreeHandler is a simplified handler which attempts 
+--      to generate a more 'natural' table based structure which
+--      supports many common XML formats. 
+--      
+--      The XML tree structure is mapped directly into a recursive
+--      table structure with node names as keys and child elements
+--      as either a table of values or directly as a string value
+--      for text. Where there is only a single child element this
+--      is inserted as a named key - if there are multiple
+--      elements these are inserted as a vector (in some cases it
+--      may be preferable to always insert elements as a vector
+--      which can be specified on a per element basis in the
+--      options).  Attributes are inserted as a child element with
+--      a key of '_attr'. 
+--      
+--      Only Tag/Text & CDATA elements are processed - all others
+--      are ignored.
+--      
+--      This format has some limitations - primarily
+--  
+--      * Mixed-Content behaves unpredictably - the relationship 
+--        between text elements and embedded tags is lost and 
+--        multiple levels of mixed content does not work
+--      * If a leaf element has both a text element and attributes
+--        then the text must be accessed through a vector (to
+--        provide a container for the attribute)
+--
+--      In general however this format is relatively useful. 
+--
+--      It is much easier to understand by running some test
+--      data through 'textxml.lua -simpletree' than to read this)
+--
+--  Options
+--  =======
+--      simpleTreeHandler.options.noReduce = { <tag> = bool,.. }
+--
+--          - Nodes not to reduce children vector even if only 
+--            one child
+--
+--      domHandler.options.(comment|pi|dtd|decl)Node = bool 
+--          
+--          - Include/exclude given node types
+--  
+--  Usage
+--  =====
+--      Pased as delegate in xmlParser constructor and called 
+--      as callback by xmlParser:parse(xml) method.
+--
+--      See textxml.lua for examples
+--  License:
+--  ========
+--
+--      This code is freely distributable under the terms of the Lua license
+--      (<a href="http://www.lua.org/copyright.html">http://www.lua.org/copyright.html</a>)
+--
+--  History
+--  =======
+--  $Id: handler.lua,v 1.1.1.1 2001/11/28 06:11:33 paulc Exp $
+--
+--  $Log: handler.lua,v $
+--  Revision 1.1.1.1  2001/11/28 06:11:33  paulc
+--  Initial Import
+--@author Paul Chakravarti (paulc@passtheaardvark.com)<p/>
+
+
+---Handler to generate a string prepresentation of a table
+--Convenience function for printHandler (Does not support recursive tables).
+--@param t Table to be parsed
+--@returns Returns a string representation of table
+function showTable(t)
+    local sep = ''
+    local res = ''
+    if type(t) ~= 'table' then
+        return t
+    end
+    for k,v in pairs(t) do
+        if type(v) == 'table' then 
+            v = showTable(v)
+        end
+        res = res .. sep .. string.format("%s=%s",k,v)    
+        sep = ','
+    end
+    res = '{'..res..'}'
+    return res
+end
+        
+---Handler to generate a simple event trace
+printHandler = function()
+    local obj = {}
+    obj.starttag = function(self,t,a,s,e) 
+        io.write("Start    : "..t.."\n") 
+        if a then 
+            for k,v in pairs(a) do 
+                io.write(string.format(" + %s='%s'\n",k,v))
+            end 
+        end
+    end
+    obj.endtag = function(self,t,s,e) 
+        io.write("End      : "..t.."\n") 
+    end
+    obj.text = function(self,t,s,e)
+        io.write("Text     : "..t.."\n") 
+    end
+    obj.cdata = function(self,t,s,e)
+        io.write("CDATA    : "..t.."\n") 
+    end
+    obj.comment = function(self,t,s,e)
+        io.write("Comment  : "..t.."\n") 
+    end
+    obj.dtd = function(self,t,a,s,e)     
+        io.write("DTD      : "..t.."\n") 
+        if a then 
+            for k,v in pairs(a) do 
+                io.write(string.format(" + %s='%s'\n",k,v))
+            end 
+        end
+    end
+    obj.pi = function(self,t,a,s,e) 
+        io.write("PI       : "..t.."\n")
+        if a then 
+            for k,v in pairs(a) do 
+               io. write(string.format(" + %s='%s'\n",k,v))
+            end 
+        end
+    end
+    obj.decl = function(self,t,a,s,e) 
+        io.write("XML Decl : "..t.."\n")
+        if a then 
+            for k,v in pairs(a) do 
+                io.write(string.format(" + %s='%s'\n",k,v))
+            end 
+        end
+    end
+    return obj
+end
+
+---Handler to generate a lua table from a XML content string
+function simpleTreeHandler()
+    local obj = {}
+    
+    obj.root = {} 
+    obj.stack = {obj.root;n=1}
+    obj.options = {noreduce = {}}
+
+    obj.reduce = function(self,node,key,parent)
+        -- Recursively remove redundant vectors for nodes
+        -- with single child elements
+        for k,v in pairs(node) do
+            if type(v) == 'table' then
+                self:reduce(v,k,node)
+            end
+        end
+        if table.getn(node) == 1 and not self.options.noreduce[key] and 
+            node._attr == nil then
+            parent[key] = node[1]
+        else
+            node.n = nil
+        end
+    end
+        
+    obj.starttag = function(self,t,a)
+        local node = {}
+        if self.parseAttributes == true then
+           node._attr=a
+        end
+        
+        local current = self.stack[table.getn(self.stack)]
+        if current[t] then
+            table.insert(current[t],node)
+        else
+            current[t] = {node;n=1}
+        end
+        table.insert(self.stack,node)
+    end
+
+    obj.endtag = function(self,t,s)
+        local current = self.stack[table.getn(self.stack)]
+        local prev = self.stack[table.getn(self.stack)-1]
+        if not prev[t] then
+            error("XML Error - Unmatched Tag ["..s..":"..t.."]\n")
+        end
+        if prev == self.root then
+            -- Once parsing complete recursively reduce tree
+            self:reduce(prev,nil,nil)
+        end
+        table.remove(self.stack)
+    end
+    
+    obj.text = function(self,t)
+        local current = self.stack[table.getn(self.stack)]
+        table.insert(current,t)
+    end
+
+    obj.cdata = obj.text
+
+    return obj
+end
+
+--- domHandler
+function domHandler() 
+    local obj = {}
+    obj.options = {commentNode=1,piNode=1,dtdNode=1,declNode=1}
+    obj.root = { _children = {n=0}, _type = "ROOT" }
+    obj.current = obj.root
+    obj.starttag = function(self,t,a)
+            local node = { _type = 'ELEMENT', 
+                           _name = t, 
+                           _attr = a, 
+                           _parent = self.current, 
+                           _children = {n=0} }
+            table.insert(self.current._children,node)
+            self.current = node
+    end
+    obj.endtag = function(self,t,s)
+            if t ~= self.current._name then
+                error("XML Error - Unmatched Tag ["..s..":"..t.."]\n")
+            end
+            self.current = self.current._parent
+    end
+    obj.text = function(self,t)
+            local node = { _type = "TEXT", 
+                           _parent = self.current, 
+                           _text = t }
+            table.insert(self.current._children,node)
+    end
+    obj.comment = function(self,t)
+            if self.options.commentNode then
+                local node = { _type = "COMMENT", 
+                               _parent = self.current, 
+                               _text = t }
+                table.insert(self.current._children,node)
+            end
+    end
+    obj.pi = function(self,t,a)
+            if self.options.piNode then
+                local node = { _type = "PI", 
+                               _name = t,
+                               _attr = a, 
+                               _parent = self.current } 
+                table.insert(self.current._children,node)
+            end
+    end
+    obj.decl = function(self,t,a)
+            if self.options.declNode then
+                local node = { _type = "DECL", 
+                               _name = t,
+                               _attr = a, 
+                               _parent = self.current }
+                table.insert(self.current._children,node)
+            end
+    end
+    obj.dtd = function(self,t,a)
+            if self.options.dtdNode then
+                local node = { _type = "DTD", 
+                               _name = t,
+                               _attr = a, 
+                               _parent = self.current }
+                table.insert(self.current._children,node)
+            end
+    end
+    obj.cdata = obj.text
+    return obj
+end
+
+---
+--  Overview:
+--  =========
+--
+--      This module provides a non-validating XML stream parser in Lua. 
+--  
+--  Features:
+--  =========
+--  
+--      * Tokenises well-formed XML (relatively robustly)
+--      * Flexible handler based event api (see below)
+--      * Parses all XML Infoset elements - ie.
+--          - Tags
+--          - Text
+--          - Comments
+--          - CDATA
+--          - XML Decl
+--          - Processing Instructions
+--          - DOCTYPE declarations
+--      * Provides limited well-formedness checking 
+--        (checks for basic syntax & balanced tags only)
+--      * Flexible whitespace handling (selectable)
+--      * Entity Handling (selectable)
+--  
+--  Limitations:
+--  ============
+--  
+--      * Non-validating
+--      * No charset handling 
+--      * No namespace support 
+--      * Shallow well-formedness checking only (fails
+--        to detect most semantic errors)
+--  
+--  API:
+--  ====
+--
+--  The parser provides a partially object-oriented API with 
+--  functionality split into tokeniser and hanlder components.
+--  
+--  The handler instance is passed to the tokeniser and receives
+--  callbacks for each XML element processed (if a suitable handler
+--  function is defined). The API is conceptually similar to the 
+--  SAX API but implemented differently.
+--  
+--  The following events are generated by the tokeniser
+--  
+--      handler:start       - Start Tag
+--      handler:end         - End Tag
+--      handler:text        - Text
+--      handler:decl        - XML Declaration
+--      handler:pi          - Processing Instruction
+--      handler:comment     - Comment
+--      handler:dtd         - DOCTYPE definition
+--      handler:cdata       - CDATA 
+--  
+--  The function prototype for all the callback functions is
+--      
+--      callback(val,attrs,start,end)
+--  
+--  where attrs is a table and val/attrs are overloaded for 
+--  specific callbacks - ie.
+--  
+--      Callback     val            attrs (table)
+--      --------     ---            -------------
+--      start        name           { attributes (name=val).. }
+--      end          name           nil
+--      text         <text>         nil
+--      cdata        <text>         nil
+--      decl         "xml"          { attributes (name=val).. }
+--      pi           pi name        { attributes (if present)..
+--                                    _text = <PI Text>
+--                                  }
+--      comment      <text>         nil     
+--      dtd          root element   { _root = <Root Element>,
+--                                    _type = SYSTEM|PUBLIC,
+--                                    _name = <name>,
+--                                    _uri = <uri>,
+--                                    _internal = <internal dtd>
+--                                  }
+--
+--  (start & end provide the character positions of the start/end
+--  of the element)
+--
+--  XML data is passed to the parser instance through the 'parse'
+--  method (Nore: must be passed a single string currently)
+--
+--  Options
+--  =======
+--
+--  Parser options are controlled through the 'self.options' table.
+--  Available options are -
+--  
+--      * stripWS   
+--      
+--        Strip non-significant whitespace (leading/trailing) 
+--        and do not generate events for empty text elements
+--  
+--      * expandEntities 
+--  
+--        Expand entities (standard entities + single char 
+--        numeric entities only currently - could be extended 
+--        at runtime if suitable DTD parser added elements
+--        to table (see obj._ENTITIES). May also be possible
+--        to expand multibyre entities for UTF-8 only
+--  
+--      * errorHandler
+--  
+--        Custom error handler function 
+--
+--  NOTE: Boolean options must be set to 'nil' not '0'
+--  
+--  Usage
+--  =====
+--
+--  Create a handler instance - 
+--  
+--      h = { start = function(t,a,s,e) .... end,
+--            end = function(t,a,s,e) .... end,
+--            text = function(t,a,s,e) .... end,
+--            cdata = text }
+--  
+--  (or use predefined handler - see handler.lua)
+--  
+--  Create parser instance - 
+--  
+--      p = xmlParser(h)
+--  
+--  Set options -
+--
+--      p.options.xxxx = nil
+--
+--  Parse XML data -
+--  
+--      xmlParser:parse("<?xml... ")
+--  License:
+--  ========
+--
+--      This code is freely distributable under the terms of the Lua license
+--      (http://www.lua.org/copyright.html)
+--
+--  History
+--  =======
+--  Added parameter parseAttributes (boolean) in xmlParser.parse method
+--  If true, tag attributtes are parsed. The default value is true.
+--  by Manoel Campos (http://manoelcampos.com)
+--
+--  $Id: xml.lua,v 1.1.1.1 2001/11/28 06:11:33 paulc Exp $
+--
+--  $Log: xml.lua,v $
+--  Revision 1.1.1.1  2001/11/28 06:11:33  paulc
+--  Initial Import
+--
+--@author Paul Chakravarti (paulc@passtheaardvark.com)<p/>
+
+
+---Parses a XML string
+--@param handler Handler object to be used to convert the XML string
+--to another formats. @see handler.lua
+xmlParser = function(handler)     
+    local obj = {}
+    -- Public attributes 
+
+    obj.options = { 
+                    stripWS = 1, 
+                    expandEntities = 1,
+                    errorHandler = function(err,pos) 
+                                       error(format("%s [char=%d]\n",
+                                               err or "Parse Error",pos))
+                                   end,
+                  }
+
+    -- Public methods
+
+    obj.parse = function(self, str, parseAttributes)
+      if parseAttributes == nil then
+         parseAttributes = true
+      end
+      self._handler.parseAttributes = parseAttributes
+    
+        local match,endmatch,pos = 0,0,1
+        local text,endt1,endt2,tagstr,tagname,attrs,starttext,endtext
+        local errstart,errend,extstart,extend
+        while match do
+            -- Get next tag (first pass - fix exceptions below)
+            match,endmatch,text,endt1,tagstr,endt2 = string.find(str,self._XML,pos) 
+            if not match then 
+                if string.find(str,self._WS,pos) then
+                    -- No more text - check document complete
+                    if table.getn(self._stack) ~= 0 then
+                        self:_err(self._errstr.incompleteXmlErr,pos)
+                    else
+                        break 
+                    end
+                else
+                    -- Unparsable text
+                    self:_err(self._errstr.xmlErr,pos)
+                end
+            end 
+            -- Handle leading text
+            starttext = match
+            endtext = match + string.len(text) - 1
+            match = match + string.len(text)
+            text = self:_parseEntities(self:_stripWS(text))
+            if text ~= "" and self._handler.text then
+                self._handler:text(text,nil,match,endtext)
+            end
+            -- Test for tag type
+            if string.find(string.sub(tagstr,1,5),"?xml%s") then
+                -- XML Declaration
+                match,endmatch,text = string.find(str,self._PI,pos)
+                if not match then 
+                    self:_err(self._errstr.declErr,pos)
+                end 
+                if match ~= 1 then
+                    -- Must be at start of doc if present
+                    self:_err(self._errstr.declStartErr,pos)
+                end
+                tagname,attrs = self:_parseTag(text) 
+                -- TODO: Check attributes are valid
+                -- Check for version (mandatory)
+                if attrs.version == nil then
+                    self:_err(self._errstr.declAttrErr,pos)
+                end
+                if self._handler.decl then 
+                    self._handler:decl(tagname,attrs,match,endmatch) 
+                end
+            elseif string.sub(tagstr,1,1) == "?" then
+                -- Processing Instruction
+                match,endmatch,text = string.find(str,self._PI,pos)
+                if not match then 
+                    self:_err(self._errstr.piErr,pos)
+                end 
+                if self._handler.pi then 
+                    -- Parse PI attributes & text
+                    tagname,attrs = self:_parseTag(text) 
+                    local pi = string.sub(text,string.len(tagname)+1)
+                    if pi ~= "" then
+                        if attrs then
+                            attrs._text = pi
+                        else
+                            attrs = { _text = pi }
+                        end
+                    end
+                    self._handler:pi(tagname,attrs,match,endmatch) 
+                end
+            elseif string.sub(tagstr,1,3) == "!--" then
+                -- Comment
+                match,endmatch,text = string.find(str,self._COMMENT,pos)
+                if not match then 
+                    self:_err(self._errstr.commentErr,pos)
+                end 
+                if self._handler.comment then 
+                    text = self:_parseEntities(self:_stripWS(text))
+                    self._handler:comment(text,next,match,endmatch)
+                end
+            elseif string.sub(tagstr,1,8) == "!DOCTYPE" then
+                -- DTD
+                match,endmatch,attrs = self:_parseDTD(string,pos)
+                if not match then 
+                    self:_err(self._errstr.dtdErr,pos)
+                end 
+                if self._handler.dtd then
+                    self._handler:dtd(attrs._root,attrs,match,endmatch)
+                end
+            elseif string.sub(tagstr,1,8) == "![CDATA[" then
+                -- CDATA
+                match,endmatch,text = string.find(str,self._CDATA,pos)
+                if not match then 
+                    self:_err(self._errstr.cdataErr,pos)
+                end 
+                if self._handler.cdata then
+                    self._handler:cdata(text,nil,match,endmatch)
+                end
+            else
+                -- Normal tag
+
+                -- Need theck for embedded '>' in attribute value and extend
+                -- match recursively if necessary eg. <tag attr="123>456"> 
+
+                while 1 do
+                    errstart,errend = string.find(tagstr,self._ATTRERR1)
+                    if errend == nil then
+                        errstart,errend = string.find(tagstr,self._ATTRERR2)
+                        if errend == nil then
+                            break
+                        end
+                    end
+                    extstart,extend,endt2 = string.find(str,self._TAGEXT,endmatch+1)
+                    tagstr = tagstr .. string.sub(string,endmatch,extend-1)
+                    if not match then 
+                        self:_err(self._errstr.xmlErr,pos)
+                    end 
+                    endmatch = extend
+                end 
+
+                -- Extract tagname/attrs
+                
+                tagname,attrs = self:_parseTag(tagstr) 
+
+                if (endt1=="/") then
+                    -- End tag
+                    if self._handler.endtag then
+                        if attrs then
+                            -- Shouldnt have any attributes in endtag
+                            self:_err(format("%s (/%s)",
+                                             self._errstr.endTagErr,
+                                             tagname)
+                                        ,pos)
+                        end
+                        if table.remove(self._stack) ~= tagname then
+                            self:_err(format("%s (/%s)",
+                                             self._errstr.unmatchedTagErr,
+                                             tagname)
+                                        ,pos)
+                        end
+                        self._handler:endtag(tagname,nil,match,endmatch)
+                    end
+                else
+                    -- Start Tag
+                    table.insert(self._stack,tagname)
+                    if self._handler.starttag then
+                        self._handler:starttag(tagname,attrs,match,endmatch)
+                    end
+                    -- Self-Closing Tag
+                    if (endt2=="/") then
+                        table.remove(self._stack)
+                        if self._handler.endtag then
+                            self._handler:endtag(tagname,nil,match,endmatch)
+                        end
+                    end
+                end
+            end
+            pos = endmatch + 1
+        end
+    end
+
+    -- Private attrobures/functions
+
+    obj._handler    = handler
+    obj._stack      = {}
+
+    obj._XML        = '^([^<]*)<(%/?)([^>]-)(%/?)>'
+    obj._ATTR1      = '([%w-:_]+)%s*=%s*"(.-)"'
+    obj._ATTR2      = '([%w-:_]+)%s*=%s*\'(.-)\''
+    obj._CDATA      = '<%!%[CDATA%[(.-)%]%]>'
+    obj._PI         = '<%?(.-)%?>'
+    obj._COMMENT    = '<!%-%-(.-)%-%->'
+    obj._TAG        = '^(.-)%s.*'
+    obj._LEADINGWS  = '^%s+'
+    obj._TRAILINGWS = '%s+$'
+    obj._WS         = '^%s*$'
+    obj._DTD1       = '<!DOCTYPE%s+(.-)%s+(SYSTEM)%s+["\'](.-)["\']%s*(%b[])%s*>'
+    obj._DTD2       = '<!DOCTYPE%s+(.-)%s+(PUBLIC)%s+["\'](.-)["\']%s+["\'](.-)["\']%s*(%b[])%s*>'
+    obj._DTD3       = '<!DOCTYPE%s+(.-)%s*(%b[])%s*>'
+    obj._DTD4       = '<!DOCTYPE%s+(.-)%s+(SYSTEM)%s+["\'](.-)["\']%s*>'
+    obj._DTD5       = '<!DOCTYPE%s+(.-)%s+(PUBLIC)%s+["\'](.-)["\']%s+["\'](.-)["\']%s*>'
+
+    obj._ATTRERR1   = '=%s*"[^"]*$'
+    obj._ATTRERR2   = '=%s*\'[^\']*$'
+    obj._TAGEXT     = '(%/?)>'
+
+    obj._ENTITIES = { ["&lt;"] = "<",
+                      ["&gt;"] = ">",
+                      ["&amp;"] = "&",
+                      ["&quot;"] = '"',
+                      ["&apos;"] = "'",
+                      ["&#(%d+);"] = function (x) 
+                                        local d = tonumber(x)
+                                        if d >= 0 and d < 256 then
+                                            return string.char(d) 
+                                        else
+                                            return "&#"..d..";"
+                                        end
+                                     end,
+                      ["&#x(%x+);"] = function (x) 
+                                        local d = tonumber(x,16)
+                                        if d >= 0 and d < 256 then
+                                            return string.char(d) 
+                                        else
+                                            return "&#x"..x..";"
+                                        end
+                                      end,
+                    }
+
+    obj._err = function(self,err,pos)
+                   if self.options.errorHandler then
+                       self.options.errorHandler(err,pos)
+                   end
+               end
+            
+    obj._errstr = { xmlErr = "Error Parsing XML",
+                    declErr = "Error Parsing XMLDecl",
+                    declStartErr = "XMLDecl not at start of document",
+                    declAttrErr = "Invalid XMLDecl attributes",
+                    piErr = "Error Parsing Processing Instruction",
+                    commentErr = "Error Parsing Comment",
+                    cdataErr = "Error Parsing CDATA",
+                    dtdErr = "Error Parsing DTD",
+                    endTagErr = "End Tag Attributes Invalid",
+                    unmatchedTagErr = "Unbalanced Tag",
+                    incompleteXmlErr = "Incomplete XML Document",
+                  }
+
+    obj._stripWS = function(self,s)
+        if self.options.stripWS then
+            s = string.gsub(s,'^%s+','')
+            s = string.gsub(s,'%s+$','')
+        end
+        return s
+    end
+
+    obj._parseEntities = function(self,s) 
+        if self.options.expandEntities then
+            --for k,v in self._ENTITIES do
+            for k,v in pairs(self._ENTITIES) do
+                --print (k, v) 
+                s = string.gsub(s,k,v)
+            end
+        end
+        return s
+    end
+            
+    obj._parseDTD = function(self,s,pos)
+        -- match,endmatch,root,type,name,uri,internal
+        local m,e,r,t,n,u,i
+        m,e,r,t,u,i = string.find(s,self._DTD1,pos)
+        if m then
+            return m,e,{_root=r,_type=t,_uri=u,_internal=i} 
+        end
+        m,e,r,t,n,u,i = string.find(s,self._DTD2,pos)
+        if m then
+            return m,e,{_root=r,_type=t,_name=n,_uri=u,_internal=i} 
+        end
+        m,e,r,i = string.find(s,self._DTD3,pos)
+        if m then
+            return m,e,{_root=r,_internal=i} 
+        end
+        m,e,r,t,u = string.find(s,self._DTD4,pos)
+        if m then
+            return m,e,{_root=r,_type=t,_uri=u} 
+        end
+        m,e,r,t,n,u = string.find(s,self._DTD5,pos)
+        if m then
+            return m,e,{_root=r,_type=t,_name=n,_uri=u} 
+        end
+        return nil
+    end
+
+    obj._parseTag = function(self,s)
+        local attrs = {}            
+        local tagname = string.gsub(s,self._TAG,'%1')
+        string.gsub(s,self._ATTR1,function (k,v) 
+                                attrs[string.lower(k)]=self:_parseEntities(v)
+                                attrs._ = 1 
+                           end) 
+        string.gsub(s,self._ATTR2,function (k,v) 
+                                attrs[string.lower(k)]=self:_parseEntities(v)
+                                attrs._ = 1 
+                           end) 
+        if attrs._ then
+            attrs._ = nil
+        else 
+            attrs = nil
+        end
+        return tagname,attrs
+    end
+            
+    return obj
+
+end
+
+]]>
+		</script>
+	</config>
+</devicedata>
