@@ -6,7 +6,7 @@
   <name>XBMC</name>
   <model>XBMC HTPC</model>
   <created>01/28/2012 12:00 AM</created>
-  <modified>05/30/2013 12:00 AM</modified>
+  <modified>12/13/2013 12:00 AM</modified>
   <version>2</version>
   <small>devices_sm\receiver.gif</small>
   <large>devices_lg\receiver.gif</large>
@@ -330,6 +330,20 @@ XBMC_ACTIONS = {
 		}
 		emit(t)
 	end,
+
+    ["Get Item"] = function()
+        local t =
+        {
+            ["jsonrpc"] = "2.0",
+            ["id"] = nextJsonID(),
+            ["method"] = "Player.GetItem",
+            ["params"] =
+            {
+                ["playerid"] = CurrentPlayerID
+            }
+        }
+        emit(t)
+    end,
 
 	["Home"] = function() 
 		local t =
@@ -716,6 +730,50 @@ XBMC_ACTIONS = {
 }
 
 
+REMOTE_BUTTONS_TV_PLAYBACK = {
+	['PROGRAM_A']	= XBMC_ACTIONS[""],
+	['PROGRAM_B']	= XBMC_ACTIONS[""],
+	['PROGRAM_C']	= XBMC_ACTIONS[""],
+	['PROGRAM_D']	= XBMC_ACTIONS[""],
+
+	['GUIDE']		= XBMC_ACTIONS["Fullscreen"],
+	['RECALL'] 		= XBMC_ACTIONS[""],
+	['PAGE_UP']		= XBMC_ACTIONS[""],
+	['PAGE_DOWN']	= XBMC_ACTIONS[""],
+
+	['UP'] 			= XBMC_ACTIONS["Up"],
+	['DOWN'] 		= XBMC_ACTIONS["Down"],
+	['LEFT'] 		= XBMC_ACTIONS["Left"],
+	['RIGHT'] 		= XBMC_ACTIONS["Right"],
+	['ENTER'] 		= XBMC_ACTIONS["Select"],
+
+	['INFO'] 		= XBMC_ACTIONS["Info"],
+	['MENU']		= XBMC_ACTIONS["Context Menu"],
+	['CANCEL'] 		= XBMC_ACTIONS["Back"],
+
+	['PLAY'] 		= XBMC_ACTIONS["Play Pause"],
+	['PAUSE'] 		= XBMC_ACTIONS["Play Pause"],
+	['SKIP_FWD'] 	= XBMC_ACTIONS["Skip Next"],
+	['SKIP_REV'] 	= XBMC_ACTIONS["Skip Previous"],
+	['SCAN_FWD'] 	= XBMC_ACTIONS["Fast Forward"],
+	['SCAN_REV'] 	= XBMC_ACTIONS["Rewind"],
+	['STOP'] 		= XBMC_ACTIONS["Stop"],
+
+	['NUMBER_1'] 	= XBMC_ACTIONS[""],
+	['NUMBER_2'] 	= XBMC_ACTIONS[""],
+	['NUMBER_3'] 	= XBMC_ACTIONS[""],
+	['NUMBER_4'] 	= XBMC_ACTIONS[""],
+	['NUMBER_5'] 	= XBMC_ACTIONS[""],
+	['NUMBER_6'] 	= XBMC_ACTIONS[""],
+	['NUMBER_7'] 	= XBMC_ACTIONS[""],
+	['NUMBER_8'] 	= XBMC_ACTIONS[""],
+	['NUMBER_9'] 	= XBMC_ACTIONS[""],
+	['STAR']		= XBMC_ACTIONS[""],
+	['NUMBER_0'] 	= XBMC_ACTIONS[""],
+	['POUND']		= XBMC_ACTIONS[""]	
+}
+
+
 REMOTE_BUTTONS_AUDIO_PLAYBACK = {
 	['PROGRAM_A']	= XBMC_ACTIONS[""],
 	['PROGRAM_B']	= XBMC_ACTIONS[""],
@@ -986,6 +1044,9 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
 	 		
 	 		elseif (playerType == "picture") then 
 	 			CurrentInputMode = "PICTURE_PLAYER"
+	 		
+            elseif (playerType == "channel") then 
+	 			CurrentInputMode = "TV_PLAYER"
 	 		end
 
 	 		dbg("XBMC: Player ID is now " .. CurrentPlayerID)
@@ -1036,23 +1097,29 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
  		
  		elseif (t.result[1] == nil) then
 			dbg("Resetting checkin counter")
-			CurrentInputMode = "NAVIGATION"
+            CurrentInputMode = "NAVIGATION"
 			CurrentPlayerID = 0
 			gLastCheckin = 0
+    		dbg("Current Input Mode is " .. CurrentInputMode)
 			return
 	
  		elseif (t.result[1]['type'] == "video") then
  			dbg("Resetting checkin counter")
-    		CurrentInputMode = "VIDEO_PLAYER"
     		CurrentPlayerID = t.result[1]['playerid']
     		gLastCheckin = 0
- 			return
+    		-- XBMC_ACTIONS['Get Item']()  no time to adjust parsing, let it be
+ 			if (CurrentInputMode ~= "TV_PLAYER") then -- need cursur buttons to navigate to channel
+                CurrentInputMode = "VIDEO_PLAYER"
+            end
+    		dbg("Current Input Mode is " .. CurrentInputMode)
+            return
 
     	elseif (t.result[1]['type'] == "audio") then
     		dbg("Resetting checkin counter")
     		CurrentInputMode = "AUDIO_PLAYER"
     		CurrentPlayerID = t.result[1]['playerid']
     		gLastCheckin = 0
+    		dbg("Current Input Mode is " .. CurrentInputMode)
  			return
 
     	elseif (t.result[1]['type'] == "player") then
@@ -1060,10 +1127,21 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
     		CurrentInputMode = "PICTURE_PLAYER"
     		CurrentPlayerID = t.result[1]['playerid']
     		gLastCheckin = 0
+    		dbg("Current Input Mode is " .. CurrentInputMode)
  			return
- 		end
 
- 		dbg("Current Input Mode is " .. CurrentInputMode)
+        else
+            local playerType = t.result['item']['type']
+            dbg("Item Player Type is " .. playerType)
+            if (playerType == "channel") then
+                CurrentInputMode = "TV_PLAYER"
+            else --if (playerType == "video") -- if not in library Type is unknown
+                CurrentInputMode = "VIDEO_PLAYER"
+            end
+    		dbg("Current Input Mode is " .. CurrentInputMode)
+            return
+
+ 		end
 	end
 end
 
@@ -1128,7 +1206,7 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 			packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
 			hexdump (packet)
 			C4:SendToNetwork (6003, 9, packet)
-			C4:SendToNetwork (6003, 9, packet)
+            -- C4:SendToNetwork (6003, 9, packet)
 			C4:NetDisconnect(6003, 9)
 		end
 		-- TODO: Turn off screensaver
@@ -1149,6 +1227,10 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 
 --	elseif (CurrentInputMode == "PICTURE_PLAYER") then
 --		REMOTE_BUTTONS_PICTURE_PLAYBACK[strCommand]()
+
+	elseif (CurrentInputMode == "TV_PLAYER") then
+		REMOTE_BUTTONS_TV_PLAYBACK[strCommand]()
+
 	end
 end
 
@@ -1186,6 +1268,7 @@ end
 
 
 function OnPropertyChanged(strProperty)
+
 	dbg("Property Changed")
 	if (strProperty == 'Debug Mode') then
 		if (Properties[strProperty] == 'Off') then
