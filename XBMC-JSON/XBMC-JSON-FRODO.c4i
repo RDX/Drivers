@@ -1184,6 +1184,20 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 				C4:NetConnect(6001, tonumber(jsonPort))
 			end
 		end
+	
+	elseif (idBinding == 6003) then	
+		if (strStatus == "ONLINE") then			
+			-- wake on lan support comes from a WOL driver written by
+			-- a guy named Will from homemation.
+			dbg("Sending Wake on LAN magic packet")
+			local MAC = Properties["XBMC MAC Address"]
+			MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
+			MAC = tohex(MAC) -- Convert to HEX 
+			packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
+			hexdump (packet)
+			C4:SendToNetwork (6003, 9, packet)
+			C4:NetDisconnect(6003, 9)
+		end
 	end
 end
 
@@ -1195,19 +1209,7 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 		dbg('Got ON Command: ' .. "")
 
 		if (Properties["Wake on LAN"] == "Enabled") then
-		
-			-- wake on lan support comes from a WOL driver written by
-			-- a guy named Will from homemation.
-			dbg("Sending Wake on LAN magic packet")
-			local MAC = Properties["XBMC MAC Address"]
 			C4:NetConnect(6003, 9, "UDP")
-			MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
-			MAC = tohex(MAC) -- Convert to HEX 
-			packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
-			hexdump (packet)
-			C4:SendToNetwork (6003, 9, packet)
-            -- C4:SendToNetwork (6003, 9, packet)
-			C4:NetDisconnect(6003, 9)
 		end
 		-- TODO: Turn off screensaver
 		-- TODO: Find current input mode
