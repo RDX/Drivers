@@ -7,7 +7,7 @@
   <model>XBMC HTPC</model>
   <created>01/28/2012 12:00 AM</created>
   <modified>05/30/2013 12:00 AM</modified>
-  <version>2</version>
+  <version>3</version>
   <small>devices_sm\receiver.gif</small>
   <large>devices_lg\receiver.gif</large>
   <top>
@@ -302,7 +302,7 @@ Keymap
 function version() -- Driver Version
   local maj = 0
   local min = 0
-  local rev = 18
+  local rev = 28
   local ver = string.format("%d.%d.%d", maj, min, rev)
 
   return ver
@@ -345,100 +345,100 @@ end
 
 
 XBMC_NAVIGATION_ACTIONS = {}
-XBMC_NAVIGATION_ACTIONS["Ping"]                = { ["method"] = "JSONRPC.Ping", ["id"] = nextJsonID() }
-XBMC_NAVIGATION_ACTIONS["Get Active Players"]  = { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() }
-XBMC_NAVIGATION_ACTIONS["Show OSD"]            = { ["method"] = "Input.ShowOSD" }
-XBMC_NAVIGATION_ACTIONS["Eject Optical Drive"] = { ["method"] = "System.EjectOpticalDrive" }
-XBMC_NAVIGATION_ACTIONS["Fullscreen"]          = { ["method"] = "GUI.SetFullscreen",   ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}}
-XBMC_NAVIGATION_ACTIONS["Home"]                = { ["method"] = "Input.Home" }  
-XBMC_NAVIGATION_ACTIONS["Back"]                = { ["method"] = "Input.Back" }
-XBMC_NAVIGATION_ACTIONS["Up"]                  = { ["method"] = "Input.Up" }
-XBMC_NAVIGATION_ACTIONS["Down"]                = { ["method"] = "Input.Down" }
-XBMC_NAVIGATION_ACTIONS["Left"]                = { ["method"] = "Input.Left" }
-XBMC_NAVIGATION_ACTIONS["Right"]               = { ["method"] = "Input.Right" }
-XBMC_NAVIGATION_ACTIONS["Select"]              = { ["method"] = "Input.Select" }
-XBMC_NAVIGATION_ACTIONS["Context Menu"]        = { ["method"] = "Input.ContextMenu" }
-XBMC_NAVIGATION_ACTIONS["Info"]                = { ["method"] = "Input.Info" }
-XBMC_NAVIGATION_ACTIONS["Page Up"]             = { ["method"] = "Input.ExecuteAction",  ["params"] = { ["action"] = "pageup" } }
-XBMC_NAVIGATION_ACTIONS["Page Down"]           = { ["method"] = "Input.ExecuteAction", ["params"] = { ["action"] = "pagedown" } }
-XBMC_NAVIGATION_ACTIONS["Clean Audio Library"] = { ["method"] = "AudioLibrary.Clean"  }
-XBMC_NAVIGATION_ACTIONS["Scan Audio Library"]  = { ["method"] = "AudioLibrary.Scan" }
-XBMC_NAVIGATION_ACTIONS["Clean Video Library"] = { ["method"] = "VideoLibrary.Clean" }
-XBMC_NAVIGATION_ACTIONS["Scan Video Library"]  = { ["method"] = "VideoLibrary.Scan" }
-XBMC_NAVIGATION_ACTIONS["Quit XBMC"]           = { ["method"] = "Application.Quit"  }
-XBMC_NAVIGATION_ACTIONS["Suspend System"]      = { ["method"] = "System.Suspend"}
-XBMC_NAVIGATION_ACTIONS["Hibernate System"]    = { ["method"] = "System.Hibernate"}
-XBMC_NAVIGATION_ACTIONS["Reboot System"]       = { ["method"] = "System.Reboot" }
-XBMC_NAVIGATION_ACTIONS["Shutdown System"]     = { ["method"] = "System.Shutdown" }
+XBMC_NAVIGATION_ACTIONS["Ping"]                = function() return { ["method"] = "JSONRPC.Ping", ["id"] = nextJsonID() } end
+XBMC_NAVIGATION_ACTIONS["Get Active Players"]  = function() return { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() } end
+XBMC_NAVIGATION_ACTIONS["Show OSD"]            = function() return { ["method"] = "Input.ShowOSD" } end
+XBMC_NAVIGATION_ACTIONS["Eject Optical Drive"] = function() return { ["method"] = "System.EjectOpticalDrive" } end
+XBMC_NAVIGATION_ACTIONS["Fullscreen"]          = function() return { ["method"] = "GUI.SetFullscreen",   ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}} end
+XBMC_NAVIGATION_ACTIONS["Home"]                = function() return { ["method"] = "Input.Home" }   end
+XBMC_NAVIGATION_ACTIONS["Back"]                = function() return { ["method"] = "Input.Back" } end
+XBMC_NAVIGATION_ACTIONS["Up"]                  = function() return { ["method"] = "Input.Up" } end
+XBMC_NAVIGATION_ACTIONS["Down"]                = function() return { ["method"] = "Input.Down" } end
+XBMC_NAVIGATION_ACTIONS["Left"]                = function() return { ["method"] = "Input.Left" } end
+XBMC_NAVIGATION_ACTIONS["Right"]               = function() return { ["method"] = "Input.Right" } end
+XBMC_NAVIGATION_ACTIONS["Select"]              = function() return { ["method"] = "Input.Select" } end
+XBMC_NAVIGATION_ACTIONS["Context Menu"]        = function() return { ["method"] = "Input.ContextMenu" } end
+XBMC_NAVIGATION_ACTIONS["Info"]                = function() return { ["method"] = "Input.Info" } end
+XBMC_NAVIGATION_ACTIONS["Page Up"]             = function() return { ["method"] = "Input.ExecuteAction",  ["params"] = { ["action"] = "pageup" } }  end
+XBMC_NAVIGATION_ACTIONS["Page Down"]           = function() return { ["method"] = "Input.ExecuteAction", ["params"] = { ["action"] = "pagedown" } } end
+XBMC_NAVIGATION_ACTIONS["Clean Audio Library"] = function() return { ["method"] = "AudioLibrary.Clean"  }  end
+XBMC_NAVIGATION_ACTIONS["Scan Audio Library"]  = function() return { ["method"] = "AudioLibrary.Scan" }  end
+XBMC_NAVIGATION_ACTIONS["Clean Video Library"] = function() return { ["method"] = "VideoLibrary.Clean" }  end
+XBMC_NAVIGATION_ACTIONS["Scan Video Library"]  = function() return { ["method"] = "VideoLibrary.Scan" } end
+XBMC_NAVIGATION_ACTIONS["Quit XBMC"]           = function() return { ["method"] = "Application.Quit"  } end
+XBMC_NAVIGATION_ACTIONS["Suspend System"]      = function() return { ["method"] = "System.Suspend"} end
+XBMC_NAVIGATION_ACTIONS["Hibernate System"]    = function() return { ["method"] = "System.Hibernate"} end
+XBMC_NAVIGATION_ACTIONS["Reboot System"]       = function() return { ["method"] = "System.Reboot" } end
+XBMC_NAVIGATION_ACTIONS["Shutdown System"]     = function() return { ["method"] = "System.Shutdown" } end
 
 XBMC_VIDEO_ACTIONS = {}
-XBMC_VIDEO_ACTIONS["Ping"]                = { ["method"] = "JSONRPC.Ping",            ["id"] = nextJsonID() }
-XBMC_VIDEO_ACTIONS["Get Active Players"]  = { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() }
-XBMC_VIDEO_ACTIONS["Show OSD"]            = { ["method"] = "Input.ShowOSD" }
-XBMC_VIDEO_ACTIONS["Eject Optical Drive"] = { ["method"] = "System.EjectOpticalDrive" }
-XBMC_VIDEO_ACTIONS["Fullscreen"]          = { ["method"] = "GUI.SetFullscreen",       ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}}
-XBMC_VIDEO_ACTIONS["Next Subtitle"]       = { ["method"] = "Player.SetSubtitle",      ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["subtitle"] = "next" }}
-XBMC_VIDEO_ACTIONS["Big Step Forward"]    = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigforward" }}
-XBMC_VIDEO_ACTIONS["Big Step Backward"]   = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigbackward" }}
-XBMC_VIDEO_ACTIONS["Small Step Forward"]  = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallforward" }}
-XBMC_VIDEO_ACTIONS["Small Step Backward"] = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallbackward" }}
-XBMC_VIDEO_ACTIONS["Play Pause"]          = { ["method"] = "Player.PlayPause",        ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }}
-XBMC_VIDEO_ACTIONS["Stop"]                = { ["method"] = "Player.Stop",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }}
-XBMC_VIDEO_ACTIONS["Skip Next"]           = { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "next"}}
-XBMC_VIDEO_ACTIONS["Skip Previous"]       = { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "previous"}}
-XBMC_VIDEO_ACTIONS["Fast Forward"]        = { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "increment" }}
-XBMC_VIDEO_ACTIONS["Rewind"]              = { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "decrement"}}
+XBMC_VIDEO_ACTIONS["Ping"]                = function() return { ["method"] = "JSONRPC.Ping",            ["id"] = nextJsonID() } end
+XBMC_VIDEO_ACTIONS["Get Active Players"]  = function() return { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() } end
+XBMC_VIDEO_ACTIONS["Show OSD"]            = function() return { ["method"] = "Input.ShowOSD" } end
+XBMC_VIDEO_ACTIONS["Eject Optical Drive"] = function() return { ["method"] = "System.EjectOpticalDrive" } end
+XBMC_VIDEO_ACTIONS["Fullscreen"]          = function() return { ["method"] = "GUI.SetFullscreen",       ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}} end
+XBMC_VIDEO_ACTIONS["Next Subtitle"]       = function() return { ["method"] = "Player.SetSubtitle",      ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["subtitle"] = "next" }} end
+XBMC_VIDEO_ACTIONS["Big Step Forward"]    = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigforward" }} end
+XBMC_VIDEO_ACTIONS["Big Step Backward"]   = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigbackward" }} end
+XBMC_VIDEO_ACTIONS["Small Step Forward"]  = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallforward" }} end
+XBMC_VIDEO_ACTIONS["Small Step Backward"] = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallbackward" }} end
+XBMC_VIDEO_ACTIONS["Play Pause"]          = function() return { ["method"] = "Player.PlayPause",        ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }} end
+XBMC_VIDEO_ACTIONS["Stop"]                = function() return { ["method"] = "Player.Stop",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }} end
+XBMC_VIDEO_ACTIONS["Skip Next"]           = function() return { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "next"}} end
+XBMC_VIDEO_ACTIONS["Skip Previous"]       = function() return { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "previous"}}  end
+XBMC_VIDEO_ACTIONS["Fast Forward"]        = function() return { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "increment" }} end
+XBMC_VIDEO_ACTIONS["Rewind"]              = function() return { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "decrement"}} end
 
 XBMC_MUSIC_ACTIONS = {}
-XBMC_MUSIC_ACTIONS["Ping"]                = { ["method"] = "JSONRPC.Ping",            ["id"] = nextJsonID() }
-XBMC_MUSIC_ACTIONS["Get Active Players"]  = { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() }
-XBMC_MUSIC_ACTIONS["Show OSD"]            = { ["method"] = "Input.ShowOSD" }
-XBMC_MUSIC_ACTIONS["Eject Optical Drive"] = { ["method"] = "System.EjectOpticalDrive" }
-XBMC_MUSIC_ACTIONS["Fullscreen"]          = { ["method"] = "GUI.SetFullscreen",       ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}}
-XBMC_MUSIC_ACTIONS["Big Step Forward"]    = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigforward" }}
-XBMC_MUSIC_ACTIONS["Big Step Backward"]   = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigbackward" }}
-XBMC_MUSIC_ACTIONS["Small Step Forward"]  = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallforward" }}
-XBMC_MUSIC_ACTIONS["Small Step Backward"] = { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallbackward" }}
-XBMC_MUSIC_ACTIONS["Play Pause"]          = { ["method"] = "Player.PlayPause",        ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }}
-XBMC_MUSIC_ACTIONS["Stop"]                = { ["method"] = "Player.Stop",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }}
-XBMC_MUSIC_ACTIONS["Skip Next"]           = { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "next"}}
-XBMC_MUSIC_ACTIONS["Skip Previous"]       = { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "previous"}}
-XBMC_MUSIC_ACTIONS["Fast Forward"]        = { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "increment" }}
-XBMC_MUSIC_ACTIONS["Rewind"]              = { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "decrement"}}
+XBMC_MUSIC_ACTIONS["Ping"]                = function() return { ["method"] = "JSONRPC.Ping",            ["id"] = nextJsonID() } end
+XBMC_MUSIC_ACTIONS["Get Active Players"]  = function() return { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() } end
+XBMC_MUSIC_ACTIONS["Show OSD"]            = function() return { ["method"] = "Input.ShowOSD" } end
+XBMC_MUSIC_ACTIONS["Eject Optical Drive"] = function() return { ["method"] = "System.EjectOpticalDrive" } end
+XBMC_MUSIC_ACTIONS["Fullscreen"]          = function() return { ["method"] = "GUI.SetFullscreen",       ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}} end
+XBMC_MUSIC_ACTIONS["Big Step Forward"]    = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigforward" }} end
+XBMC_MUSIC_ACTIONS["Big Step Backward"]   = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "bigbackward" }} end
+XBMC_MUSIC_ACTIONS["Small Step Forward"]  = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallforward" }} end
+XBMC_MUSIC_ACTIONS["Small Step Backward"] = function() return { ["method"] = "Player.Seek",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["value"] = "smallbackward" }} end
+XBMC_MUSIC_ACTIONS["Play Pause"]          = function() return { ["method"] = "Player.PlayPause",        ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }} end
+XBMC_MUSIC_ACTIONS["Stop"]                = function() return { ["method"] = "Player.Stop",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID }} end
+XBMC_MUSIC_ACTIONS["Skip Next"]           = function() return { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "next"}} end
+XBMC_MUSIC_ACTIONS["Skip Previous"]       = function() return { ["method"] = "Player.GoTo",             ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["to"] = "previous"}} end
+XBMC_MUSIC_ACTIONS["Fast Forward"]        = function() return { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "increment" }} end
+XBMC_MUSIC_ACTIONS["Rewind"]              = function() return { ["method"] = "Player.SetSpeed",         ["id"] = nextJsonID(),  ["params"] = { ["playerid"] = CurrentPlayerID, ["speed"] = "decrement"}} end
 
 XBMC_PICTURE_ACTIONS = {}
-XBMC_PICTURE_ACTIONS["Ping"]              = { ["method"] = "JSONRPC.Ping",            ["id"] = nextJsonID() }
-XBMC_PICTURE_ACTIONS["Get Active Players"]= { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() }
-XBMC_PICTURE_ACTIONS["Show OSD"]            = { ["method"] = "Input.ShowOSD" }
-XBMC_PICTURE_ACTIONS["Eject Optical Drive"] = { ["method"] = "System.EjectOpticalDrive" }
-XBMC_PICTURE_ACTIONS["Fullscreen"]        = { ["method"] = "GUI.SetFullscreen",       ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}}
+XBMC_PICTURE_ACTIONS["Ping"]              = function() return { ["method"] = "JSONRPC.Ping",            ["id"] = nextJsonID() } end
+XBMC_PICTURE_ACTIONS["Get Active Players"]= function() return { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() } end
+XBMC_PICTURE_ACTIONS["Show OSD"]          = function() return { ["method"] = "Input.ShowOSD" } end
+XBMC_PICTURE_ACTIONS["Eject Optical Drive"] = function() return { ["method"] = "System.EjectOpticalDrive" } end
+XBMC_PICTURE_ACTIONS["Fullscreen"]        = function() return { ["method"] = "GUI.SetFullscreen",       ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}} end
 
 XBMC_TV_ACTIONS = {}
-XBMC_TV_ACTIONS["Ping"]                = { ["method"] = "JSONRPC.Ping", ["id"] = nextJsonID() }
-XBMC_TV_ACTIONS["Get Active Players"]  = { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() }
-XBMC_TV_ACTIONS["Show OSD"]            = { ["method"] = "Input.ShowOSD" }
-XBMC_TV_ACTIONS["Eject Optical Drive"] = { ["method"] = "System.EjectOpticalDrive" }
-XBMC_TV_ACTIONS["Fullscreen"]          = { ["method"] = "GUI.SetFullscreen",   ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle",}}
-XBMC_TV_ACTIONS["Home"]                = { ["method"] = "Input.Home" }  
-XBMC_TV_ACTIONS["Back"]                = { ["method"] = "Input.Back" }
-XBMC_TV_ACTIONS["Up"]                  = { ["method"] = "Input.Up" }
-XBMC_TV_ACTIONS["Down"]                = { ["method"] = "Input.Down" }
-XBMC_TV_ACTIONS["Left"]                = { ["method"] = "Input.Left" }
-XBMC_TV_ACTIONS["Right"]               = { ["method"] = "Input.Right" }
-XBMC_TV_ACTIONS["Select"]              = { ["method"] = "Input.Select" }
-XBMC_TV_ACTIONS["Context Menu"]        = { ["method"] = "Input.ContextMenu" }
-XBMC_TV_ACTIONS["Info"]                = { ["method"] = "Input.Info" }
-XBMC_TV_ACTIONS["Page Up"]             = { ["method"] = "Input.ExecuteAction",  ["params"] = { ["action"] = "pageup" } }
-XBMC_TV_ACTIONS["Page Down"]           = { ["method"] = "Input.ExecuteAction", ["params"] = { ["action"] = "pagedown" } }
-XBMC_TV_ACTIONS["Clean Audio Library"] = { ["method"] = "AudioLibrary.Clean"  }
-XBMC_TV_ACTIONS["Scan Audio Library"]  = { ["method"] = "AudioLibrary.Scan" }
-XBMC_TV_ACTIONS["Clean Video Library"] = { ["method"] = "VideoLibrary.Clean" }
-XBMC_TV_ACTIONS["Scan Video Library"]  = { ["method"] = "VideoLibrary.Scan" }
-XBMC_TV_ACTIONS["Quit XBMC"]           = { ["method"] = "Application.Quit"  }
-XBMC_TV_ACTIONS["Suspend System"]      = { ["method"] = "System.Suspend"}
-XBMC_TV_ACTIONS["Hibernate System"]    = { ["method"] = "System.Hibernate"}
-XBMC_TV_ACTIONS["Reboot System"]       = { ["method"] = "System.Reboot" }
-XBMC_TV_ACTIONS["Shutdown System"]     = { ["method"] = "System.Shutdown" }
+XBMC_TV_ACTIONS["Ping"]                = function() return { ["method"] = "JSONRPC.Ping", ["id"] = nextJsonID() } end
+XBMC_TV_ACTIONS["Get Active Players"]  = function() return { ["method"] = "Player.GetActivePlayers", ["id"] = nextJsonID() } end
+XBMC_TV_ACTIONS["Show OSD"]            = function() return { ["method"] = "Input.ShowOSD" } end
+XBMC_TV_ACTIONS["Eject Optical Drive"] = function() return { ["method"] = "System.EjectOpticalDrive" } end
+XBMC_TV_ACTIONS["Fullscreen"]          = function() return { ["method"] = "GUI.SetFullscreen",   ["id"] = nextJsonID(),  ["params"] = { ["fullscreen"] = "toggle"}} end
+XBMC_TV_ACTIONS["Home"]                = function() return { ["method"] = "Input.Home" }   end
+XBMC_TV_ACTIONS["Back"]                = function() return { ["method"] = "Input.Back" } end
+XBMC_TV_ACTIONS["Up"]                  = function() return { ["method"] = "Input.Up" } end
+XBMC_TV_ACTIONS["Down"]                = function() return { ["method"] = "Input.Down" } end
+XBMC_TV_ACTIONS["Left"]                = function() return { ["method"] = "Input.Left" } end
+XBMC_TV_ACTIONS["Right"]               = function() return { ["method"] = "Input.Right" } end
+XBMC_TV_ACTIONS["Select"]              = function() return { ["method"] = "Input.Select" } end
+XBMC_TV_ACTIONS["Context Menu"]        = function() return { ["method"] = "Input.ContextMenu" }  end
+XBMC_TV_ACTIONS["Info"]                = function() return { ["method"] = "Input.Info" } end
+XBMC_TV_ACTIONS["Page Up"]             = function() return { ["method"] = "Input.ExecuteAction",  ["params"] = { ["action"] = "pageup" } }  end
+XBMC_TV_ACTIONS["Page Down"]           = function() return { ["method"] = "Input.ExecuteAction", ["params"] = { ["action"] = "pagedown" } } end
+XBMC_TV_ACTIONS["Clean Audio Library"] = function() return { ["method"] = "AudioLibrary.Clean"  } end
+XBMC_TV_ACTIONS["Scan Audio Library"]  = function() return { ["method"] = "AudioLibrary.Scan" } end
+XBMC_TV_ACTIONS["Clean Video Library"] = function() return { ["method"] = "VideoLibrary.Clean" } end
+XBMC_TV_ACTIONS["Scan Video Library"]  = function() return { ["method"] = "VideoLibrary.Scan" } end
+XBMC_TV_ACTIONS["Quit XBMC"]           = function() return { ["method"] = "Application.Quit"  } end
+XBMC_TV_ACTIONS["Suspend System"]      = function() return { ["method"] = "System.Suspend"} end
+XBMC_TV_ACTIONS["Hibernate System"]    = function() return { ["method"] = "System.Hibernate"} end
+XBMC_TV_ACTIONS["Reboot System"]       = function() return { ["method"] = "System.Reboot" } end
+XBMC_TV_ACTIONS["Shutdown System"]     = function() return { ["method"] = "System.Shutdown" } end
 
 
 REMOTE_BUTTONS = {
@@ -462,13 +462,13 @@ REMOTE_BUTTONS = {
   ['MENU']        = { XBMC_NAVIGATION_ACTIONS["Context Menu"],  XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS[""],               XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
   ['CANCEL']      = { XBMC_NAVIGATION_ACTIONS["Back"],          XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS[""],               XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
 
-  ['PLAY']        = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Play Pause"],     XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
-  ['PAUSE']       = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Play Pause"],     XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
-  ['SKIP_FWD']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Skip Next"],      XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
-  ['SKIP_REV']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Skip Previous"],  XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
-  ['SCAN_FWD']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Fast Forward"],   XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
-  ['SCAN_REV']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Rewind"],         XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
-  ['STOP']        = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS["Stop"],           XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['PLAY']        = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Play Pause"],           XBMC_MUSIC_ACTIONS["Play Pause"],     XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['PAUSE']       = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Play Pause"],           XBMC_MUSIC_ACTIONS["Play Pause"],     XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['SKIP_FWD']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Skip Next"],            XBMC_MUSIC_ACTIONS["Skip Next"],      XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['SKIP_REV']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Skip Previous"],        XBMC_MUSIC_ACTIONS["Skip Previous"],  XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['SCAN_FWD']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Fast Forward"],         XBMC_MUSIC_ACTIONS["Fast Forward"],   XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['SCAN_REV']    = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Rewind"],               XBMC_MUSIC_ACTIONS["Rewind"],         XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
+  ['STOP']        = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS["Stop"],                 XBMC_MUSIC_ACTIONS["Stop"],           XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
   
   ['NUMBER_1']    = { XBMC_NAVIGATION_ACTIONS["1"],             XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS[""],               XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
   ['NUMBER_2']    = { XBMC_NAVIGATION_ACTIONS["2"],             XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS[""],               XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
@@ -553,7 +553,7 @@ function OnTimerExpired(idTimer)
 
     -- Send Poll Packet if we're ONLINE...
     if (mNetConnected == true) then
-      emit(XBMC_NAVIGATION_ACTIONS['Get Active Players'])
+      emit(XBMC_NAVIGATION_ACTIONS['Get Active Players']())
     end
 
     return
@@ -663,62 +663,65 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
       return
     end
 
-    XBMC_NAVIGATION_ACTIONS['Get Active Players']() -- Just to be sure
+    emit(XBMC_NAVIGATION_ACTIONS['Get Active Players']()) -- Just to be sure
 
 
   elseif (table.contains(t, "result")) then
   
-    if (t.result == "pong") then
-      dbg("Resetting checkin counter")
-      gLastCheckin = 0
-      return
+  -- {"id":53,"jsonrpc":"2.0","result":"OK"}
+  -- {"id":25,"jsonrpc":"2.0","result":{"speed":4}}
+  -- {"id":26,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
+  -- {"id":54,"jsonrpc":"2.0","result":[]}
 
-    elseif (t.result[1] == nil) then
-      dbg("Resetting checkin counter")
-      CurrentInputMode = "NAVIGATION"
-      CurrentPlayerID = 0
-      gLastCheckin = 0
-      return
-  
-    elseif (t.result[1]['type'] == "video") then
-      dbg("Resetting checkin counter")
-      CurrentInputMode = "VIDEO_PLAYER"
-      CurrentPlayerID = t.result[1]['playerid']
-      gLastCheckin = 0
-      return
 
-    elseif (t.result[1]['type'] == "audio") then
-      dbg("Resetting checkin counter")
-      CurrentInputMode = "AUDIO_PLAYER"
-      CurrentPlayerID = t.result[1]['playerid']
-      gLastCheckin = 0
-      return
+    if (type(t.result) == "table") then
+      if next (t.result) == nil then
+        dbg("Resetting checkin counter")
+        CurrentInputMode = "NAVIGATION"
+        CurrentPlayerID = 0
+        gLastCheckin = 0
+        return
 
-    elseif (t.result[1]['type'] == "player") then
-      dbg("Resetting checkin counter")
-      CurrentInputMode = "PICTURE_PLAYER"
-      CurrentPlayerID = t.result[1]['playerid']
-      gLastCheckin = 0
-      return    
-
-    elseif (t.result[1]['type'] == "player") then
-      dbg("Resetting checkin counter")
-      CurrentInputMode = "TV_PLAYER"
-      CurrentPlayerID = t.result[1]['playerid']
-      gLastCheckin = 0
-      return  
-
-    else  -- TODO: Need to clean this up a bit
-      local playerType = t.result['item']['type']
-      dbg("Item Player Type is " .. playerType)
-    
-      if (playerType == "channel") then
-        CurrentInputMode = "TV_PLAYER"
-      else --if (playerType == "video") -- if not in library Type is unknown
+      elseif (t.result[1]['type'] == "video") then
+        dbg("Resetting checkin counter")
         CurrentInputMode = "VIDEO_PLAYER"
-      end
+        CurrentPlayerID = t.result[1]['playerid']
+        gLastCheckin = 0
+        return
 
-      return
+      elseif (t.result[1]['type'] == "audio") then
+        dbg("Resetting checkin counter")
+        CurrentInputMode = "AUDIO_PLAYER"
+        CurrentPlayerID = t.result[1]['playerid']
+        gLastCheckin = 0
+        return
+
+      elseif (t.result[1]['type'] == "picture") then
+        dbg("Resetting checkin counter")
+        CurrentInputMode = "PICTURE_PLAYER"
+        CurrentPlayerID = t.result[1]['playerid']
+        gLastCheckin = 0
+        return    
+
+      elseif (t.result[1]['type'] == "player") then
+        dbg("Resetting checkin counter")
+        CurrentInputMode = "TV_PLAYER"
+        CurrentPlayerID = t.result[1]['playerid']
+        gLastCheckin = 0
+        return  
+
+      else  -- TODO: Need to clean this up a bit
+        local playerType = t.result['item']['type']
+        dbg("Item Player Type is " .. playerType)
+      
+        if (playerType == "channel") then
+          CurrentInputMode = "TV_PLAYER"
+        else --if (playerType == "video") -- if not in library Type is unknown
+          CurrentInputMode = "VIDEO_PLAYER"
+        end
+
+        return
+      end
     end
 
     dbg("Current Input Mode is " .. CurrentInputMode)
@@ -796,22 +799,22 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
     -- TODO: Get current player ID
     
   elseif (strCommand == "OFF") then
-    emit(XBMC_NAVIGATION_ACTIONS[Properties['Room Off Command']])
+    emit(XBMC_NAVIGATION_ACTIONS[Properties['Room Off Command']]())
 
   elseif (CurrentInputMode == "NAVIGATION") then
-    emit(REMOTE_BUTTONS[strCommand][1])
+    emit(REMOTE_BUTTONS[strCommand][1]())
     
   elseif (CurrentInputMode == "VIDEO_PLAYER") then
-    emit(REMOTE_BUTTONS[strCommand][2])
+    emit(REMOTE_BUTTONS[strCommand][2]())
   
   elseif (CurrentInputMode == "AUDIO_PLAYER") then
-    emit(REMOTE_BUTTONS[strCommand][3])
+    emit(REMOTE_BUTTONS[strCommand][3]())
 
   elseif (CurrentInputMode == "PICTURE_PLAYER") then
-    emit(REMOTE_BUTTONS[strCommand][4])
+    emit(REMOTE_BUTTONS[strCommand][4]())
   
   elseif (CurrentInputMode == "TV_PLAYER") then
-    emit(REMOTE_BUTTONS[strCommand][5])
+    emit(REMOTE_BUTTONS[strCommand][5]())
   end
 end
 
