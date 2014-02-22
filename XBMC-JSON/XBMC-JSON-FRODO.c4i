@@ -1090,58 +1090,55 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
 		XBMC_ACTIONS['Get Active Players']() -- Just to be sure
 
 	elseif (table.contains(t, "result")) then
- 		if (t.result == "pong") then
- 			dbg("Resetting checkin counter")
- 			gLastCheckin = 0
- 			return
- 		
- 		elseif (t.result[1] == nil) then
-			dbg("Resetting checkin counter")
-            CurrentInputMode = "NAVIGATION"
-			CurrentPlayerID = 0
-			gLastCheckin = 0
-    		dbg("Current Input Mode is " .. CurrentInputMode)
-			return
-	
- 		elseif (t.result[1]['type'] == "video") then
- 			dbg("Resetting checkin counter")
-    		CurrentPlayerID = t.result[1]['playerid']
-    		gLastCheckin = 0
-    		-- XBMC_ACTIONS['Get Item']()  no time to adjust parsing, let it be
- 			if (CurrentInputMode ~= "TV_PLAYER") then -- need cursur buttons to navigate to channel
-                CurrentInputMode = "VIDEO_PLAYER"
-            end
-    		dbg("Current Input Mode is " .. CurrentInputMode)
-            return
+		if (type(t.result) == "table") then
+	 		if next (t.result) == nil then
+				dbg("Resetting checkin counter")
+	            CurrentInputMode = "NAVIGATION"
+				CurrentPlayerID = 0
+				gLastCheckin = 0
+	    		dbg("Current Input Mode is " .. CurrentInputMode)
+				return
+		
+	 		elseif (t.result[1]['type'] == "video") then
+	 			dbg("Resetting checkin counter")
+	    		CurrentPlayerID = t.result[1]['playerid']
+	    		gLastCheckin = 0
+	    		-- XBMC_ACTIONS['Get Item']()  no time to adjust parsing, let it be
+	 			if (CurrentInputMode ~= "TV_PLAYER") then -- need cursur buttons to navigate to channel
+	                CurrentInputMode = "VIDEO_PLAYER"
+	            end
+	    		dbg("Current Input Mode is " .. CurrentInputMode)
+	            return
 
-    	elseif (t.result[1]['type'] == "audio") then
-    		dbg("Resetting checkin counter")
-    		CurrentInputMode = "AUDIO_PLAYER"
-    		CurrentPlayerID = t.result[1]['playerid']
-    		gLastCheckin = 0
-    		dbg("Current Input Mode is " .. CurrentInputMode)
- 			return
+	    	elseif (t.result[1]['type'] == "audio") then
+	    		dbg("Resetting checkin counter")
+	    		CurrentInputMode = "AUDIO_PLAYER"
+	    		CurrentPlayerID = t.result[1]['playerid']
+	    		gLastCheckin = 0
+	    		dbg("Current Input Mode is " .. CurrentInputMode)
+	 			return
 
-    	elseif (t.result[1]['type'] == "player") then
-    		dbg("Resetting checkin counter")
-    		CurrentInputMode = "PICTURE_PLAYER"
-    		CurrentPlayerID = t.result[1]['playerid']
-    		gLastCheckin = 0
-    		dbg("Current Input Mode is " .. CurrentInputMode)
- 			return
+	    	elseif (t.result[1]['type'] == "player") then
+	    		dbg("Resetting checkin counter")
+	    		CurrentInputMode = "PICTURE_PLAYER"
+	    		CurrentPlayerID = t.result[1]['playerid']
+	    		gLastCheckin = 0
+	    		dbg("Current Input Mode is " .. CurrentInputMode)
+	 			return
 
-        else
-            local playerType = t.result['item']['type']
-            dbg("Item Player Type is " .. playerType)
-            if (playerType == "channel") then
-                CurrentInputMode = "TV_PLAYER"
-            else --if (playerType == "video") -- if not in library Type is unknown
-                CurrentInputMode = "VIDEO_PLAYER"
-            end
-    		dbg("Current Input Mode is " .. CurrentInputMode)
-            return
+	        else
+	            local playerType = t.result['item']['type']
+	            dbg("Item Player Type is " .. playerType)
+	            if (playerType == "channel") then
+	                CurrentInputMode = "TV_PLAYER"
+	            else --if (playerType == "video") -- if not in library Type is unknown
+	                CurrentInputMode = "VIDEO_PLAYER"
+	            end
+	    		dbg("Current Input Mode is " .. CurrentInputMode)
+	            return
 
- 		end
+	 		end
+	 	end
 	end
 end
 
