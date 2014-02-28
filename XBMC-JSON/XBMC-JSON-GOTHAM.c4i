@@ -245,7 +245,7 @@ Keymap
         <name>Debug Mode</name>
         <type>LIST</type>
         <readonly>False</readonly>
-        <default>Print and Log</default>
+        <default>Off</default>
         <items>
           <item>Off</item>
           <item>Print</item>
@@ -283,7 +283,7 @@ Keymap
         <name>Room Off Command</name>
         <type>LIST</type>
         <readonly>False</readonly>
-        <default>Does Nothing</default>
+        <default>Do Nothing</default>
         <items>
           <item>Do Nothing</item>
           <item>Quit XBMC</item>
@@ -302,7 +302,7 @@ Keymap
 function version() -- Driver Version
   local maj = 0
   local min = 0
-  local rev = 28
+  local rev = 31
   local ver = string.format("%d.%d.%d", maj, min, rev)
 
   return ver
@@ -312,8 +312,8 @@ end
 require "json"
 JSON=(loadstring(json.JSON_LIBRARY_CHUNK))()
 
-g_debugprint = true
-g_debuglog = true
+g_debugprint = false
+g_debuglog = false
 g_debugTimer = 0;
 
 jsonID = 0
@@ -495,7 +495,6 @@ function emit(t)
   t["jsonrpc"] = "2.0"
   command = JSON:encode(t)
   bUsePowerOnDelay = false
-  dbg('Emit: ' .. command)
 
   table.insert(tEmitCommands, {command, bUsePowerOnDelay})
 
@@ -596,43 +595,20 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
   local t = JSON:decode(strData)    
 
   if (table.contains(t, "method")) then
-    if (t.method == "AudioLibrary.OnRemove") then
-      return
 
-    elseif (t.method == "AudioLibrary.OnUpdate") then
-      return
-
-    elseif (t.method == "Player.OnPause") then
-      return
-
-    elseif (t.method == "Player.OnPlay") then
+    if (t.method == "Player.OnPlay") then
       CurrentPlayerID = t.params['data']['player']['playerid']
       local playerType = t.params['data']['item']['type']
 
-      if (playerType == "movie") then 
-        CurrentInputMode = "VIDEO_PLAYER"
-      
-      elseif (playerType == "episode") then 
-        CurrentInputMode = "VIDEO_PLAYER"
-      
-      elseif (playerType == "musicvideo") then 
-        CurrentInputMode = "VIDEO_PLAYER"
-      
-      elseif (playerType == "song") then 
-        CurrentInputMode = "AUDIO_PLAYER"
-      
-      elseif (playerType == "picture") then 
-        CurrentInputMode = "PICTURE_PLAYER"
+      if (playerType == "movie") then CurrentInputMode = "VIDEO_PLAYER"
+      elseif (playerType == "episode") then CurrentInputMode = "VIDEO_PLAYER"
+      elseif (playerType == "musicvideo") then CurrentInputMode = "VIDEO_PLAYER"
+      elseif (playerType == "song") then CurrentInputMode = "AUDIO_PLAYER"
+      elseif (playerType == "picture") then CurrentInputMode = "PICTURE_PLAYER"
       end
 
       dbg("XBMC: Player ID is now " .. CurrentPlayerID)
       dbg("Current Input Mode is now " .. CurrentInputMode)
-
-    elseif (t.method == "Player.OnSeek") then
-      return
-
-    elseif (t.method == "Player.OnSpeedChanged") then
-      return
 
     elseif (t.method == "Player.OnStop") then
       CurrentPlayerID = 0
@@ -641,73 +617,55 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
       dbg("Current Input Mode is now NAVIGATION")
       return
 
-    elseif (t.method == "System.OnLowBattery") then
-      return
-
-    elseif (t.method == "System.OnQuit") then
-      return
-
-    elseif (t.method == "System.OnRestart") then
-      return
-
-    elseif (t.method == "System.OnSleep") then
-      return
-
-    elseif (t.method == "System.OnWake") then
-      return
-
-    elseif (t.method == "VideoLibrary.OnRemove") then
-      return
-
-    elseif (t.method == "VideoLibrary.OnUpdate") then
-      return
+    elseif (t.method == "AudioLibrary.OnRemove")  then return
+    elseif (t.method == "AudioLibrary.OnUpdate")  then return
+    elseif (t.method == "Player.OnPause")         then return
+    elseif (t.method == "Player.OnSeek")          then return
+    elseif (t.method == "Player.OnSpeedChanged")  then return
+    elseif (t.method == "System.OnLowBattery")    then return
+    elseif (t.method == "System.OnQuit")          then return
+    elseif (t.method == "System.OnRestart")       then return
+    elseif (t.method == "System.OnSleep")         then return
+    elseif (t.method == "System.OnWake")          then return
+    elseif (t.method == "VideoLibrary.OnRemove")  then return
+    elseif (t.method == "VideoLibrary.OnUpdate")  then return
     end
-
-    emit(XBMC_NAVIGATION_ACTIONS['Get Active Players']()) -- Just to be sure
 
 
   elseif (table.contains(t, "result")) then
-  
-  -- {"id":53,"jsonrpc":"2.0","result":"OK"}
-  -- {"id":25,"jsonrpc":"2.0","result":{"speed":4}}
-  -- {"id":26,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
-  -- {"id":54,"jsonrpc":"2.0","result":[]}
+    dbg("Resetting checkin counter")
+    gLastCheckin = 0
 
+    -- So far, there are 4 different ways a "result" is sent:  
+    -- {"id":53,"jsonrpc":"2.0","result":"OK"}
+    -- {"id":25,"jsonrpc":"2.0","result":{"speed":4}}
+    -- {"id":26,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
+    -- {"id":54,"jsonrpc":"2.0","result":[]}
 
     if (type(t.result) == "table") then
       if next (t.result) == nil then
-        dbg("Resetting checkin counter")
         CurrentInputMode = "NAVIGATION"
         CurrentPlayerID = 0
-        gLastCheckin = 0
         return
 
       elseif (t.result[1]['type'] == "video") then
-        dbg("Resetting checkin counter")
         CurrentInputMode = "VIDEO_PLAYER"
         CurrentPlayerID = t.result[1]['playerid']
-        gLastCheckin = 0
         return
 
       elseif (t.result[1]['type'] == "audio") then
-        dbg("Resetting checkin counter")
         CurrentInputMode = "AUDIO_PLAYER"
         CurrentPlayerID = t.result[1]['playerid']
-        gLastCheckin = 0
         return
 
       elseif (t.result[1]['type'] == "picture") then
-        dbg("Resetting checkin counter")
         CurrentInputMode = "PICTURE_PLAYER"
         CurrentPlayerID = t.result[1]['playerid']
-        gLastCheckin = 0
         return    
 
       elseif (t.result[1]['type'] == "player") then
-        dbg("Resetting checkin counter")
         CurrentInputMode = "TV_PLAYER"
         CurrentPlayerID = t.result[1]['playerid']
-        gLastCheckin = 0
         return  
 
       else  -- TODO: Need to clean this up a bit
@@ -770,16 +728,16 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 
   elseif (idBinding == 6003) then 
     if (strStatus == "ONLINE") then     
-      -- wake on lan support comes from a WOL driver written by
-      -- a guy named Will from homemation.
+      -- wake on lan support comes from a WOL driver written by a guy named Will from homemation.
       dbg("Sending Wake on LAN magic packet")
       local MAC = Properties["XBMC MAC Address"]
       MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
       MAC = tohex(MAC) -- Convert to HEX 
       packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
-      hexdump (packet)
+      hexdump(packet)
       C4:SendToNetwork (6003, 9, packet)
-      C4:NetDisconnect(6003, 9)
+      C4:SendToNetwork (6003, 9, packet)
+      --C4:NetDisconnect(6003, 9)
     end
   end
 end

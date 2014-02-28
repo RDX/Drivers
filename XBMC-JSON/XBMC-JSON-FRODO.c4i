@@ -6,8 +6,8 @@
   <name>XBMC</name>
   <model>XBMC HTPC</model>
   <created>01/28/2012 12:00 AM</created>
-  <modified>12/13/2013 12:00 AM</modified>
-  <version>2</version>
+  <modified>02/27/2014 12:00 AM</modified>
+  <version>3</version>
   <small>devices_sm\receiver.gif</small>
   <large>devices_lg\receiver.gif</large>
   <top>
@@ -1182,18 +1182,18 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 			end
 		end
 	
-	elseif (idBinding == 6003) then	
-		if (strStatus == "ONLINE") then			
-			-- wake on lan support comes from a WOL driver written by
-			-- a guy named Will from homemation.
-			dbg("Sending Wake on LAN magic packet")
-			local MAC = Properties["XBMC MAC Address"]
-			MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
-			MAC = tohex(MAC) -- Convert to HEX 
-			packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
-			hexdump (packet)
-			C4:SendToNetwork (6003, 9, packet)
-			C4:NetDisconnect(6003, 9)
+  elseif (idBinding == 6003) then 
+  	if (strStatus == "ONLINE") then     
+    	-- wake on lan support comes from a WOL driver written by a guy named Will from homemation.
+		dbg("Sending Wake on LAN magic packet")
+		local MAC = Properties["XBMC MAC Address"]
+		MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
+		MAC = tohex(MAC) -- Convert to HEX 
+		packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
+		hexdump(packet)
+		C4:SendToNetwork (6003, 9, packet)
+		C4:SendToNetwork (6003, 9, packet)
+		--C4:NetDisconnect(6003, 9)
 		end
 	end
 end
