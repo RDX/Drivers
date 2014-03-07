@@ -320,7 +320,7 @@ end
 
 require "json"
 JSON=(loadstring(json.JSON_LIBRARY_CHUNK))()
-jsonData = ""
+jsonData = {}
 jsonCounter = 0
 jsonIndex = 1
 
@@ -334,7 +334,6 @@ g_debuglog = false
 g_debugTimer = 0;
 
 jsonID = 0
-DataReceived = ""
 
 gPollTimer = 0
 idConnectToNetworkTimer = 0
@@ -681,7 +680,7 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
   dbg('XBMC: Received something from network on binding ' .. idBinding )
 
 
-  if (jsonData == "" and jsonCounter == 0) then --New json command
+  if (#jsonData == 0 and jsonCounter == 0) then --New json command
     --Find the first open brace
     for i = 1, #strData do
       local c = strData:sub(i,i)
@@ -704,14 +703,14 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
     end
 
     --concat char to jsonData
-    jsonData = jsonData .. c
+    table.insert(jsonData, c)
 
     if (jsonCounter == 0) then
       -- We have a complete json string! Lets process it!
-      process(jsonData)
+      process(table.concat(jsonData))
 
       --reset everything for a new json string
-      jsonData = ""
+      jsonData = {}
       jsonCounter = 0
     end
   end
@@ -760,8 +759,11 @@ function process(strData)
         CurrentPlayerID = 0
         return
 
-      elseif (t.result["moviedetails"] ~= nil) then result_moviedetails(t.result)
-      elseif (t.result["episodedetails"] ~= nil) then result_episodedetails(t.result)
+      elseif (t.result["moviedetails"] ~= nil) then 
+        result_moviedetails(t.result)
+      
+      elseif (t.result["episodedetails"] ~= nil) then 
+        result_episodedetails(t.result)
 
       elseif (t.result[1]['type'] == "video") then
         CurrentInputMode = "VIDEO_PLAYER"
