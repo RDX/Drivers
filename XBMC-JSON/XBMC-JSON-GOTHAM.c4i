@@ -27,7 +27,7 @@
   <driver>DriverWorks</driver>
   <search_type>c4:av_gen</search_type>
   <proxies qty="1">
-    <proxy proxybindingid="5001">media_player</proxy>
+    <proxy name="XBMC" proxybindingid="5001">media_service</proxy>
   </proxies>
   <connections>
     <connection proxybindingid="5001">
@@ -84,15 +84,15 @@
     <connection>
       <id>5001</id>
       <facing>6</facing>
-      <connectionname>MEDIA_PLAYER</connectionname>
+      <connectionname>Media Service</connectionname>
       <type>2</type>
       <consumer>False</consumer>
       <audiosource>False</audiosource>
-      <videosource>True</videosource>
+      <videosource>False</videosource>
       <linelevel>False</linelevel>
       <classes>
         <class>
-          <classname>MEDIA_PLAYER</classname>
+          <classname>MediaService</classname>
         </class>
       </classes>
     </connection>
@@ -196,13 +196,22 @@ Keymap
 |.NUMBER.0..|.0............|.....................|...................|................|
 |.POUND.....|..............|.....................|...................|................|
 ---------------------------------------------------------------------------------------
-
 		</documentation>
     
     <actions>
       <action>
         <name>Destroy All Timers</name>
         <command>Destroy Timers</command>
+      </action>
+
+      <action>
+        <name>Update1</name>
+        <command>Update1</command>
+      </action>
+
+      <action>
+        <name>Update2</name>
+        <command>Update2</command>
       </action>
     </actions>
     
@@ -302,7 +311,7 @@ Keymap
 function version() -- Driver Version
   local maj = 0
   local min = 0
-  local rev = 31
+  local rev = 43
   local ver = string.format("%d.%d.%d", maj, min, rev)
 
   return ver
@@ -311,12 +320,21 @@ end
 
 require "json"
 JSON=(loadstring(json.JSON_LIBRARY_CHUNK))()
+jsonData = ""
+jsonCounter = 0
+jsonIndex = 1
+
+
+
+
+
 
 g_debugprint = false
 g_debuglog = false
 g_debugTimer = 0;
 
 jsonID = 0
+DataReceived = ""
 
 gPollTimer = 0
 idConnectToNetworkTimer = 0
@@ -588,35 +606,130 @@ function OnTimerExpired(idTimer)
 end
 
 
+function Player_OnPlay(params)
+  CurrentPlayerID = params['data']['player']['playerid']
+  local playerType = params['data']['item']['type']
+        
+  if (playerType == "movie") then 
+    CurrentInputMode = "VIDEO_PLAYER"
+    
+    if (params['data']['item']['id'] == nil) then
+      local nowPlayingParams = {}
+      nowPlayingParams["TITLE"] = params['data']['item']['title']
+      C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+    else
+      -- {"id":89,"jsonrpc":"2.0","method":"VideoLibrary.GetMovieDetails", "params":{"movieid":10, "properties":["title","year"]}}
+      local movieid = params['data']['item']['id']
+      emit({ ["method"] = "VideoLibrary.GetMovieDetails", ["id"] = nextJsonID(), ["params"] = { ["movieid"] = movieid, ["properties"] = {"title","year"} }})  
+    end
+
+  elseif (playerType == "episode") then 
+    CurrentInputMode = "VIDEO_PLAYER"
+    local episodeid = params['data']['item']['id']
+    emit({ ["method"] = "VideoLibrary.GetEpisodeDetails", ["id"] = nextJsonID(), ["params"] = { ["episodeid"] = episodeid, ["properties"] = {"title", "season", "episode", "showtitle"}}})  
+
+  elseif (playerType == "musicvideo") then 
+    CurrentInputMode = "VIDEO_PLAYER"
+
+  elseif (playerType == "song") then 
+    CurrentInputMode = "AUDIO_PLAYER"
+
+  elseif (playerType == "picture") then 
+    CurrentInputMode = "PICTURE_PLAYER"
+  end
+
+  dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+  dbg("Current Input Mode is now " .. CurrentInputMode)
+end
+
+
+function Player_OnStop()
+  CurrentPlayerID = 0
+  CurrentInputMode = "NAVIGATION"
+  dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+  dbg("Current Input Mode is now NAVIGATION")
+end
+
+
+function System_OnSleep()
+  --Stop the poll timer while the machine is turned off
+  C4:KillTimer(gPollTimer)
+  gPollTimer = nil
+end
+
+
+function System_OnWake() end
+
+function result_moviedetails (params)
+  local nowPlayingParams = {}
+  nowPlayingParams["TITLE"] = params["moviedetails"]["title"]
+  nowPlayingParams["ARTIST"] = params["moviedetails"]["year"]
+  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+end
+
+
+function result_episodedetails(params)
+  local nowPlayingParams = {}
+  nowPlayingParams["TITLE"] = params["episodedetails"]["showtitle"]
+  nowPlayingParams["ARTIST"] = "Season " .. params["episodedetails"]["season"] .. " Episode " .. params["episodedetails"]["episode"]
+  nowPlayingParams["ALBUM"] = params["episodedetails"]["title"]
+  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+end
+
+
 function ReceivedFromNetwork(idBinding, nPort, strData)
-  dbg("Received From Network")
   dbg('XBMC: Received something from network on binding ' .. idBinding )
+
+
+  if (jsonData == "" and jsonCounter == 0) then --New json command
+    --Find the first open brace
+    for i = 1, #strData do
+      local c = strData:sub(i,i)
+
+      if (c == '{') then
+        --This is our starting point
+        jsonIndex = i
+        break
+      end
+    end
+  end
+
+  for i = jsonIndex, #strData do
+    local c = strData:sub(i,i)
+
+    if (c == '{') then
+      jsonCounter = jsonCounter + 1
+    elseif (c == '}') then
+      jsonCounter = jsonCounter - 1
+    end
+
+    --concat char to jsonData
+    jsonData = jsonData .. c
+
+    if (jsonCounter == 0) then
+      -- We have a complete json string! Lets process it!
+      process(jsonData)
+
+      --reset everything for a new json string
+      jsonData = ""
+      jsonCounter = 0
+    end
+  end
+end
+
+
+
+
+
+function process(strData)
+  dbg("Received From Network")
   dbg(strData)
+
   local t = JSON:decode(strData)    
 
   if (table.contains(t, "method")) then
-
-    if (t.method == "Player.OnPlay") then
-      CurrentPlayerID = t.params['data']['player']['playerid']
-      local playerType = t.params['data']['item']['type']
-
-      if (playerType == "movie") then CurrentInputMode = "VIDEO_PLAYER"
-      elseif (playerType == "episode") then CurrentInputMode = "VIDEO_PLAYER"
-      elseif (playerType == "musicvideo") then CurrentInputMode = "VIDEO_PLAYER"
-      elseif (playerType == "song") then CurrentInputMode = "AUDIO_PLAYER"
-      elseif (playerType == "picture") then CurrentInputMode = "PICTURE_PLAYER"
-      end
-
-      dbg("XBMC: Player ID is now " .. CurrentPlayerID)
-      dbg("Current Input Mode is now " .. CurrentInputMode)
-
-    elseif (t.method == "Player.OnStop") then
-      CurrentPlayerID = 0
-      CurrentInputMode = "NAVIGATION"
-      dbg("XBMC: Player ID is now " .. CurrentPlayerID)
-      dbg("Current Input Mode is now NAVIGATION")
-      return
-
+    if (t.method == "Player.OnPlay")              then Player_OnPlay(t.params)
+    elseif (t.method == "Player.OnStop")          then Player_OnStop()
     elseif (t.method == "AudioLibrary.OnRemove")  then return
     elseif (t.method == "AudioLibrary.OnUpdate")  then return
     elseif (t.method == "Player.OnPause")         then return
@@ -625,12 +738,11 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
     elseif (t.method == "System.OnLowBattery")    then return
     elseif (t.method == "System.OnQuit")          then return
     elseif (t.method == "System.OnRestart")       then return
-    elseif (t.method == "System.OnSleep")         then return
-    elseif (t.method == "System.OnWake")          then return
+    elseif (t.method == "System.OnSleep")         then System_OnSleep()
+    elseif (t.method == "System.OnWake")          then System_OnWake() -- {"jsonrpc":"2.0","method":"System.OnWake","params":{"data":null,"sender":"xbmc"}}
     elseif (t.method == "VideoLibrary.OnRemove")  then return
     elseif (t.method == "VideoLibrary.OnUpdate")  then return
     end
-
 
   elseif (table.contains(t, "result")) then
     dbg("Resetting checkin counter")
@@ -647,6 +759,9 @@ function ReceivedFromNetwork(idBinding, nPort, strData)
         CurrentInputMode = "NAVIGATION"
         CurrentPlayerID = 0
         return
+
+      elseif (t.result["moviedetails"] ~= nil) then result_moviedetails(t.result)
+      elseif (t.result["episodedetails"] ~= nil) then result_episodedetails(t.result)
 
       elseif (t.result[1]['type'] == "video") then
         CurrentInputMode = "VIDEO_PLAYER"
@@ -711,7 +826,7 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 
       if (gPollTimer ~= 0) then C4:KillTimer(gPollTimer) end
 
-      gPollTimer = C4:AddTimer(10, "SECONDS", true) -- 30 second repeating timer...
+      gPollTimer = C4:AddTimer(10, "SECONDS", true)
     
     else
       dbg("XBMC: not connected.")
@@ -728,10 +843,14 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 
   elseif (idBinding == 6003) then 
     if (strStatus == "ONLINE") then     
+      --Start polling, now that we are waking up
+      gPollTimer = C4:AddTimer(10, "SECONDS", true)
+
       -- wake on lan support comes from a WOL driver written by a guy named Will from homemation.
       dbg("Sending Wake on LAN magic packet")
       local MAC = Properties["XBMC MAC Address"]
       MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
+      MAC = MAC:gsub("-", "") -- Remove any dashes in the entered MAC addresses 
       MAC = tohex(MAC) -- Convert to HEX 
       packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
       hexdump(packet)
@@ -777,8 +896,33 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 end
 
 
-function ExecuteCommand(Command, Parameters)
-  dbg('XBMC: ExecuteCommand: ' .. Command)
+function ExecuteCommand(strCommand, tParams)
+  dbg('XBMC: ExecuteCommand: ' .. strCommand)
+
+  if (strCommand == "LUA_ACTION") then
+    if tParams ~= nil then
+      for cmd,cmdv in pairs(tParams) do
+        dbg("cmd= " .. cmd .. "  cmdv= " .. cmdv)
+
+        if cmd == "ACTION" then
+
+          if cmdv == "Update1" then
+            local nowPlayingParams = {}
+            nowPlayingParams["ARTIST"] = "Artist1"
+            nowPlayingParams["ALBUM"] = "Album1"
+            nowPlayingParams["TITLE"] = "Title1"
+            C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+          else
+            dbg("From ExecuteCommand Function - Undefined Action")
+            dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+          end
+        else
+          dbg("From ExecuteCommand Function - Undefined Command")
+          dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+        end
+      end
+    end
+  end
 end
 
 
