@@ -308,6 +308,19 @@ Keymap
       <![CDATA[   
 
 
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Misc Global Variables
+
+CurrentInputMode = "NAVIGATION"
+CurrentPlayerID = 0
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Version Hack
+
 function version() -- Driver Version
   local maj = 0
   local min = 0
@@ -318,37 +331,250 @@ function version() -- Driver Version
 end
 
 
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Poll Timer
+
+gPollTimer = nil
+gLastCheckin = 0
+mNetConnected = tostring(Properties['Connected To Network'])
+
+
+function startPollTimer()
+  if (gPollTimer ~= nil) then 
+    C4:KillTimer(gPollTimer) 
+  end
+  
+  gPollTimer = C4:AddTimer(10, "SECONDS", true)
+end
+
+
+function stopPollTimer()
+  if (gPollTimer ~= nil) then 
+    gPollTimer = C4:KillTimer(gPollTimer) 
+  end
+
+  gPollTimer = nil
+end
+
+
+function ongPollTimerExpired()
+  --dbg("XBMC: polltimer test") 
+  -- Send a status query on the main port...
+  -- If we haven't gotten a response, increment the 'not checked in'...
+  -- if it hits 3, disconnect all ports...
+  gLastCheckin = gLastCheckin or 0
+  gLastCheckin = gLastCheckin + 1
+
+  if (gLastCheckin > 2) then
+    if (mNetConnected == true) then
+      C4:NetDisconnect(6001, jsonPort)
+      dbg("XBMC: Failed to receive poll responses from XBMC... Disconnecting...")
+    end
+  end
+
+  -- Send Poll Packet if we're ONLINE...
+  if (mNetConnected == true) then
+    emit(XBMC_NAVIGATION_ACTIONS['Get Active Players']())
+  end
+
+  return
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Busy Timer
+
+gBusyTimer = nil
+
+
+function startBusyTimer()
+  if (gBusyTimer ~= nil) then 
+    C4:KillTimer(gBusyTimer) 
+  end
+  
+  gBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false)
+end
+
+
+function stopBusyTimer()
+  if (gBusyTimer ~= nil) then 
+    gBusyTimer = C4:KillTimer(gBusyTimer) 
+  end
+
+  gBusyTimer = nil
+end
+
+
+function ongBusyTimerExpired()
+  stopBusyTimer()
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Send to XBMC
+
+tEmitCommands = {}
+gEmitCommandsTimer = nil
+
+
+function startEmitCommandsTimer()
+  if (gEmitCommandsTimer ~= nil) then 
+    C4:KillTimer(gEmitCommandsTimer) 
+  end
+  
+  gEmitCommandsTimer = C4:AddTimer(Properties['Command Delay-Milliseconds'], 'MILLISECONDS', true)
+end
+
+
+function stopEmitCommandsTimer()
+  if (gEmitCommandsTimer ~= nil) then 
+    C4:KillTimer(gEmitCommandsTimer) 
+  end
+
+  gEmitCommandsTimer = nil
+end
+
+
+function ongEmitCommandsTimerExpired()
+    if gBusyTimer ~= nil then return end
+
+    if tEmitCommands[1] ~= nil then
+      dbg("XBMC: ------------------------------------------------------------")
+      dbg("XBMC: -----> " .. tEmitCommands[1][1])
+      C4:SendToNetwork(6001, tonumber(jsonPort), tEmitCommands[1][1])
+      
+      if (tEmitCommands[1][2] == true) then
+        startBusyTimer()
+      end
+      
+      table.remove(tEmitCommands, 1)
+
+    elseif tEmitCommands[1] == nil then
+      stopEmitCommandsTimer()
+    end
+    return
+end
+
+
+function emit(t)
+  t["jsonrpc"] = "2.0"
+  command = JSON:encode(t)
+  bUsePowerOnDelay = false
+
+  table.insert(tEmitCommands, {command, bUsePowerOnDelay})
+
+  startEmitCommandsTimer()
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Reconnect Timer
+
+gReconnectTimer = nil
+gNetworkStatus = ""
+
+
+function startReconnectTimer()
+  if (gReconnectTimer ~= nil) then 
+    C4:KillTimer(gReconnectTimer) 
+  end
+  
+  gReconnectTimer = C4:AddTimer(5, 'SECONDS')
+end
+
+
+function stopReconnectTimer()
+  if (gReconnectTimer ~= nil) then 
+    C4:KillTimer(gReconnectTimer) 
+  end
+
+  gReconnectTimer = nil
+end
+
+
+function ongReconnectTimerExpired()
+    dbg("XBMC: Attempting to reconnect to XBMC...")
+
+    local bTrying = false
+    stopReconnectTimer()
+
+    if (gNetworkStatus == "OFFLINE") then
+      -- Try to reconnect to the XBMC Control port...
+      C4:NetDisconnect(6001, jsonPort)
+      C4:NetConnect(6001, jsonPort)
+      bTrying = true
+    end
+
+    if (bTrying) then
+      startReconnectTimer()
+    end
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Debug Timer and Methods
+
+gDebugprint = false
+gDebuglog = false
+gDebugTimer = nil;
+
+
+function dbg(strDebugText)
+  if (gDebugprint) then print(strDebugText) end
+  if (gDebuglog) then C4:ErrorLog(strDebugText) end
+end
+
+
+function startDebugTimer()
+  if (gDebugTimer ~= nil) then
+    C4:KillTimer(gDebugTimer)
+  end
+  
+  gDebugTimer = C4:AddTimer(15, 'MINUTES')
+end
+
+
+function stopDebugTimer()
+  if (gDebugTimer ~= nil) then
+    C4:KillTimer(gDebugTimer)
+  end
+
+  g_DebugTimer = nil
+end
+
+
+function ongDebugTimerExpired()
+  dbg('XBMC: Turning Debug Mode back to Off [default] (timer expired)')
+  C4:UpdateProperty('Debug Mode', 'Off')
+  gDebugprint = false
+  gDebuglog = false
+  stopDebugTimer()
+  return
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Json methods
+
 require "json"
 JSON=(loadstring(json.JSON_LIBRARY_CHUNK))()
 jsonData = {}
 jsonCounter = 0
 jsonIndex = 1
-
-
-
-
-
-
-g_debugprint = false
-g_debuglog = false
-g_debugTimer = 0;
-
 jsonID = 0
-
-gPollTimer = 0
-idConnectToNetworkTimer = 0
-tPendingCommands = {}
-tEmitCommands = {}
-idBusyTimer = 0
-g_PowerState = {}
-g_URLPacket = ""
 jsonPort = 9090
-mNetConnected = tostring(Properties['Connected To Network'])
-intraCommandDelayValue = Properties['Command Delay-Milliseconds']
-intraVolRampDelayValue = Properties['Volume Ramp Delay-Milliseconds']
-CurrentInputMode = "NAVIGATION"
-CurrentPlayerID = 0
-C4:CreateNetworkConnection (6003, "255.255.255.255", 9)
 
 
 function nextJsonID()
@@ -360,6 +586,303 @@ function nextJsonID()
   return jsonID
 end
 
+
+function prepareJson(strData)
+  --Because there is no delimiter between JSON messages, and because the json commands can
+  --be combined together or split apart, we have to count curly braces..  First, we watch 
+  --for the first opening curly brace.  Then we add each character to a table, counting up
+  --and down for each curly brace received (+1 if it's an opening brace, -1 if  closing).
+  --When the counter gets back to zero, we can assume there is a complete JSON command in
+  --the table.  Convert it to a string, and send it over to processJson() for parsing
+
+  if (#jsonData == 0 and jsonCounter == 0) then --New json command
+    --Find the first open brace
+    for i = 1, #strData do
+      local c = strData:sub(i,i)
+
+      if (c == '{') then
+        --This is our starting point
+        jsonIndex = i
+        break
+      end
+    end
+  end
+
+  for i = jsonIndex, #strData do
+    local c = strData:sub(i,i)
+
+    if (c == '{') then
+      jsonCounter = jsonCounter + 1
+    elseif (c == '}') then
+      jsonCounter = jsonCounter - 1
+    end
+
+    --concat char to jsonData
+    table.insert(jsonData, c)
+
+    if (jsonCounter == 0) then
+
+      local toProcess = table.concat(jsonData)
+      --reset everything for a new json string
+      jsonData = {}
+      jsonCounter = 0
+
+      -- We have a complete json string! Lets process it!
+      processJson(toProcess)
+    end
+  end
+end
+
+
+function processJson(strData)
+  dbg("XBMC: <----- " .. strData)
+
+  local t = JSON:decode(strData)    
+
+  if (t ~= nil) then --It will be nil if the parsing didn't work. 
+    if (table.contains(t, "method")) then
+      if (t.method == nil) then return
+      elseif (t.method == "Player.OnPlay")          then Player_OnPlay(t.params)
+      elseif (t.method == "Player.OnStop")          then Player_OnStop()
+      elseif (t.method == "AudioLibrary.OnRemove")  then return
+      elseif (t.method == "AudioLibrary.OnUpdate")  then return
+      elseif (t.method == "Player.OnPause")         then return
+      elseif (t.method == "Player.OnSeek")          then return
+      elseif (t.method == "Player.OnSpeedChanged")  then return
+      elseif (t.method == "System.OnLowBattery")    then return
+      elseif (t.method == "System.OnQuit")          then return
+      elseif (t.method == "System.OnRestart")       then return
+      elseif (t.method == "System.OnSleep")         then System_OnSleep()
+      elseif (t.method == "System.OnWake")          then System_OnWake() -- {"jsonrpc":"2.0","method":"System.OnWake","params":{"data":null,"sender":"xbmc"}}
+      elseif (t.method == "VideoLibrary.OnRemove")  then return
+      elseif (t.method == "VideoLibrary.OnUpdate")  then return
+      else return
+      end
+
+    elseif (table.contains(t, "result")) then
+      --dbg("Resetting checkin counter")
+      gLastCheckin = 0
+
+      -- So far, there are 4 different ways a "result" is sent:  
+      -- {"id":53,"jsonrpc":"2.0","result":"OK"}
+      -- {"id":25,"jsonrpc":"2.0","result":{"speed":4}}
+      -- {"id":26,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
+      -- {"id":54,"jsonrpc":"2.0","result":[]}
+      -- {"id":13,"jsonrpc":"2.0","result":{"songdetails":{"album":"Lechuza","artist":["Fenix TX"],"label":"A Song For Everyone","songid":2552,"title":"A Song For Everyone","track":7}}}
+      -- {"id":24,"jsonrpc":"2.0","result":{"episodedetails":{"episode":2,"episodeid":2045,"label":"Skin","season":1,"showtitle":"Almost Human","title":"Skin"}}}
+
+
+      if (type(t.result) == "table") then
+
+        if next (t.result) == nil then
+          CurrentInputMode = "NAVIGATION"
+          CurrentPlayerID = 0
+          return
+
+        elseif (t.result["moviedetails"] ~= nil) then 
+          result_moviedetails(t.result)
+          return
+
+        elseif (t.result["episodedetails"] ~= nil) then 
+          result_episodedetails(t.result)
+          return
+
+        elseif (t.result["songdetails"] ~= nil) then
+          result_songdetails(t.result)
+          return
+
+        elseif (t.result[1]['type'] == "video") then
+          CurrentInputMode = "VIDEO_PLAYER"
+          CurrentPlayerID = t.result[1]['playerid']
+          return
+
+        elseif (t.result[1]['type'] == "audio") then
+          CurrentInputMode = "AUDIO_PLAYER"
+          CurrentPlayerID = t.result[1]['playerid']
+          return
+
+        elseif (t.result[1]['type'] == "picture") then
+          CurrentInputMode = "PICTURE_PLAYER"
+          CurrentPlayerID = t.result[1]['playerid']
+          return    
+
+        elseif (t.result[1]['type'] == "player") then
+          CurrentInputMode = "TV_PLAYER"
+          CurrentPlayerID = t.result[1]['playerid']
+          return  
+
+        else  -- TODO: Need to clean this up a bit
+          local playerType = t.result['item']['type']
+          --dbg("Item Player Type is " .. playerType)
+        
+          if (playerType == "channel") then
+            CurrentInputMode = "TV_PLAYER"
+          else --if (playerType == "video") -- if not in library Type is unknown
+            CurrentInputMode = "VIDEO_PLAYER"
+          end
+
+          return
+        end
+      end
+
+      dbg("XBMC: Current Input Mode is " .. CurrentInputMode)
+    end
+  end
+end
+
+
+function table.contains(table, element)
+  for _, value in pairs(table) do
+    if _ == element then
+      return true
+    end
+  end
+  return false
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--XBMC Notifications
+
+function Player_OnPlay(params)
+  CurrentPlayerID = params['data']['player']['playerid']
+  local playerType = params['data']['item']['type']
+        
+  if (playerType == "movie") then 
+    CurrentInputMode = "VIDEO_PLAYER"
+    
+    if (params['data']['item']['id'] == nil) then
+      -- any video that is not in the library will end up here
+      local nowPlayingParams = {}
+      nowPlayingParams["TITLE"] = params['data']['item']['title']
+      C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+    else
+      -- {"id":89,"jsonrpc":"2.0","method":"VideoLibrary.GetMovieDetails", "params":{"movieid":10, "properties":["title","year"]}}
+      local movieid = params['data']['item']['id']
+      emit({ ["method"] = "VideoLibrary.GetMovieDetails", ["id"] = nextJsonID(), ["params"] = { ["movieid"] = movieid, ["properties"] = {"title","year"} }})  
+    end
+
+  elseif (playerType == "episode") then 
+    CurrentInputMode = "VIDEO_PLAYER"
+    local episodeid = params['data']['item']['id']
+    emit({ ["method"] = "VideoLibrary.GetEpisodeDetails", ["id"] = nextJsonID(), ["params"] = { ["episodeid"] = episodeid, ["properties"] = {"title", "season", "episode", "showtitle"}}})  
+
+  elseif (playerType == "musicvideo") then 
+    CurrentInputMode = "VIDEO_PLAYER"
+
+  elseif (playerType == "song") then 
+    CurrentInputMode = "AUDIO_PLAYER"
+    
+    if (params['data']['item']['id'] == nil) then
+      --{"jsonrpc":"2.0","method":"Player.OnPlay","params":{"data":{"item":{"album":"Songs In A Minor","artist":["Alicia Keys"],"title":"Fallin'","track":4,"type":"song"},"player":{"playerid":0,"speed":1}},"sender":"xbmc"}}
+      local nowPlayingParams = {}
+      nowPlayingParams["TITLE"]  = params['data']['item']['track'] .. " - " .. params['data']['item']['title']
+      nowPlayingParams["ARTIST"] = params['data']['item']['artist'][1]
+      nowPlayingParams["ALBUM"]  = params['data']['item']['album']
+      C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+    else
+      --{"songdetails":{"album":"Songs In A Minor","artist":["Alicia Keys"],"label":"Fallin'","songid":3024,"title":"Fallin'","track":4}}}
+      local songid = params['data']['item']['id']
+      emit({ ["method"] = "AudioLibrary.GetSongDetails", ["id"] = nextJsonID(), ["params"] = { ["songid"] = songid, ["properties"] = {"title", "artist", "album", "track"}}})      
+    end
+
+  elseif (playerType == "picture") then 
+    CurrentInputMode = "PICTURE_PLAYER"
+  end
+
+  --dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+  dbg("XBMC: Current Input Mode is now " .. CurrentInputMode)
+end
+
+
+function Player_OnStop()
+  CurrentPlayerID = 0
+  CurrentInputMode = "NAVIGATION"
+  local nowPlayingParams = {}
+  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+  --dbg("XBMC: Player ID is now " .. CurrentPlayerID)
+  dbg("XBMC: Current Input Mode is now NAVIGATION")
+end
+
+
+function System_OnSleep()
+  --Stop the poll timer while the machine is turned off
+  stopPollTimer()
+end
+
+
+function System_OnWake() end
+
+
+function result_moviedetails (params)
+  local nowPlayingParams = {}
+  nowPlayingParams["TITLE"] =  params["moviedetails"]["title"]
+  nowPlayingParams["ARTIST"] = params["moviedetails"]["year"]
+  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+end
+
+
+function result_episodedetails(params)
+  --{"id":649,"jsonrpc":"2.0","result":{"episodedetails":{"episode":2,"episodeid":2045,"label":"Skin","season":1,"showtitle":"Almost Human","title":"Skin"}}}
+  local nowPlayingParams = {}
+  nowPlayingParams["TITLE"] = params["episodedetails"]["showtitle"]
+  nowPlayingParams["ARTIST"] = "Season " .. params["episodedetails"]["season"] .. " Episode " .. params["episodedetails"]["episode"]
+  nowPlayingParams["ALBUM"] = params["episodedetails"]["title"]
+  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+end
+
+
+function result_songdetails(params)
+  --{"id":649,"jsonrpc":"2.0","result":{"songdetails":{"album":"Songs In A Minor","artist":["Alicia Keys"],"label":"Fallin'","songid":3024,"title":"Fallin'","track":4}}}
+  local nowPlayingParams = {}
+  nowPlayingParams["TITLE"] =  params["songdetails"]["track"] .. " - " .. params["songdetails"]["title"]
+  nowPlayingParams["ARTIST"] = params["songdetails"]["artist"][1]
+  nowPlayingParams["ALBUM"] =  params["songdetails"]["album"]
+  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Playlist/Queue Methods
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Wake on LAN
+
+C4:CreateNetworkConnection (6003, "255.255.255.255", 9)
+
+
+function WakeOnLan()
+  --Start polling, now that we are waking up
+  startPollTimer()
+
+  -- wake on lan support comes from a WOL driver written by a guy named Will from homemation.
+  dbg("XBMC: Sending Wake on LAN magic packet")
+
+  local MAC = Properties["XBMC MAC Address"]
+  MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
+  MAC = MAC:gsub("-", "") -- Remove any dashes in the entered MAC addresses 
+  MAC = tohex(MAC) -- Convert to HEX 
+  
+  packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
+  hexdump(packet)
+  C4:SendToNetwork (6003, 9, packet)
+  C4:SendToNetwork (6003, 9, packet)
+  
+  --C4:NetDisconnect(6003, 9)
+end
+
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--XBMC Actions
 
 XBMC_NAVIGATION_ACTIONS = {}
 XBMC_NAVIGATION_ACTIONS["Ping"]                = function() return { ["method"] = "JSONRPC.Ping", ["id"] = nextJsonID() } end
@@ -458,6 +981,11 @@ XBMC_TV_ACTIONS["Reboot System"]       = function() return { ["method"] = "Syste
 XBMC_TV_ACTIONS["Shutdown System"]     = function() return { ["method"] = "System.Shutdown" } end
 
 
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Remote Bindings
+
 REMOTE_BUTTONS = {
   ['PROGRAM_A']   = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS[""],               XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
   ['PROGRAM_B']   = { XBMC_NAVIGATION_ACTIONS[""],              XBMC_VIDEO_ACTIONS[""],                     XBMC_MUSIC_ACTIONS[""],               XBMC_PICTURE_ACTIONS[""],           XBMC_TV_ACTIONS[""]     },
@@ -508,346 +1036,25 @@ REMOTE_BUTTONS = {
 }
 
 
-function emit(t)
-  t["jsonrpc"] = "2.0"
-  command = JSON:encode(t)
-  bUsePowerOnDelay = false
 
-  table.insert(tEmitCommands, {command, bUsePowerOnDelay})
-
-  if idEmitCommandsTimer == nil then
-     idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', true)
-  end
-end
-
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--C4 Events
 
 function OnTimerExpired(idTimer)
-  --dbg("On Timer Expired")
-  
-  if (idTimer == idEmitCommandsTimer) then
-    if idBusyTimer ~= 0 then return end
-
-    if tEmitCommands[1] ~= nil then
-      dbg("XBMC: ------------------------------------------------------------")
-      dbg("XBMC: -----> " .. tEmitCommands[1][1])
-      C4:SendToNetwork(6001, tonumber(jsonPort), tEmitCommands[1][1])
-      
-      if (tEmitCommands[1][2] == true) then
-        idBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false)
-      end
-      
-      table.remove(tEmitCommands, 1)
-
-    elseif tEmitCommands[1] == nil then
-      C4:KillTimer(idEmitCommandsTimer)
-      idEmitCommandsTimer = nil
-    end
-
-    return
+  if (idTimer == gEmitCommandsTimer)  then ongEmitCommandsTimerExpired()
+  elseif (idTimer == gBusyTimer)      then ongBusyTimerExpired()
+  elseif (idTimer == gPollTimer)      then ongPollTimerExpired()
+  elseif (idTimer == gReconnectTimer) then ongReconnectTimerExpired()
+  elseif (idTimer == gDebugTimer)     then ongDebugTimerExpired()
   end
-
-
-  if (idTimer == idBusyTimer) then
-    idBusyTimer = C4:KillTimer(idBusyTimer)
-  end
-
-
-  if (idTimer == gPollTimer) then
-
-    --dbg("XBMC: polltimer test") 
-    -- Send a status query on the main port...
-    -- If we haven't gotten a response, increment the 'not checked in'...
-    -- if it hits 3, disconnect all ports...
-    gLastCheckin = gLastCheckin or 0
-    gLastCheckin = gLastCheckin + 1
-
-    if (gLastCheckin > 2) then
-      if (mNetConnected == true) then
-        C4:NetDisconnect(6001, jsonPort)
-        dbg("XBMC: Failed to receive poll responses from XBMC... Disconnecting...")
-      end
-    end
-
-    -- Send Poll Packet if we're ONLINE...
-    if (mNetConnected == true) then
-      emit(XBMC_NAVIGATION_ACTIONS['Get Active Players']())
-    end
-
-    return
-  end
-
-
-  if (idTimer == gReconnectTimer) then
-    dbg("XBMC: Attempting to reconnect to XBMC...")
-
-    local bTrying = false
-    gReconnectTimer = C4:KillTimer(gReconnectTimer)
-
-    if (gNetworkStatus == "OFFLINE") then
-      -- Try to reconnect to the XBMC Control port...
-      C4:NetDisconnect(6001, jsonPort)
-      C4:NetConnect(6001, jsonPort)
-      bTrying = true
-    end
-
-    if (bTrying) then
-      gReconnectTimer = C4:AddTimer(10, "SECONDS")
-    end
-  end
-
-  if (idTimer == g_DebugTimer) then
-    dbg('XBMC: Turning Debug Mode back to Off [default] (timer expired)')
-    C4:UpdateProperty('Debug Mode', 'Off')
-    g_debugprint = false
-    g_debuglog = false
-    g_DebugTimer = C4:KillTimer(g_DebugTimer)
-    return
-  end
-end
-
-
-function Player_OnPlay(params)
-  CurrentPlayerID = params['data']['player']['playerid']
-  local playerType = params['data']['item']['type']
-        
-  if (playerType == "movie") then 
-    CurrentInputMode = "VIDEO_PLAYER"
-    
-    if (params['data']['item']['id'] == nil) then
-      -- any video that is not in the library will end up here
-      local nowPlayingParams = {}
-      nowPlayingParams["TITLE"] = params['data']['item']['title']
-      C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
-    else
-      -- {"id":89,"jsonrpc":"2.0","method":"VideoLibrary.GetMovieDetails", "params":{"movieid":10, "properties":["title","year"]}}
-      local movieid = params['data']['item']['id']
-      emit({ ["method"] = "VideoLibrary.GetMovieDetails", ["id"] = nextJsonID(), ["params"] = { ["movieid"] = movieid, ["properties"] = {"title","year"} }})  
-    end
-
-  elseif (playerType == "episode") then 
-    CurrentInputMode = "VIDEO_PLAYER"
-    local episodeid = params['data']['item']['id']
-    emit({ ["method"] = "VideoLibrary.GetEpisodeDetails", ["id"] = nextJsonID(), ["params"] = { ["episodeid"] = episodeid, ["properties"] = {"title", "season", "episode", "showtitle"}}})  
-
-  elseif (playerType == "musicvideo") then 
-    CurrentInputMode = "VIDEO_PLAYER"
-
-  elseif (playerType == "song") then 
-    CurrentInputMode = "AUDIO_PLAYER"
-    
-    if (params['data']['item']['id'] == nil) then
-      --{"jsonrpc":"2.0","method":"Player.OnPlay","params":{"data":{"item":{"album":"Songs In A Minor","artist":["Alicia Keys"],"title":"Fallin'","track":4,"type":"song"},"player":{"playerid":0,"speed":1}},"sender":"xbmc"}}
-      local nowPlayingParams = {}
-      nowPlayingParams["TITLE"]  = params['data']['item']['track'] .. " - " .. params['data']['item']['title']
-      nowPlayingParams["ARTIST"] = params['data']['item']['artist'][1]
-      nowPlayingParams["ALBUM"]  = params['data']['item']['album']
-      C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
-    else
-      --{"songdetails":{"album":"Songs In A Minor","artist":["Alicia Keys"],"label":"Fallin'","songid":3024,"title":"Fallin'","track":4}}}
-      local songid = params['data']['item']['id']
-      emit({ ["method"] = "AudioLibrary.GetSongDetails", ["id"] = nextJsonID(), ["params"] = { ["songid"] = songid, ["properties"] = {"title", "artist", "album", "track"}}})      
-    end
-
-  elseif (playerType == "picture") then 
-    CurrentInputMode = "PICTURE_PLAYER"
-  end
-
-  --dbg("XBMC: Player ID is now " .. CurrentPlayerID)
-  dbg("XBMC: Current Input Mode is now " .. CurrentInputMode)
-end
-
-
-function Player_OnStop()
-  CurrentPlayerID = 0
-  CurrentInputMode = "NAVIGATION"
-  local nowPlayingParams = {}
-  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
-  --dbg("XBMC: Player ID is now " .. CurrentPlayerID)
-  dbg("XBMC: Current Input Mode is now NAVIGATION")
-end
-
-
-function System_OnSleep()
-  --Stop the poll timer while the machine is turned off
-  C4:KillTimer(gPollTimer)
-  gPollTimer = nil
-end
-
-
-function System_OnWake() end
-
-function result_moviedetails (params)
-  local nowPlayingParams = {}
-  nowPlayingParams["TITLE"] =  params["moviedetails"]["title"]
-  nowPlayingParams["ARTIST"] = params["moviedetails"]["year"]
-  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
-end
-
-
-function result_episodedetails(params)
-  --{"id":649,"jsonrpc":"2.0","result":{"episodedetails":{"episode":2,"episodeid":2045,"label":"Skin","season":1,"showtitle":"Almost Human","title":"Skin"}}}
-  local nowPlayingParams = {}
-  nowPlayingParams["TITLE"] = params["episodedetails"]["showtitle"]
-  nowPlayingParams["ARTIST"] = "Season " .. params["episodedetails"]["season"] .. " Episode " .. params["episodedetails"]["episode"]
-  nowPlayingParams["ALBUM"] = params["episodedetails"]["title"]
-  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
-end
-
-
-function result_songdetails(params)
-  --{"id":649,"jsonrpc":"2.0","result":{"songdetails":{"album":"Songs In A Minor","artist":["Alicia Keys"],"label":"Fallin'","songid":3024,"title":"Fallin'","track":4}}}
-  local nowPlayingParams = {}
-  nowPlayingParams["TITLE"] =  params["songdetails"]["track"] .. " - " .. params["songdetails"]["title"]
-  nowPlayingParams["ARTIST"] = params["songdetails"]["artist"][1]
-  nowPlayingParams["ALBUM"] =  params["songdetails"]["album"]
-  C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
 end
 
 
 function ReceivedFromNetwork(idBinding, nPort, strData)
-  if (#jsonData == 0 and jsonCounter == 0) then --New json command
-    --Find the first open brace
-    for i = 1, #strData do
-      local c = strData:sub(i,i)
-
-      if (c == '{') then
-        --This is our starting point
-        jsonIndex = i
-        break
-      end
-    end
+  if (idBinding == 6001) then
+    prepareJson(strData)
   end
-
-  for i = jsonIndex, #strData do
-    local c = strData:sub(i,i)
-
-    if (c == '{') then
-      jsonCounter = jsonCounter + 1
-    elseif (c == '}') then
-      jsonCounter = jsonCounter - 1
-    end
-
-    --concat char to jsonData
-    table.insert(jsonData, c)
-
-    if (jsonCounter == 0) then
-
-      local toProcess = table.concat(jsonData)
-      --reset everything for a new json string
-      jsonData = {}
-      jsonCounter = 0
-
-      -- We have a complete json string! Lets process it!
-      process(toProcess)
-    end
-  end
-end
-
-
-
-
-
-function process(strData)
-  dbg("XBMC: <----- " .. strData)
-
-  local t = JSON:decode(strData)    
-
-  if (table.contains(t, "method")) then
-    if (t.method == "Player.OnPlay")              then Player_OnPlay(t.params)
-    elseif (t.method == "Player.OnStop")          then Player_OnStop()
-    elseif (t.method == "AudioLibrary.OnRemove")  then return
-    elseif (t.method == "AudioLibrary.OnUpdate")  then return
-    elseif (t.method == "Player.OnPause")         then return
-    elseif (t.method == "Player.OnSeek")          then return
-    elseif (t.method == "Player.OnSpeedChanged")  then return
-    elseif (t.method == "System.OnLowBattery")    then return
-    elseif (t.method == "System.OnQuit")          then return
-    elseif (t.method == "System.OnRestart")       then return
-    elseif (t.method == "System.OnSleep")         then System_OnSleep()
-    elseif (t.method == "System.OnWake")          then System_OnWake() -- {"jsonrpc":"2.0","method":"System.OnWake","params":{"data":null,"sender":"xbmc"}}
-    elseif (t.method == "VideoLibrary.OnRemove")  then return
-    elseif (t.method == "VideoLibrary.OnUpdate")  then return
-    else return
-    end
-
-  elseif (table.contains(t, "result")) then
-    --dbg("Resetting checkin counter")
-    gLastCheckin = 0
-
-    -- So far, there are 4 different ways a "result" is sent:  
-    -- {"id":53,"jsonrpc":"2.0","result":"OK"}
-    -- {"id":25,"jsonrpc":"2.0","result":{"speed":4}}
-    -- {"id":26,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
-    -- {"id":54,"jsonrpc":"2.0","result":[]}
-    -- {"id":13,"jsonrpc":"2.0","result":{"songdetails":{"album":"Lechuza","artist":["Fenix TX"],"label":"A Song For Everyone","songid":2552,"title":"A Song For Everyone","track":7}}}
-    -- {"id":24,"jsonrpc":"2.0","result":{"episodedetails":{"episode":2,"episodeid":2045,"label":"Skin","season":1,"showtitle":"Almost Human","title":"Skin"}}}
-
-
-    if (type(t.result) == "table") then
-
-      if next (t.result) == nil then
-        CurrentInputMode = "NAVIGATION"
-        CurrentPlayerID = 0
-        return
-
-      elseif (t.result["moviedetails"] ~= nil) then 
-        result_moviedetails(t.result)
-        return
-
-      elseif (t.result["episodedetails"] ~= nil) then 
-        result_episodedetails(t.result)
-        return
-
-      elseif (t.result["songdetails"] ~= nil) then
-        result_songdetails(t.result)
-        return
-
-      elseif (t.result[1]['type'] == "video") then
-        CurrentInputMode = "VIDEO_PLAYER"
-        CurrentPlayerID = t.result[1]['playerid']
-        return
-
-      elseif (t.result[1]['type'] == "audio") then
-        CurrentInputMode = "AUDIO_PLAYER"
-        CurrentPlayerID = t.result[1]['playerid']
-        return
-
-      elseif (t.result[1]['type'] == "picture") then
-        CurrentInputMode = "PICTURE_PLAYER"
-        CurrentPlayerID = t.result[1]['playerid']
-        return    
-
-      elseif (t.result[1]['type'] == "player") then
-        CurrentInputMode = "TV_PLAYER"
-        CurrentPlayerID = t.result[1]['playerid']
-        return  
-
-      else  -- TODO: Need to clean this up a bit
-        local playerType = t.result['item']['type']
-        --dbg("Item Player Type is " .. playerType)
-      
-        if (playerType == "channel") then
-          CurrentInputMode = "TV_PLAYER"
-        else --if (playerType == "video") -- if not in library Type is unknown
-          CurrentInputMode = "VIDEO_PLAYER"
-        end
-
-        return
-      end
-    end
-
-    dbg("XBMC: Current Input Mode is " .. CurrentInputMode)
-  end
-end
-
-
-function table.contains(table, element)
-  for _, value in pairs(table) do
-    if _ == element then
-      return true
-    end
-  end
-  return false
 end
 
 
@@ -868,9 +1075,7 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
 
       dbg("XBMC: Connected to XBMC...")
 
-      if (gPollTimer ~= 0) then C4:KillTimer(gPollTimer) end
-
-      gPollTimer = C4:AddTimer(10, "SECONDS", true)
+      startPollTimer()
     
     else
       dbg("XBMC: not connected.")
@@ -878,29 +1083,12 @@ function OnConnectionStatusChanged(idBinding, nPort, strStatus)
       C4:UpdateProperty('Connected To Network','false')
 
       -- Try a re-connect of the device ...
-      if (gReconnectTimer == nil) or (gReconnectTimer == 0) then
-        gReconnectTimer = C4:AddTimer(10, "SECONDS")
-        C4:NetDisconnect(6001, tonumber(jsonPort))
-        C4:NetConnect(6001, tonumber(jsonPort))
-      end
+      startReconnectTimer()   
     end
 
   elseif (idBinding == 6003) then 
     if (strStatus == "ONLINE") then     
-      --Start polling, now that we are waking up
-      gPollTimer = C4:AddTimer(10, "SECONDS", true)
-
-      -- wake on lan support comes from a WOL driver written by a guy named Will from homemation.
-      dbg("XBMC: Sending Wake on LAN magic packet")
-      local MAC = Properties["XBMC MAC Address"]
-      MAC = MAC:gsub(":", "") -- Remove any colons in the entered MAC addresses 
-      MAC = MAC:gsub("-", "") -- Remove any dashes in the entered MAC addresses 
-      MAC = tohex(MAC) -- Convert to HEX 
-      packet = string.rep(string.char(255), 6) .. string.rep(MAC, 16) -- Build 'magic packet'. 
-      hexdump(packet)
-      C4:SendToNetwork (6003, 9, packet)
-      C4:SendToNetwork (6003, 9, packet)
-      --C4:NetDisconnect(6003, 9)
+      WakeOnLan()
     end
   end
 end
@@ -910,15 +1098,11 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
   dbg('XBMC: ReceivedFromProxy: ' .. strCommand)
 
   if (strCommand == "ON") then
-    dbg('XBMC: Got ON Command: ' .. "")
-
     if (Properties["Wake on LAN"] == "Enabled") then
       C4:NetConnect(6003, 9, "UDP")
     end
-    -- TODO: Turn off screensaver
-    -- TODO: Find current input mode
-    -- TODO: Get current player ID
-    
+    -- TODO: Turn off screensaver if possible
+
   elseif (strCommand == "OFF") then
     emit(XBMC_NAVIGATION_ACTIONS[Properties['Room Off Command']]())
 
@@ -940,79 +1124,14 @@ function ReceivedFromProxy(idBinding, strCommand, tParams)
 end
 
 
-function ExecuteCommand(strCommand, tParams)
-  dbg('XBMC: ExecuteCommand: ' .. strCommand)
-
-  if (strCommand == "LUA_ACTION") then
-    if tParams ~= nil then
-      for cmd,cmdv in pairs(tParams) do
-        dbg("cmd= " .. cmd .. "  cmdv= " .. cmdv)
-
-        if cmd == "ACTION" then
-
-          if cmdv == "Update1" then
-            local nowPlayingParams = {}
-            nowPlayingParams["ARTIST"] = "Artist1"
-            nowPlayingParams["ALBUM"] = "Album1"
-            nowPlayingParams["TITLE"] = "Title1"
-            C4:SendToProxy(5001, "UPDATE_MEDIA_INFO", nowPlayingParams, "COMMAND", true)
-          else
-            dbg("From ExecuteCommand Function - Undefined Action")
-            dbg("Key: " .. cmd .. "  Value: " .. cmdv)
-          end
-        else
-          dbg("From ExecuteCommand Function - Undefined Command")
-          dbg("Key: " .. cmd .. "  Value: " .. cmdv)
-        end
-      end
-    end
-  end
-end
+function ExecuteCommand(strCommand, tParams) end
 
 
 function OnDriverDestroyed()
-  if (idEmitCommandsTimer) then
-    idEmitCommandsTimer = C4:KillTimer(idEmitCommandsTimer)
-    idEmitCommandsTimer = nil
-  end
-
-  if (g_DebugTimer) then g_DebugTimer = C4:KillTimer(g_DebugTimer) end
-  if (gReconnectTimer ~= nil) then gReconnectTimer = C4:KillTimer(gReconnectTimer) end
-  if (gPollTimer ~= nil) then gPollTimer = C4:KillTimer(gPollTimer) end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function dbg(strDebugText)
-  if (g_debugprint) then print(strDebugText) end
-  if (g_debuglog) then C4:ErrorLog(strDebugText) end
-end
-
-
-function startDebugTimer()
-  if (g_DebugTimer) then
-    g_DebugTimer = C4:KillTimer(g_DebugTimer)
-  end
-  g_DebugTimer = C4:AddTimer(15, 'MINUTES')
-end
-
-
-function stopDebugTimer()
-  g_DebugTimer = C4:KillTimer(g_DebugTimer)
-  g_DebugTimer = 0
+  stopEmitCommandsTimer()
+  stopDebugTimer()
+  stopReconnectTimer()
+  stopPollTimer()
 end
 
 
@@ -1022,32 +1141,29 @@ function OnPropertyChanged(strProperty)
     if (Properties[strProperty] == 'Off') then
       dbg('XBMC: Turning off debug print')
       dbg('XBMC: Turning off debug log')
-      g_debugprint = false
-      g_debuglog = false
+      gDebugprint = false
+      gDebuglog = false
       stopDebugTimer()
-    end
 
-    if (Properties[strProperty] == 'Print') then
+    elseif (Properties[strProperty] == 'Print') then
       dbg('XBMC: Turning on debug print')
       dbg('XBMC: Turning off debug log')
-      g_debugprint = true
-      g_debuglog = false
+      gDebugprint = true
+      gDebuglog = false
       startDebugTimer()
-    end
 
-    if (Properties[strProperty] == 'Log') then
+    elseif (Properties[strProperty] == 'Log') then
       dbg('XBMC: Turning off debug print')
       dbg('XBMC: Turning on debug log')
-      g_debugprint = false
-      g_debuglog = true
+      gDebugprint = false
+      gDebuglog = true
       startDebugTimer()
-    end
 
-    if (Properties[strProperty] == 'Print and Log') then
+    elseif (Properties[strProperty] == 'Print and Log') then
       dbg('XBMC: Turning on debug print')
       dbg('XBMC: Turning on debug log')
-      g_debugprint = true
-      g_debuglog = true
+      gDebugprint = true
+      gDebuglog = true
       startDebugTimer()
     end
   end
@@ -1055,12 +1171,13 @@ end
 
 
 
-
-
-
-
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--Script Start
 
 C4:UpdateProperty("Version", version())
+
+
 
       ]]>
     </script>
